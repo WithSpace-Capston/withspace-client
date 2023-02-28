@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
+import { AiFillClockCircle } from "react-icons/ai";
 
 import classes from "./App.module.css";
 
@@ -37,6 +38,7 @@ function App() {
           <Button onClick={() => setShowModal(false)}>Close</Button>
         </Modal.Footer>
       </Modal>
+      <AiFillClockCircle />
     </div>
   );
 }
