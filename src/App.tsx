@@ -1,10 +1,11 @@
 import { useState } from "react";
 
+import TopMenuBar from "./components/TopMenuBar/TopMenuBar";
 import Workspace from "./components/Workspace/Workspace";
 import Chatting from "./components/Chatting/Chatting";
+import MyCalendar from "./components/Schedule/MyCalendar";
 
 import classes from "./App.module.css";
-import MyCalendar from "./components/Workspace/Schedule/MyCalendar";
 
 function App() {
   const [isChattingOpen, setIsChattingOpen] = useState(false);
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <div>
+      <TopMenuBar />
       <MyCalendar />
       <button onClick={openChattingHandler}>
         채팅 슬라이딩 패널 테스트 버튼
