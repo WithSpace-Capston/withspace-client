@@ -40,11 +40,13 @@ function uiReducer(state: UIState, action: Action): UIState {
   throw new Error("UIContext - Unhandled action");
 }
 
+const initialState: UIState = {
+  isSpaceWorkspace: true,
+  isOpenChatting: false,
+};
+
 export function UIContextProvider({ children }: { children: React.ReactNode }) {
-  const [uiState, uiDispatch] = useReducer(uiReducer, {
-    isSpaceWorkspace: true,
-    isOpenChatting: false,
-  });
+  const [uiState, uiDispatch] = useReducer(uiReducer, initialState);
 
   return (
     <UIDispatchContext.Provider value={uiDispatch}>

@@ -1,18 +1,22 @@
 import { ReactSlidingPane } from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 
-type ChattingProps = {
-  isChattingOpen: boolean;
-  onCloseChatting: () => void;
-};
+import { useUIState, useUIDispatch } from "../../contexts/UIContext";
 
-function Chatting(props: ChattingProps) {
+function Chatting() {
+  const uiState = useUIState();
+  const uiDispatch = useUIDispatch();
+
+  const closeChattingHandler = () => {
+    uiDispatch({ type: "TOGGLE_CHATTING" });
+  };
+
   return (
     <div>
       <ReactSlidingPane
-        isOpen={props.isChattingOpen}
+        isOpen={uiState.isOpenChatting}
         width="25%"
-        onRequestClose={props.onCloseChatting}
+        onRequestClose={closeChattingHandler}
       >
         <h1>Sliding Pane Test</h1>
         <p>채팅 UI 구현하기</p>
