@@ -3,7 +3,7 @@
  * UI 표시를 위한 state를 위한 context
  */
 
-import { createContext, Dispatch, useReducer } from "react";
+import { createContext, Dispatch, useReducer, useContext } from "react";
 
 type UIState = {
   isSpaceWorkspace: boolean; // true -> Workspace, false -> Calendar
@@ -53,4 +53,16 @@ export function UIContextProvider({ children }: { children: React.ReactNode }) {
       </UIStateContext.Provider>
     </UIDispatchContext.Provider>
   );
+}
+
+export function useUIState() {
+  const state = useContext(UIStateContext);
+  if (!state) throw new Error("UIContext - UIStateProvider not found");
+  return state;
+}
+
+export function useUIDispatch() {
+  const dispatch = useContext(UIDispatchContext);
+  if (!dispatch) throw new Error("UIContext - UIDispatchProvider not found");
+  return dispatch;
 }
