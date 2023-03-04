@@ -18,9 +18,6 @@ function App() {
     <div>
       <TopMenuBar />
       <MyCalendar />
-      <button onClick={openChattingHandler}>
-        채팅 슬라이딩 패널 테스트 버튼
-      </button>
       <Workspace />
       <Chatting
         isChattingOpen={isChattingOpen}

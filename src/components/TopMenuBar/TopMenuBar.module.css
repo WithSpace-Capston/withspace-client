@@ -1,9 +1,11 @@
 .menu {
   display: flex;
   justify-content: flex-end;
+  margin: 10px 0;
 }
 
 .menu h3 {
   font-weight: normal;
-  margin: 0 20px;
+  font-size: 20px;
+  margin: 0 15px;
 }
