@@ -16,7 +16,7 @@ function Workspace() {
     <div id="editor">
       <Editor
         ref={workspaceRef}
-        height={window.innerHeight + "px"}
+        height={window.innerHeight - 55 + "px"}
         previewStyle="vertical"
         onChange={changeWorkspaceTextHandler}
       />

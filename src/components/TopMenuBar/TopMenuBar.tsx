@@ -3,8 +3,8 @@ import Alarms from "./Alarms";
 import Search from "./Search";
 import Update from "./Update";
 import ETCMenu from "./ETCMenu";
-import classes from "./TopMenuBar.module.css";
 import { useUIDispatch } from "../../contexts/UIContext";
+import "./TopMenuBar.css";
 
 function TopMenuBar() {
   const uiDispatch = useUIDispatch();
@@ -22,7 +22,7 @@ function TopMenuBar() {
   };
 
   return (
-    <div className={classes.menu}>
+    <div className="menu">
       <h3 onClick={testSpaceToWorkspaceHandler}>Workspace</h3>
       <h3 onClick={testSpaceToCalendarHandler}>Calendar</h3>
       <h3 onClick={testToggleChattingHandler}>Chatting Open/Close</h3>
