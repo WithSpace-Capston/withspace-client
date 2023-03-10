@@ -1,5 +1,4 @@
-import { ReactSlidingPane } from "react-sliding-pane";
-import "react-sliding-pane/dist/react-sliding-pane.css";
+import { Offcanvas } from "react-bootstrap";
 
 import { useUIState, useUIDispatch } from "../../contexts/UIContext";
 
@@ -13,14 +12,17 @@ function Chatting() {
 
   return (
     <div>
-      <ReactSlidingPane
-        isOpen={uiState.isOpenChatting}
-        width="25%"
-        onRequestClose={closeChattingHandler}
+      <Offcanvas
+        show={uiState.isOpenChatting}
+        onHide={closeChattingHandler}
+        placement="end"
       >
-        <h1>Sliding Pane Test</h1>
-        <p>채팅 UI 구현하기</p>
-      </ReactSlidingPane>
+        <Offcanvas.Header closeButton></Offcanvas.Header>
+        <Offcanvas.Body>
+          <h1>Sliding Pane Test</h1>
+          <p>채팅 UI 구현하기</p>
+        </Offcanvas.Body>
+      </Offcanvas>
     </div>
   );
 }
