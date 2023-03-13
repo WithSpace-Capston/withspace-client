@@ -1,3 +1,5 @@
 # Withspace Client
 
-- `npm install`로 의존성 패키지를 설치 후 `npm start`로 실행
+- `npm install -g yarn`으로 yarn 설치 후
+- `yarn install`로 의존성 패키지 설치
+- `yarn start`로 실행
