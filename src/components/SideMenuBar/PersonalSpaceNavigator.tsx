@@ -4,21 +4,23 @@ import { Accordion } from "react-bootstrap";
 
 import { useUIDispatch } from "../../contexts/UIContext";
 
-type PersonalSpaceNavigatorType = {
-  memberId: number | undefined;
-};
+type PageListType = {
+  pageId: number;
+  title: string;
+}[];
 
-function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
+function PersonalSpaceNavigator() {
   const uiDispatch = useUIDispatch();
+
+  const [pageList, setPageList] = useState<PageListType | undefined>();
 
   useEffect(() => {
     const fetchPersonalSpaceList = async () => {
       const response = await axios.get(
-        `https://withspace-1a085-default-rtdb.firebaseio.com/space/${props.memberId}.json`
+        `https://withspace-1a085-default-rtdb.firebaseio.com/space/1.json`
       );
-      const pageList = response.data;
-      console.log(`memberId: ${props.memberId}`);
-      console.log(response);
+      const pageList = response.data.data.pageList;
+      setPageList(pageList);
     };
 
     fetchPersonalSpaceList();
@@ -36,14 +38,22 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
     <>
       <Accordion.Item eventKey="0">
         <Accordion alwaysOpen flush>
-          <Accordion.Header>작업공간</Accordion.Header>
+          <Accordion.Header>
+            <h6>작업공간</h6>
+          </Accordion.Header>
           <Accordion.Body>
-            <Accordion alwaysOpen flush></Accordion>
+            {pageList?.map((page) => {
+              return (
+                <h6 key={page.pageId} onClick={testSpaceToWorkspaceHandler}>
+                  {page.title}
+                </h6>
+              );
+            })}
           </Accordion.Body>
         </Accordion>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
-        <h3 onClick={testSpaceToCalendarHandler}>스케줄</h3>
+        <h5 onClick={testSpaceToCalendarHandler}>스케줄</h5>
       </Accordion.Item>
     </>
   );
