@@ -1,4 +1,4 @@
-import Members from "./Members";
+import Members from "./Members/Members";
 import Alarms from "./Alarms";
 import Search from "./Search";
 import Update from "./Update";
