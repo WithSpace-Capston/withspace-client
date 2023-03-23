@@ -1,5 +1,7 @@
 import { Offcanvas } from "react-bootstrap";
 
+import Chats from "./Chats";
+import InputChat from "./InputChat";
 import { useUIState, useUIDispatch } from "../../contexts/UIContext";
 
 function Chatting() {
@@ -19,8 +21,8 @@ function Chatting() {
       >
         <Offcanvas.Header closeButton></Offcanvas.Header>
         <Offcanvas.Body>
-          <h1>Sliding Pane Test</h1>
-          <p>채팅 UI 구현하기</p>
+          <Chats />
+          <InputChat />
         </Offcanvas.Body>
       </Offcanvas>
     </div>
