@@ -5,12 +5,12 @@ import "./Chats.css";
 function Chats() {
   return (
     <div className="chatting__chats">
-      <Chat />
-      <Chat />
-      <Chat />
-      <Chat />
-      <Chat />
-      <Chat />
+      <Chat myChat={false} />
+      <Chat myChat={true} />
+      <Chat myChat={false} />
+      <Chat myChat={true} />
+      <Chat myChat={false} />
+      <Chat myChat={true} />
     </div>
   );
 }

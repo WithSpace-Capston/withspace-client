@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Form, InputGroup, Button } from "react-bootstrap";
 
+import "./InputChat.css";
+
 function InputChat() {
   const [message, setMessage] = useState("");
 
@@ -14,19 +16,21 @@ function InputChat() {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <InputGroup>
-        <Form.Control
-          type="text"
-          placeholder="Type a message..."
-          value={message}
-          onChange={handleMessageChange}
-        />
-        <Button variant="primary" type="submit">
-          Send
-        </Button>
-      </InputGroup>
-    </Form>
+    <div className="chat-input-form">
+      <Form onSubmit={handleSubmit}>
+        <InputGroup>
+          <Form.Control
+            type="text"
+            placeholder="Type a message..."
+            value={message}
+            onChange={handleMessageChange}
+          />
+          <Button variant="primary" type="submit">
+            Send
+          </Button>
+        </InputGroup>
+      </Form>
+    </div>
   );
 }
 
