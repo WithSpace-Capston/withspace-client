@@ -3,6 +3,7 @@ import { Offcanvas } from "react-bootstrap";
 import Chats from "./Chats";
 import InputChat from "./InputChat";
 import { useUIState, useUIDispatch } from "../../contexts/UIContext";
+import "./Chatting.css";
 
 function Chatting() {
   const uiState = useUIState();
@@ -13,19 +14,17 @@ function Chatting() {
   };
 
   return (
-    <div>
-      <Offcanvas
-        show={uiState.isOpenChatting}
-        onHide={closeChattingHandler}
-        placement="end"
-      >
-        <Offcanvas.Header closeButton></Offcanvas.Header>
-        <Offcanvas.Body>
-          <Chats />
-          <InputChat />
-        </Offcanvas.Body>
-      </Offcanvas>
-    </div>
+    <Offcanvas
+      show={uiState.isOpenChatting}
+      onHide={closeChattingHandler}
+      placement="end"
+    >
+      <Offcanvas.Header closeButton></Offcanvas.Header>
+      <Offcanvas.Body className="chatting">
+        <Chats />
+        <InputChat />
+      </Offcanvas.Body>
+    </Offcanvas>
   );
 }
 

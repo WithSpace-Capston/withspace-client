@@ -1,7 +1,16 @@
+import Chat from "./Chat";
+
+import "./Chats.css";
+
 function Chats() {
   return (
-    <div>
-      <h1>채팅 기록</h1>
+    <div className="chatting__chats">
+      <Chat />
+      <Chat />
+      <Chat />
+      <Chat />
+      <Chat />
+      <Chat />
     </div>
   );
 }
