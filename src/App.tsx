@@ -5,6 +5,7 @@ import TopMenuBar from "./components/TopMenuBar/TopMenuBar";
 import Workspace from "./components/Workspace/Workspace";
 import MyCalendar from "./components/Schedule/MyCalendar";
 import RootNavigator from "./RootNavigator";
+import SpaceNavigator from "./components/Workspace/SpaceNavigator";
 import { useUIState } from "./contexts/UIContext";
 
 import "./App.css";
@@ -22,7 +23,7 @@ function App() {
           <TopMenuBar />
           <Routes>
             <Route path="/" element={<RootNavigator />} />
-            <Route path="/:userId/space" element={<Workspace />} />
+            <Route path="/:userId/space" element={<SpaceNavigator />} />
             <Route path="/:userId/calendar" element={<MyCalendar />} />
           </Routes>
         </div>
