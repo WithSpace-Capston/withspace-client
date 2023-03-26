@@ -2,7 +2,6 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import SideMenuBar from "./components/SideMenuBar/SideMenuBar";
 import TopMenuBar from "./components/TopMenuBar/TopMenuBar";
-import Workspace from "./components/Workspace/Workspace";
 import MyCalendar from "./components/Schedule/MyCalendar";
 import RootNavigator from "./RootNavigator";
 import SpaceNavigator from "./components/Workspace/SpaceNavigator";
