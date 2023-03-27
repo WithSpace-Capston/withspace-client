@@ -30,17 +30,15 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
       <Accordion.Body>
         <Accordion alwaysOpen flush>
           <Accordion.Item eventKey={`${props.teamId} workspace`}>
-            <Accordion.Header>
-              <h6>작업공간</h6>
-            </Accordion.Header>
-            <Accordion.Body>
-              <h6 onClick={testSpaceToWorkspaceHandler}>테스트 페이지 1</h6>
-              <h6 onClick={testSpaceToWorkspaceHandler}>테스트 페이지 2</h6>
-            </Accordion.Body>
+            <h5>작업공간</h5>
+          </Accordion.Item>
+          <Accordion.Item eventKey={`${props.teamId} schedule`}>
+            <h5 onClick={testSpaceToCalendarHandler}>스케줄</h5>
+          </Accordion.Item>
+          <Accordion.Item eventKey={`${props.teamId} chatting`}>
+            <h5 onClick={testToggleChattingHandler}>단체채팅</h5>
           </Accordion.Item>
         </Accordion>
-        <h6 onClick={testSpaceToCalendarHandler}>스케줄</h6>
-        <h6 onClick={testToggleChattingHandler}>단체채팅</h6>
       </Accordion.Body>
     </Accordion.Item>
   );

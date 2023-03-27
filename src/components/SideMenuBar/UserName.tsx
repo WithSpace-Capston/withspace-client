@@ -3,7 +3,7 @@ type UserNameType = {
 };
 
 function UserName(props: UserNameType) {
-  return <h2>{props.name}</h2>;
+  return <h2 className="username">{props.name}</h2>;
 }
 
 export default UserName;

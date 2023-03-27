@@ -1,56 +1,57 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Accordion } from "react-bootstrap";
-
-import { useUIDispatch } from "../../contexts/UIContext";
 
 type PageListType = {
   pageId: number;
   title: string;
 }[];
 
-function PersonalSpaceNavigator() {
-  const uiDispatch = useUIDispatch();
+type PersonalSpaceNavigatorType = {
+  userId: number | undefined;
+};
+
+function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
+  const navigate = useNavigate();
 
   const [pageList, setPageList] = useState<PageListType | undefined>();
 
+  // useEffect(() => {
+  //   const fetchPersonalSpaceList = async () => {
+  //     const response = await axios.get(
+  //       `https://withspace-1a085-default-rtdb.firebaseio.com/space/1.json`
+  //     );
+  //     const pageList = response.data.data.pageList;
+  //     setPageList(pageList);
+  //   };
+
+  //   fetchPersonalSpaceList();
+  // }, []);
+
   useEffect(() => {
-    const fetchPersonalSpaceList = async () => {
-      const response = await axios.get(
-        `https://withspace-1a085-default-rtdb.firebaseio.com/space/1.json`
-      );
-      const pageList = response.data.data.pageList;
-      setPageList(pageList);
+    const fetchPersonalPageInfoApi = `http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com/member/${props.userId}/space`;
+    const fetchPersonPageInfo = async () => {
+      const response = await axios.get(fetchPersonalPageInfoApi);
+      const pageList = response.data.data;
+      console.log(pageList);
     };
 
-    fetchPersonalSpaceList();
-  }, []);
+    fetchPersonPageInfo();
+  }, [props.userId]);
 
   const testSpaceToWorkspaceHandler = () => {
-    uiDispatch({ type: "OPEN_WORKSPACE" });
+    navigate(`/${props.userId}/space`);
   };
 
   const testSpaceToCalendarHandler = () => {
-    uiDispatch({ type: "OPEN_CALENDAR" });
+    navigate(`/${props.userId}/calendar`);
   };
 
   return (
     <>
       <Accordion.Item eventKey="0">
-        <Accordion alwaysOpen flush>
-          <Accordion.Header>
-            <h6>작업공간</h6>
-          </Accordion.Header>
-          <Accordion.Body>
-            {pageList?.map((page) => {
-              return (
-                <h6 key={page.pageId} onClick={testSpaceToWorkspaceHandler}>
-                  {page.title}
-                </h6>
-              );
-            })}
-          </Accordion.Body>
-        </Accordion>
+        <h5 onClick={testSpaceToWorkspaceHandler}>작업공간</h5>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
         <h5 onClick={testSpaceToCalendarHandler}>스케줄</h5>
