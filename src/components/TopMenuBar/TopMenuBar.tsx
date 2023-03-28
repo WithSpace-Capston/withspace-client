@@ -23,9 +23,6 @@ function TopMenuBar() {
 
   return (
     <div className="menu">
-      <h3 onClick={testSpaceToWorkspaceHandler}>Workspace</h3>
-      <h3 onClick={testSpaceToCalendarHandler}>Calendar</h3>
-      <h3 onClick={testToggleChattingHandler}>Chatting Open/Close</h3>
       <Members />
       <Alarms />
       <Search />

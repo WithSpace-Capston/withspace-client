@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import { BsFillPeopleFill } from "react-icons/bs";
 
 import Member from "./Member";
 
-const url = "https://withspace-1a085-default-rtdb.firebaseio.com/team/1.json";
+// const url = "https://withspace-1a085-default-rtdb.firebaseio.com/team/1.json";
 
 type TeamInfoType = {
   teamName: String;
@@ -16,18 +17,37 @@ type TeamInfoType = {
   }[];
 };
 
+type FriendInfoType = {
+  id: number;
+  name: string;
+  status: boolean;
+}[];
+
 function Members() {
-  const [teamInfo, setTeamInfo] = useState<TeamInfoType | undefined>();
+  const params = useParams();
+
+  const [friendInfo, setFriendInfo] = useState<FriendInfoType | undefined>();
+
+  // useEffect(() => {
+  //   const fetchTeamInfo = async () => {
+  //     const response = await axios.get(url);
+  //     const teamInfo = response.data.data;
+  //     setTeamInfo(teamInfo);
+  //   };
+
+  //   fetchTeamInfo();
+  // }, []);
 
   useEffect(() => {
-    const fetchTeamInfo = async () => {
-      const response = await axios.get(url);
-      const teamInfo = response.data.data;
-      setTeamInfo(teamInfo);
+    const fetchFriendInfoApi = `http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com/member/${params.userId}`;
+    const fetchFriendInfo = async () => {
+      const response = await axios.get(fetchFriendInfoApi);
+      const friendInfo = response.data.data.friendList.friendList;
+      setFriendInfo(friendInfo);
     };
 
-    fetchTeamInfo();
-  }, []);
+    fetchFriendInfo();
+  }, [params.userId]);
 
   return (
     <OverlayTrigger
@@ -35,13 +55,15 @@ function Members() {
       placement="bottom"
       overlay={
         <Popover>
-          {teamInfo?.memberTeamList.map((member) => (
-            <Member
-              key={`${member.userId}`}
-              memberName={member.memberName}
-              status={member.status}
-            />
-          ))}
+          {friendInfo?.map((friend) => {
+            return (
+              <Member
+                key={`${friend.id}`}
+                memberName={friend.name}
+                status={friend.status}
+              />
+            );
+          })}
         </Popover>
       }
     >
