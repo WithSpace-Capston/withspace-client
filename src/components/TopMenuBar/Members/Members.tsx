@@ -6,17 +6,6 @@ import { BsFillPeopleFill } from "react-icons/bs";
 
 import Member from "./Member";
 
-// const url = "https://withspace-1a085-default-rtdb.firebaseio.com/team/1.json";
-
-type TeamInfoType = {
-  teamName: String;
-  memberTeamList: {
-    memberName: String;
-    status: Boolean;
-    userId: Number;
-  }[];
-};
-
 type FriendInfoType = {
   id: number;
   name: string;
@@ -27,16 +16,6 @@ function Members() {
   const params = useParams();
 
   const [friendInfo, setFriendInfo] = useState<FriendInfoType | undefined>();
-
-  // useEffect(() => {
-  //   const fetchTeamInfo = async () => {
-  //     const response = await axios.get(url);
-  //     const teamInfo = response.data.data;
-  //     setTeamInfo(teamInfo);
-  //   };
-
-  //   fetchTeamInfo();
-  // }, []);
 
   useEffect(() => {
     const fetchFriendInfoApi = `http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com/member/${params.userId}`;
