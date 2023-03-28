@@ -19,20 +19,8 @@ function SideMenuBar() {
 
   const [userInfo, setUserInfo] = useState<UserInfoType | undefined>();
 
-  // const link =
-  //   "https://withspace-1a085-default-rtdb.firebaseio.com/member/1.json";
-  // useEffect(() => {
-  //   const fetchUserInfo = async () => {
-  //     const response = await axios.get(link);
-  //     const userInfo = response.data.data;
-  //     setUserInfo(userInfo);
-  //   };
-
-  //   fetchUserInfo();
-  // }, []);
-
   useEffect(() => {
-    const fetchUserInfoApi = `http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com/member/${params.userId}`;
+    const fetchUserInfoApi = `http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com/member/${params.id}`;
     const fetchUserInfo = async () => {
       const response = await axios.get(fetchUserInfoApi);
       const userInfo = response.data.data;
@@ -40,7 +28,7 @@ function SideMenuBar() {
     };
 
     fetchUserInfo();
-  }, [params.userId]);
+  }, [params.id]);
 
   return (
     <div className="side-menu-bar">

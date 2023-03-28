@@ -8,14 +8,11 @@ import { createContext, Dispatch, useContext, useReducer } from "react";
 
 type TeamState = {
   isPersonal: boolean;
-  team: string | null;
 };
 
 const TeamStateContext = createContext<TeamState | undefined>(undefined);
 
-type Action =
-  | { type: "TO_PERSONAL" }
-  | { type: "TO_OTHER_TEAM"; teamName: string };
+type Action = { type: "TO_PERSONAL" } | { type: "TO_OTHER_TEAM" };
 
 type TeamDispatch = Dispatch<Action>;
 
@@ -24,12 +21,12 @@ const TeamDispatchContext = createContext<TeamDispatch | undefined>(undefined);
 function teamReducer(state: TeamState, action: Action): TeamState {
   // Personal Space로 변경
   if (action.type === "TO_PERSONAL") {
-    return { ...state, isPersonal: true };
+    return { isPersonal: true };
   }
 
   // Team 변경
   if (action.type === "TO_OTHER_TEAM") {
-    return { isPersonal: false, team: action.teamName };
+    return { isPersonal: false };
   }
 
   throw new Error("TeamStateContext - Unhandled action");
@@ -37,7 +34,6 @@ function teamReducer(state: TeamState, action: Action): TeamState {
 
 const initialState: TeamState = {
   isPersonal: true,
-  team: null,
 };
 
 export function TeamContextProvider({

@@ -3,12 +3,15 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { UIContextProvider } from "./contexts/UIContext";
+import { TeamContextProvider } from "./contexts/TeamContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <UIContextProvider>
-    <App />
+    <TeamContextProvider>
+      <App />
+    </TeamContextProvider>
   </UIContextProvider>
 );

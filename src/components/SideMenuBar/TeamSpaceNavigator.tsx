@@ -1,6 +1,7 @@
 import { Accordion } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-import { useUIDispatch } from "../../contexts/UIContext";
+import { useTeamDispatch } from "../../contexts/TeamContext";
 
 type TeamSpaceNavigatorType = {
   teamId: number;
@@ -8,18 +9,17 @@ type TeamSpaceNavigatorType = {
 };
 
 function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
-  const uiDispatch = useUIDispatch();
+  const navigate = useNavigate();
+  const teamDispatch = useTeamDispatch();
 
   const testSpaceToWorkspaceHandler = () => {
-    uiDispatch({ type: "OPEN_WORKSPACE" });
+    teamDispatch({ type: "TO_OTHER_TEAM" });
+    navigate(`/${props.teamId}/space`);
   };
 
   const testSpaceToCalendarHandler = () => {
-    uiDispatch({ type: "OPEN_CALENDAR" });
-  };
-
-  const testToggleChattingHandler = () => {
-    uiDispatch({ type: "TOGGLE_CHATTING" });
+    teamDispatch({ type: "TO_OTHER_TEAM" });
+    navigate(`/${props.teamId}/calendar`);
   };
 
   return (
@@ -30,13 +30,13 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
       <Accordion.Body>
         <Accordion alwaysOpen flush>
           <Accordion.Item eventKey={`${props.teamId} workspace`}>
-            <h5>작업공간</h5>
+            <h5 onClick={testSpaceToWorkspaceHandler}>작업공간</h5>
           </Accordion.Item>
           <Accordion.Item eventKey={`${props.teamId} schedule`}>
             <h5 onClick={testSpaceToCalendarHandler}>스케줄</h5>
           </Accordion.Item>
           <Accordion.Item eventKey={`${props.teamId} chatting`}>
-            <h5 onClick={testToggleChattingHandler}>단체채팅</h5>
+            <h5>단체채팅</h5>
           </Accordion.Item>
         </Accordion>
       </Accordion.Body>

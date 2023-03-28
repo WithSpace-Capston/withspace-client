@@ -11,7 +11,7 @@ function App() {
       <div className="app">
         <Routes>
           <Route path="/" element={<RootNavigator />} />
-          <Route path="/:userId/*" element={<Main />} />
+          <Route path="/:id/*" element={<Main />} />
         </Routes>
         {/* Chatting 라우팅은 일단 나중에 생각하기 */}
         {/* <Chatting /> */}
