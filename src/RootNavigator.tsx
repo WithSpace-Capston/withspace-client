@@ -20,7 +20,7 @@ function RootNavigator() {
             }}
             key={id}
           >
-            <Link to={`/${id}/space`}>{id}</Link>
+            <Link to={`/space/${id}`}>{id}</Link>
           </div>
         );
       })}

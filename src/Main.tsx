@@ -1,11 +1,18 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import MyCalendar from "./components/Schedule/MyCalendar";
 
 import SideMenuBar from "./components/SideMenuBar/SideMenuBar";
 import TopMenuBar from "./components/TopMenuBar/TopMenuBar";
 import Workspace from "./components/Workspace/Workspace";
 
-function Main() {
+type MainType = {
+  space: string;
+};
+
+function Main(props: MainType) {
+  const params = useParams();
+  console.log(params);
+
   return (
     <>
       <div className="side">
@@ -13,10 +20,8 @@ function Main() {
       </div>
       <div className="main">
         <TopMenuBar />
-        <Routes>
-          <Route path="space" element={<Workspace />} />
-          <Route path="calendar" element={<MyCalendar />} />
-        </Routes>
+        {props.space === "space" && <Workspace />}
+        {props.space === "calendar" && <MyCalendar />}
       </div>
     </>
   );

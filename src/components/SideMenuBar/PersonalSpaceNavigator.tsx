@@ -26,12 +26,12 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
 
   const testSpaceToWorkspaceHandler = () => {
     teamDispatch({ type: "TO_PERSONAL" });
-    navigate(`/${props.userId}/space`);
+    navigate(`/space/8`);
   };
 
   const testSpaceToCalendarHandler = () => {
     teamDispatch({ type: "TO_PERSONAL" });
-    navigate(`/${props.userId}/calendar`);
+    navigate(`/calendar/8`);
   };
 
   return (

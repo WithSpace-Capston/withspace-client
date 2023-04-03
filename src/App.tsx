@@ -1,7 +1,7 @@
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
 import Main from "./Main";
-import RootNavigator from "./RootNavigator";
+// import RootNavigator from "./RootNavigator";
 
 import "./App.css";
 
@@ -10,8 +10,9 @@ function App() {
     <BrowserRouter>
       <div className="app">
         <Routes>
-          <Route path="/" element={<RootNavigator />} />
-          <Route path="/:id/*" element={<Main />} />
+          <Route path="/" element={<Navigate to="/space/8" />} />
+          <Route path="/space/:id" element={<Main space="space" />} />
+          <Route path="/calendar/:id" element={<Main space="calendar" />} />
         </Routes>
         {/* Chatting 라우팅은 일단 나중에 생각하기 */}
         {/* <Chatting /> */}
