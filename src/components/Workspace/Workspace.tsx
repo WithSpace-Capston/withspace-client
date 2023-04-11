@@ -1,15 +1,33 @@
 import { useRef } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import { VscNewFile } from "react-icons/vsc";
+
+import { useWorkspaceDispatch } from "../../contexts/WorkspaceContext";
 
 function Workspace() {
+  const workspaceDispatch = useWorkspaceDispatch();
+
   const workspaceRef = useRef<Editor>(null);
 
-  // 일단 실시간으로 입력이 있을 때마다 업로드하는 방식으로 더미 코드 작성
-  // 유저가 수동으로 저장하고 업로드하는 방식도 고려 필요
+  const createNewPageButton = () => {
+    const button = document.createElement("button");
+
+    button.className = "toastui-editor-toolbar-icons";
+    button.style.backgroundImage = "none";
+    button.style.margin = "0";
+    button.style.width = "100px";
+    button.innerHTML = "New Page";
+    button.addEventListener("click", () => {
+      console.log("button click test!");
+    });
+
+    return button;
+  };
+
   const changeWorkspaceTextHandler = () => {
-    console.log("Upload space!");
-    console.log(workspaceRef.current?.getInstance().getMarkdown());
+    const md = workspaceRef.current?.getInstance().getMarkdown();
+    workspaceDispatch({ type: "UPDATE_MD", md: md });
   };
 
   return (
@@ -19,6 +37,19 @@ function Workspace() {
         height={window.innerHeight - 55 + "px"}
         previewStyle="vertical"
         onChange={changeWorkspaceTextHandler}
+        toolbarItems={[
+          ["heading", "bold", "italic", "strike"],
+          ["hr", "quote"],
+          ["ul", "ol", "task", "indent", "outdent"],
+          ["table", "image", "link"],
+          ["code", "codeblock"],
+          [
+            {
+              el: createNewPageButton(),
+              name: "test test",
+            },
+          ],
+        ]}
       />
     </div>
   );
