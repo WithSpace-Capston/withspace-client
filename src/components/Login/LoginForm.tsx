@@ -24,7 +24,7 @@ function LoginForm(props: LoginFormProps) {
     <div>
       <Form className="login-form" onSubmit={submitHandler}>
         <h1>Login</h1>
-        <Form.Group className="mb-3" controlId="formGroupEmail">
+        <Form.Group controlId="formGroupEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
@@ -33,7 +33,7 @@ function LoginForm(props: LoginFormProps) {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupPassword">
+        <Form.Group controlId="formGroupPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"

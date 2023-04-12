@@ -2,6 +2,7 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
 import Main from "./Main";
 import Login from "./components/Login/Login";
+import CreateAccount from "./components/Login/CreateAccount";
 // import RootNavigator from "./RootNavigator";
 
 import "./App.css";
@@ -13,7 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/space/8" />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/create-account" />
+          <Route path="/create-account" element={<CreateAccount />} />
           <Route path="/space/:id" element={<Main space="space" />} />
           <Route path="/calendar/:id" element={<Main space="calendar" />} />
         </Routes>

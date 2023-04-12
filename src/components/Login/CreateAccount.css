@@ -1,9 +1,4 @@
-html,
-body {
-  width: 100%;
-}
-
-.login-form-container {
+.create-account-form-container {
   display: flex;
   align-items: center;
   margin: 0 auto;
