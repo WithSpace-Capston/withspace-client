@@ -1,0 +1,11 @@
+html,
+body {
+  width: 100%;
+}
+
+.login-form-container {
+  display: flex;
+  flex-wrap: inherit;
+  align-items: center;
+  margin: 0 auto;
+}
