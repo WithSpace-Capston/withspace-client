@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 
 type LoginFormProps = {
-  onSubmit: (email: string, password: string, rememberEmail: boolean) => void;
+  onSubmit: (email: string, password: string, rememberMe: boolean) => void;
 };
 
 function LoginForm(props: LoginFormProps) {
@@ -13,18 +13,18 @@ function LoginForm(props: LoginFormProps) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberEmail, setRememberEmail] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    props.onSubmit(email, password, rememberEmail);
+    props.onSubmit(email, password, rememberMe);
   };
 
   return (
     <div>
       <Form className="login-form" onSubmit={submitHandler}>
         <h1>Login</h1>
-        <Form.Group controlId="formGroupEmail">
+        <Form.Group className="form-group" controlId="formGroupEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
@@ -33,7 +33,7 @@ function LoginForm(props: LoginFormProps) {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId="formGroupPassword">
+        <Form.Group className="form-group" controlId="formGroupPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -45,14 +45,13 @@ function LoginForm(props: LoginFormProps) {
         <Form.Check
           className="login-form-remember"
           type="checkbox"
-          label="Remember Email"
-          checked={rememberEmail}
-          onChange={(e) => setRememberEmail(e.target.checked)}
+          label="Remember"
+          checked={rememberMe}
+          onChange={(e) => setRememberMe(e.target.checked)}
         />
         <Button
           className="login-form-button"
           variant="outline-primary"
-          type="submit"
           onClick={() => navigate("/create-account")}
         >
           Create Account

@@ -26,3 +26,9 @@
   font-size: 20px;
   margin-bottom: 16px;
 }
+
+.create-account-form .error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 16px;
+}
