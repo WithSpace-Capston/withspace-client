@@ -3,7 +3,6 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import Main from "./Main";
 import Login from "./components/Login/Login";
 import CreateAccount from "./components/Login/CreateAccount";
-// import RootNavigator from "./RootNavigator";
 
 import "./App.css";
 
