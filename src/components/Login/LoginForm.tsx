@@ -6,6 +6,7 @@ import "./LoginForm.css";
 
 type LoginFormProps = {
   onSubmit: (email: string, password: string, rememberMe: boolean) => void;
+  errorMessage: string;
 };
 
 function LoginForm(props: LoginFormProps) {
@@ -24,6 +25,9 @@ function LoginForm(props: LoginFormProps) {
     <div>
       <Form className="login-form" onSubmit={submitHandler}>
         <h1>Login</h1>
+        {props.errorMessage && (
+          <div className="error-message">{props.errorMessage}</div>
+        )}
         <Form.Group className="form-group" controlId="formGroupEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control
