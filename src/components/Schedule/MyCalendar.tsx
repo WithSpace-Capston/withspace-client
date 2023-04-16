@@ -1,103 +1,42 @@
-import React, { useState, useEffect, useCallback } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
-import "./styles.css";
-import Modal from "./Modal";
-import useModal from "./useModal";
-import {
-  DateSelectArg,
-  EventApi,
-  EventClickArg,
-  EventContentArg,
-} from "@fullcalendar/core";
-import { FaPlusCircle } from "react-icons/fa";
+import styled from 'styled-components';
+import Calender from './calender/Calender';
+import Feed from './feed/Feed';
 
-let id = 0;
-
-function MyCalendar() {
-  const [events, setEvents] = useState<Array<EventApi>>([]);
-  const [initialEvents, setInitialEvents] = useState([
-    {
-      id: String(10001),
-      title: "일정1",
-      start: new Date().toISOString().split("T")[0],
-    },
-    {
-      id: String(10002),
-      title: "일정2",
-      start: new Date().toISOString().split("T")[0] + "T14:05:00",
-    },
-  ]);
-
-  useEffect(() => {
-    console.log("event", events);
-  }, [events]);
-
-  const { isOpen, toggle } = useModal();
-
-  const handleEvents = (events: EventApi[]) => {
-    setEvents(events);
-  };
-  const renderEventContent = (eventInfo: EventContentArg) => {
-    return (
-      <>
-        <b>{eventInfo.event.title}</b>
-        <b>{eventInfo.timeText}</b>
-      </>
-    );
-  };
-
-  const handleEventClick = (clickInfo: EventClickArg) => {
-    alert(`일정 이름: ${clickInfo.event.title}`);
-  };
-
-  const handleDateSelect = (selectInfo: DateSelectArg) => {
-    let title = prompt("일정 추가");
-    let calendarApi = selectInfo.view.calendar;
-    calendarApi.unselect();
-    if (title) {
-      calendarApi.addEvent({
-        id: String(id++),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
-      });
-    }
-  };
+const MyCalendar = () => {
   return (
-    <>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        headerToolbar={{
-          left: "dayGridMonth,timeGridWeek,timeGridDay",
-          center: "title",
-          right: "prev,next today",
-        }}
-        dateClick={(e: DateClickArg) => {
-          console.log("dateclick", e);
-        }}
-        select={handleDateSelect}
-        eventClick={handleEventClick}
-        eventContent={renderEventContent}
-        locale="en"
-        initialView="dayGridMonth"
-        selectable={true}
-        eventsSet={handleEvents}
-        editable={true}
-        initialEvents={initialEvents}
-        dayMaxEvents={false}
-      />
-      <FaPlusCircle className="icons" onClick={toggle}>
-        일정 추가
-      </FaPlusCircle>
-      <Modal isOpen={isOpen} toggle={toggle}>
-        <div>일정추가 폼 넣을 예정.</div>
-      </Modal>
-    </>
+    <Wrapper>
+      <Header></Header>
+      <Main>
+        <LeftSide>
+          <Calender />
+        </LeftSide>
+        <Feed />
+      </Main>
+    </Wrapper>
   );
-}
+};
 
 export default MyCalendar;
+
+const Wrapper = styled.div`
+  width: 100%;
+  min-width: 800px;
+  height: 100vh;
+`;
+
+const Header = styled.div`
+  height: 64px;
+  width: 100%;
+`;
+
+const Main = styled.div`
+  display: grid;
+  grid-template-columns: 346px auto;
+  grid-gap: 60px;
+  width: 100%;
+  padding: 0 48px;
+`;
+
+const LeftSide = styled.div`
+  margin-top: 24px;
+`;
