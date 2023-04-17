@@ -1,4 +1,4 @@
-import { Routes, Route, useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MyCalendar from "./components/Schedule/MyCalendar";
 
 import SideMenuBar from "./components/SideMenuBar/SideMenuBar";

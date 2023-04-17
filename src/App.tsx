@@ -1,7 +1,8 @@
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
 import Main from "./Main";
-// import RootNavigator from "./RootNavigator";
+import Login from "./components/Login/Login";
+import CreateAccount from "./components/Login/CreateAccount";
 
 import "./App.css";
 
@@ -10,7 +11,9 @@ function App() {
     <BrowserRouter>
       <div className="app">
         <Routes>
-          <Route path="/" element={<Navigate to="/space/8" />} />
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/create-account" element={<CreateAccount />} />
           <Route path="/space/:id" element={<Main space="space" />} />
           <Route path="/calendar/:id" element={<Main space="calendar" />} />
         </Routes>
