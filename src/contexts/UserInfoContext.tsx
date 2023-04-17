@@ -9,7 +9,6 @@ import { Dispatch, createContext, useContext, useReducer } from "react";
 type UserInfoState = {
   id: number;
   isLogin: boolean;
-  defaultPageId: number;
 };
 
 const UserInfoStateContext = createContext<UserInfoState | undefined>(
@@ -46,7 +45,6 @@ function userInfoReducer(state: UserInfoState, action: Action): UserInfoState {
 const initialState: UserInfoState = {
   id: -1,
   isLogin: false,
-  defaultPageId: -1,
 };
 
 export function UserInfoContextProvider({

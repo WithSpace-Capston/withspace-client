@@ -51,6 +51,7 @@ function Login() {
     const pageInfo = pageInfoResponse.data.data;
     const pageId = pageInfo.pageList[0].pageId;
 
+    userInfoDispatch({ type: "FETCH_INFO", id: userId });
     userInfoDispatch({ type: "LOGIN" });
     navigate(`/space/${pageId}`);
   };
