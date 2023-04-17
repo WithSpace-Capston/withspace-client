@@ -1,5 +1,6 @@
-import { useState } from "react";
-import axios, { AxiosError } from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import { useUserInfoDispatch } from "../../contexts/UserInfoContext";
 import LoginForm from "./LoginForm";
@@ -24,17 +25,34 @@ export function parseJwt(token: string) {
 
 function Login() {
   const userInfoDispatch = useUserInfoDispatch();
+  const navigate = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState("");
 
+  useEffect(() => {
+    if (localStorage.getItem("withspace_token")) {
+      userInfoDispatch({ type: "LOGIN" });
+      processingLogin();
+    }
+  });
+
   const processingLogin = async () => {
     const token = localStorage.getItem("withspace_token");
-    const response = await axios.get(`/member`, {
+
+    const userInfoResponse = await axios.get(`/member`, {
       headers: { Authorization: token },
     });
-    const userInfo = response.data.data;
+    const userInfo = userInfoResponse.data.data;
+    const userId = userInfo.id;
 
-    userInfoDispatch({ type: "FETCH_INFO", id: userInfo.id });
+    const pageInfoResponse = await axios.get(`/member/${userId}/space`, {
+      headers: { Authorization: token },
+    });
+    const pageInfo = pageInfoResponse.data.data;
+    const pageId = pageInfo.pageList[0].pageId;
+
+    userInfoDispatch({ type: "LOGIN" });
+    navigate(`/space/${pageId}`);
   };
 
   const loginHandler = async (
