@@ -6,14 +6,16 @@
 import { createContext, Dispatch, useReducer, useContext } from "react";
 
 type WorkspaceState = {
-  md: string; // 유저가 작성한 마크다운
+  md: string | undefined; // 유저가 작성한 마크다운
 };
 
 const WorkspaceStateContext = createContext<WorkspaceState | undefined>(
   undefined
 );
 
-type Action = { type: "UPDATE_MD"; md: string } | { type: "UPLOAD_MD" };
+type Action =
+  | { type: "UPDATE_MD"; md: string | undefined }
+  | { type: "UPLOAD_MD" };
 
 type WorkspaceDispatch = Dispatch<Action>;
 

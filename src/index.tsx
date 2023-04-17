@@ -7,16 +7,19 @@ import { RecoilRoot } from "recoil";
 import { GlobalStyle } from "./components/Schedule/styles/global-style";
 import { TeamContextProvider } from "./contexts/TeamContext";
 import { UserInfoContextProvider } from "./contexts/UserInfoContext";
+import { WorkspaceContextProvider } from "./contexts/WorkspaceContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <UserInfoContextProvider>
-    <UIContextProvider>
-      <TeamContextProvider>
-        <App />
-      </TeamContextProvider>
-    </UIContextProvider>
+    <WorkspaceContextProvider>
+      <UIContextProvider>
+        <TeamContextProvider>
+          <App />
+        </TeamContextProvider>
+      </UIContextProvider>
+    </WorkspaceContextProvider>
   </UserInfoContextProvider>
 );
