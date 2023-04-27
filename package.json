@@ -69,5 +69,5 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.26"
   },
-  "proxy": "http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com"
+  "proxy": "https://api.withspace-api.com/"
 }

@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import Calender from './calender/Calender';
-import Feed from './feed/Feed';
+import styled from "styled-components";
+import Calender from "./Schedule/calender/Calender";
+import Feed from "./Schedule/feed/Feed";
 
 const MyCalendar = () => {
   return (

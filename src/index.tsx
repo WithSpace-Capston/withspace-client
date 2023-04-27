@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import { UIContextProvider } from "./contexts/UIContext";
 import { RecoilRoot } from "recoil";
-import { GlobalStyle } from "./components/Schedule/styles/global-style";
+import { GlobalStyle } from "./components/Schedule/Schedule/styles/global-style";
 import { TeamContextProvider } from "./contexts/TeamContext";
 import { UserInfoContextProvider } from "./contexts/UserInfoContext";
 import { WorkspaceContextProvider } from "./contexts/WorkspaceContext";
