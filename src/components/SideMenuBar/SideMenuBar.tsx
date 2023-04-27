@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { Accordion } from "react-bootstrap";
+import styled from "styled-components";
+import axios from "axios";
 
 import "./SideMenuBar.css";
 import UserName from "./UserName";
@@ -20,9 +21,11 @@ function SideMenuBar() {
   const [userInfo, setUserInfo] = useState<UserInfoType | undefined>();
 
   useEffect(() => {
-    const fetchUserInfoApi = `http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com/member/${params.id}`;
     const fetchUserInfo = async () => {
-      const response = await axios.get(fetchUserInfoApi);
+      const token = localStorage.getItem("withspace_token");
+      const response = await axios.get(`/member/${params.id}`, {
+        headers: { Authorization: token },
+      });
       const userInfo = response.data.data;
       setUserInfo(userInfo);
     };
@@ -36,12 +39,11 @@ function SideMenuBar() {
       <Accordion alwaysOpen flush>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
-            <h6>Personal Space</h6>
+            <CustomH5>Personal Space</CustomH5>
           </Accordion.Header>
-          <Accordion.Body>
-            {/* 나중에 유저 아이디 props로 넘겨서 처리하기 */}
+          <NestedAccordionBody>
             <PersonalSpaceNavigator userId={userInfo?.id} />
-          </Accordion.Body>
+          </NestedAccordionBody>
         </Accordion.Item>
         {userInfo?.teamList.map((team) => {
           return (
@@ -58,3 +60,24 @@ function SideMenuBar() {
 }
 
 export default SideMenuBar;
+
+export const CustomH5 = styled.h5`
+  margin: 0;
+`;
+
+export const EndPointCustomH5 = styled.h5`
+  margin: 0;
+  padding: 16px 20px;
+  &:hover {
+    background-color: whitesmoke;
+    transition: 0.5s;
+  }
+`;
+
+export const NestedAccordionBody = styled(Accordion.Body)`
+  padding: 0 0 0 25px;
+`;
+
+export const NestedAccordionItem = styled(Accordion.Item)`
+  padding: 0;
+`;
