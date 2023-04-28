@@ -49,7 +49,11 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
                 {pageListInfo?.pageList.map((page) => {
                   if (page.parentId === null) {
                     return (
-                      <EndPointCustomH5 key={page.pageId} className="page-item">
+                      <EndPointCustomH5
+                        key={page.pageId}
+                        className="page-item"
+                        onClick={() => navigate(`/space/${page.pageId}`)}
+                      >
                         {page.title}
                       </EndPointCustomH5>
                     );

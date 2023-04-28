@@ -1,14 +1,37 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Editor } from "@toast-ui/react-editor";
+import { useParams } from "react-router-dom";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { VscNewFile } from "react-icons/vsc";
+import axios from "axios";
 
 import { useWorkspaceDispatch } from "../../contexts/WorkspaceContext";
 
+type PageContent = {
+  pageTitle: string;
+  content: string | undefined;
+};
+
 function Workspace() {
   const workspaceDispatch = useWorkspaceDispatch();
+  const params = useParams();
 
+  const [initialContent, setInitialContent] = useState<
+    PageContent | undefined
+  >();
   const workspaceRef = useRef<Editor>(null);
+
+  useEffect(() => {
+    const fetchInitialContent = async () => {
+      const token = localStorage.getItem("withspace_token");
+      const response = await axios.get(`/page/${params.id}`, {
+        headers: { Authorization: token },
+      });
+      const initialContent = response.data;
+      setInitialContent(initialContent);
+    };
+
+    fetchInitialContent();
+  }, [params.id]);
 
   const createNewPageButton = () => {
     const button = document.createElement("button");
@@ -37,6 +60,7 @@ function Workspace() {
         height={window.innerHeight - 55 + "px"}
         previewStyle="vertical"
         onChange={changeWorkspaceTextHandler}
+        initialValue={initialContent?.content}
         toolbarItems={[
           ["heading", "bold", "italic", "strike"],
           ["hr", "quote"],
