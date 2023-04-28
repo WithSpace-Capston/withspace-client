@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import MyCalendar from "./components/Schedule/MyCalendar";
 
 import SideMenuBar from "./components/SideMenuBar/SideMenuBar";
 import TopMenuBar from "./components/TopMenuBar/TopMenuBar";
 import Workspace from "./components/Workspace/Workspace";
+import MyCalendar from "./components/Schedule/MyCalendar";
 
 type MainType = {
   space: string;
@@ -21,7 +21,7 @@ function Main(props: MainType) {
       <div className="main">
         <TopMenuBar />
         {props.space === "space" && <Workspace />}
-        {props.space === "calendar" && <MyCalendar />}
+        {props.space === "schedule" && <MyCalendar />}
       </div>
     </>
   );

@@ -1,10 +1,13 @@
-import styled from 'styled-components';
-import Calender from './calender/Calender';
-import Feed from './feed/Feed';
+import styled from "styled-components";
+import { GlobalStyle } from "./styles/global-style";
+
+import Calender from "./calender/Calender";
+import Feed from "./feed/Feed";
 
 const MyCalendar = () => {
   return (
     <Wrapper>
+      <GlobalStyle />
       <Header></Header>
       <Main>
         <LeftSide>

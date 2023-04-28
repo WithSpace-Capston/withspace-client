@@ -15,7 +15,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/create-account" element={<CreateAccount />} />
           <Route path="/space/:id" element={<Main space="space" />} />
-          <Route path="/calendar/:id" element={<Main space="calendar" />} />
+          <Route path="/schedule/:id" element={<Main space="schedule" />} />
         </Routes>
         {/* Chatting 라우팅은 일단 나중에 생각하기 */}
         {/* <Chatting /> */}

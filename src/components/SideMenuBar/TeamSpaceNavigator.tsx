@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Accordion } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { NestedAccordionBody, CustomH5, EndPointCustomH5 } from "./SideMenuBar";
@@ -15,6 +16,8 @@ type PageListType = {
 };
 
 function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
+  const navigate = useNavigate();
+
   const [pageListInfo, setPageListInfo] = useState<PageListType | undefined>();
 
   useEffect(() => {
@@ -25,7 +28,6 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
       });
       const pageList = response.data.data;
       setPageListInfo(pageList);
-      console.log(pageList);
     };
 
     fetchTeamSpace();
@@ -57,7 +59,11 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
             </Accordion>
           </Accordion.Item>
           <Accordion.Item eventKey={`${props.teamId} schedule`}>
-            <EndPointCustomH5>스케줄</EndPointCustomH5>
+            <EndPointCustomH5
+              onClick={() => navigate(`/schedule/${pageListInfo?.spaceId}`)}
+            >
+              스케줄
+            </EndPointCustomH5>
           </Accordion.Item>
           <Accordion.Item eventKey={`${props.teamId} chatting`}>
             <EndPointCustomH5>단체채팅</EndPointCustomH5>

@@ -28,17 +28,6 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
   useEffect(() => {
     const fetchPersonalSpace = async () => {
       const token = localStorage.getItem("withspace_token");
-
-      if (token === null) {
-        navigate("/login");
-      } else {
-        const now = Math.floor(new Date().getTime() / 1000);
-        if (parseJwt(token).exp < now) {
-          localStorage.removeItem("withspace_token");
-          navigate("/login");
-        }
-      }
-
       const response = await axios.get(`/member/${props.userId}/space`, {
         headers: { Authorization: token },
       });
@@ -60,7 +49,11 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
             {pageListInfo?.pageList.map((page) => {
               if (page.parentId === null) {
                 return (
-                  <EndPointCustomH5 key={page.pageId} className="page-item">
+                  <EndPointCustomH5
+                    key={page.pageId}
+                    className="page-item"
+                    onClick={() => navigate(`/space/${page.pageId}`)}
+                  >
                     {page.title}
                   </EndPointCustomH5>
                 );
@@ -70,7 +63,11 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
         </Accordion>
       </Accordion.Item>
       <NestedAccordionItem eventKey="1">
-        <EndPointCustomH5>스케줄</EndPointCustomH5>
+        <EndPointCustomH5
+          onClick={() => navigate(`/schedule/${pageListInfo?.spaceId}`)}
+        >
+          스케줄
+        </EndPointCustomH5>
       </NestedAccordionItem>
     </>
   );

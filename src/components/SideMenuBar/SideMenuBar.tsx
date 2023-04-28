@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Accordion } from "react-bootstrap";
 import styled from "styled-components";
 import axios from "axios";
@@ -8,6 +8,7 @@ import "./SideMenuBar.css";
 import UserName from "./UserName";
 import PersonalSpaceNavigator from "./PersonalSpaceNavigator";
 import TeamSpaceNavigator from "./TeamSpaceNavigator";
+import { parseJwt } from "../Login/Login";
 
 type UserInfoType = {
   id: number;
@@ -17,13 +18,25 @@ type UserInfoType = {
 
 function SideMenuBar() {
   const params = useParams();
+  const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState<UserInfoType | undefined>();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       const token = localStorage.getItem("withspace_token");
-      const response = await axios.get(`/member/${params.id}`, {
+
+      if (token === null) {
+        navigate("/login");
+      } else {
+        const now = Math.floor(new Date().getTime() / 1000);
+        if (parseJwt(token).exp < now) {
+          localStorage.removeItem("withspace_token");
+          navigate("/login");
+        }
+      }
+
+      const response = await axios.get(`/member`, {
         headers: { Authorization: token },
       });
       const userInfo = response.data.data;
@@ -31,7 +44,7 @@ function SideMenuBar() {
     };
 
     fetchUserInfo();
-  }, [params.id]);
+  }, [params.id, navigate]);
 
   return (
     <div className="side-menu-bar">
