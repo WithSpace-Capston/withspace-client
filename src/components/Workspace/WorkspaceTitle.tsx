@@ -1,20 +1,14 @@
-import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import { Form, InputGroup } from "react-bootstrap";
 import styled from "styled-components";
 
-type WorkspaceTitleProps = {
-  title: string | undefined;
-};
+import { spaceState } from "./recoil/SpaceState";
 
-function WorkspaceTitle(props: WorkspaceTitleProps) {
-  const [titleInput, setTitleInput] = useState<string | undefined>("");
-
-  useEffect(() => {
-    setTitleInput(props.title);
-  }, [props.title]);
+function WorkspaceTitle() {
+  const [space, setSpace] = useRecoilState(spaceState);
 
   const titleChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleInput(event.target.value);
+    setSpace({ ...space, title: event.target.value });
   };
 
   return (
@@ -22,7 +16,7 @@ function WorkspaceTitle(props: WorkspaceTitleProps) {
       <Form.Control
         type="text"
         placeholder="Title"
-        value={titleInput}
+        value={space.title}
         onChange={titleChangeHandler}
       />
     </TitleInput>

@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
 import { Editor } from "@toast-ui/react-editor";
 import { useParams } from "react-router-dom";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -6,6 +7,7 @@ import axios from "axios";
 
 import WorkspaceTitle from "./WorkspaceTitle";
 import { useWorkspaceDispatch } from "../../contexts/WorkspaceContext";
+import { spaceState } from "./recoil/SpaceState";
 
 type PageContent = {
   pageTitle: string;
@@ -20,6 +22,7 @@ function Workspace() {
     PageContent | undefined
   >();
   const workspaceRef = useRef<Editor>(null);
+  const [space, setSpace] = useRecoilState(spaceState);
 
   useEffect(() => {
     const fetchInitialContent = async () => {
@@ -27,12 +30,15 @@ function Workspace() {
       const response = await axios.get(`/page/${params.id}`, {
         headers: { Authorization: token },
       });
-      const initialContent = response.data;
-      setInitialContent(initialContent);
+      const { pageTitle, content } = response.data;
+      setSpace({
+        title: pageTitle,
+        content: content,
+      });
     };
 
     fetchInitialContent();
-  }, [params.id]);
+  }, [params.id, setSpace]);
 
   const createNewPageButton = () => {
     const button = document.createElement("button");
@@ -56,13 +62,13 @@ function Workspace() {
 
   return (
     <div id="editor">
-      <WorkspaceTitle title={initialContent?.pageTitle} />
+      <WorkspaceTitle />
       <Editor
         ref={workspaceRef}
         height={window.innerHeight - 105 + "px"}
         previewStyle="vertical"
         onChange={changeWorkspaceTextHandler}
-        initialValue={initialContent?.content}
+        initialValue={space.content}
         toolbarItems={[
           ["heading", "bold", "italic", "strike"],
           ["hr", "quote"],
