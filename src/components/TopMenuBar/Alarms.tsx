@@ -1,6 +1,8 @@
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import { BsFillBellFill } from "react-icons/bs";
 
+import { MenuButton } from "./TopMenuBar";
+
 function Alarms() {
   return (
     <OverlayTrigger
@@ -12,9 +14,9 @@ function Alarms() {
         </Popover>
       }
     >
-      <h3>
+      <MenuButton>
         <BsFillBellFill /> 알림
-      </h3>
+      </MenuButton>
     </OverlayTrigger>
   );
 }

@@ -1,6 +1,8 @@
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import { GrUpdate } from "react-icons/gr";
 
+import { MenuButton } from "./TopMenuBar";
+
 function Update() {
   return (
     <OverlayTrigger
@@ -12,9 +14,9 @@ function Update() {
         </Popover>
       }
     >
-      <h3>
+      <MenuButton>
         <GrUpdate /> 업데이트
-      </h3>
+      </MenuButton>
     </OverlayTrigger>
   );
 }

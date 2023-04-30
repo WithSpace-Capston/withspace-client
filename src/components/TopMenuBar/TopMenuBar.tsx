@@ -5,10 +5,12 @@ import Alarms from "./Alarms";
 import Search from "./Search";
 import Update from "./Update";
 import ETCMenu from "./ETCMenu";
+import SaveButton from "./SaveButton";
 
 function TopMenuBar() {
   return (
     <Menu>
+      <SaveButton />
       <Members />
       <Alarms />
       <Search />
@@ -31,5 +33,14 @@ const Menu = styled.div`
     font-weight: normal;
     font-size: 20px;
     margin: 0 15px;
+  }
+`;
+
+export const MenuButton = styled.h3`
+  margin: 0;
+  padding: 10px;
+
+  :hover {
+    background-color: whitesmoke;
   }
 `;

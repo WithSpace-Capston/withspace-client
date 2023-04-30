@@ -1,6 +1,8 @@
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import { BsThreeDots } from "react-icons/bs";
 
+import { MenuButton } from "./TopMenuBar";
+
 function ETCMenu() {
   return (
     <OverlayTrigger
@@ -12,9 +14,9 @@ function ETCMenu() {
         </Popover>
       }
     >
-      <h3>
+      <MenuButton>
         <BsThreeDots />
-      </h3>
+      </MenuButton>
     </OverlayTrigger>
   );
 }
