@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import axios from "axios";
 
+import WorkspaceTitle from "./WorkspaceTitle";
 import { useWorkspaceDispatch } from "../../contexts/WorkspaceContext";
 
 type PageContent = {
@@ -55,9 +56,10 @@ function Workspace() {
 
   return (
     <div id="editor">
+      <WorkspaceTitle title={initialContent?.pageTitle} />
       <Editor
         ref={workspaceRef}
-        height={window.innerHeight - 55 + "px"}
+        height={window.innerHeight - 105 + "px"}
         previewStyle="vertical"
         onChange={changeWorkspaceTextHandler}
         initialValue={initialContent?.content}
