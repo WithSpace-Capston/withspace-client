@@ -16,7 +16,10 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
   const workspaceRef = useRef<Editor>(null);
 
   useEffect(() => {
-    if (space.content) {
+    console.log(space.content);
+    if (space.content === null) {
+      workspaceRef.current?.getInstance().setMarkdown("");
+    } else if (space.content) {
       workspaceRef.current?.getInstance().setMarkdown(space.content!);
     }
   }, [space.content]);
