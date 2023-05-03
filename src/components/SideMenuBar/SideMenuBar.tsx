@@ -42,12 +42,22 @@ function SideMenuBar() {
         headers: { Authorization: token },
       });
       const userInfo = response.data.data;
-      setUserInfo({ id: userInfo.id, logined: true });
+
+      const response2 = await axios.get(`/member/${userInfo.id}/space`, {
+        headers: { Authorization: token },
+      });
+      const defaultPageId = response2.data.data.pageList[0].pageId;
+
+      setUserInfo({
+        id: userInfo.id,
+        logined: true,
+        defaultPageId: defaultPageId,
+      });
       setUser(userInfo);
     };
 
     fetchUserInfo();
-  }, [navigate]);
+  }, [navigate, setUserInfo]);
 
   return (
     <div className="side-menu-bar">

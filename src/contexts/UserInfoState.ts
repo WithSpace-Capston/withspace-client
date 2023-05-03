@@ -3,6 +3,7 @@ import { atom } from "recoil";
 type UserInfoStateType = {
   id: number;
   logined: boolean;
+  defaultPageId: number;
 };
 
 export const userInfoState = atom<UserInfoStateType>({
@@ -10,5 +11,6 @@ export const userInfoState = atom<UserInfoStateType>({
   default: {
     id: -1,
     logined: false,
+    defaultPageId: -1,
   },
 });

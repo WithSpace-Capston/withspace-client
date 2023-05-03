@@ -46,7 +46,7 @@ function Login() {
     const fetchedUserInfo = userInfoResponse.data.data;
     const userId = fetchedUserInfo.id;
 
-    setUserInfo({ id: userId, logined: true });
+    setUserInfo({ ...userInfo, id: userId, logined: true });
 
     const pageInfoResponse = await axios.get(`/member/${userInfo.id}/space`, {
       headers: { Authorization: token },
@@ -54,8 +54,8 @@ function Login() {
     const pageInfo = pageInfoResponse.data.data;
     const pageId = pageInfo.pageList[0].pageId;
 
-    // setUserInfo({ id: userId, logined: true });
-    navigate(`/space/${pageId}`);
+    setUserInfo({ ...userInfo, defaultPageId: pageId });
+    navigate(`/space/${userInfo.defaultPageId}`);
   };
 
   const loginHandler = async (
