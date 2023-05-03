@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 import { Accordion } from "react-bootstrap";
 import styled from "styled-components";
 import axios from "axios";
@@ -9,6 +10,7 @@ import UserName from "./UserName";
 import PersonalSpaceNavigator from "./PersonalSpaceNavigator";
 import TeamSpaceNavigator from "./TeamSpaceNavigator";
 import { parseJwt } from "../Login/Login";
+import { userInfoState } from "../../contexts/UserInfoState";
 
 type UserInfoType = {
   id: number;
@@ -17,10 +19,10 @@ type UserInfoType = {
 };
 
 function SideMenuBar() {
-  const params = useParams();
   const navigate = useNavigate();
 
-  const [userInfo, setUserInfo] = useState<UserInfoType | undefined>();
+  const [user, setUser] = useState<UserInfoType | undefined>();
+  const setUserInfo = useSetRecoilState(userInfoState);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -40,25 +42,26 @@ function SideMenuBar() {
         headers: { Authorization: token },
       });
       const userInfo = response.data.data;
-      setUserInfo(userInfo);
+      setUserInfo({ id: userInfo.id, logined: true });
+      setUser(userInfo);
     };
 
     fetchUserInfo();
-  }, [params.id, navigate]);
+  }, [navigate]);
 
   return (
     <div className="side-menu-bar">
-      <UserName name={userInfo?.memberName} />
+      <UserName name={user?.memberName} />
       <Accordion alwaysOpen flush defaultActiveKey="0">
         <Accordion.Item eventKey="0">
           <Accordion.Header>
             <CustomH5>Personal Space</CustomH5>
           </Accordion.Header>
           <NestedAccordionBody>
-            <PersonalSpaceNavigator userId={userInfo?.id} />
+            <PersonalSpaceNavigator userId={user?.id} />
           </NestedAccordionBody>
         </Accordion.Item>
-        {userInfo?.teamList.map((team) => {
+        {user?.teamList.map((team) => {
           return (
             <TeamSpaceNavigator
               key={team.teamId}

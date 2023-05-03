@@ -5,7 +5,6 @@ import App from "./App";
 import { UIContextProvider } from "./contexts/UIContext";
 import { RecoilRoot } from "recoil";
 import { TeamContextProvider } from "./contexts/TeamContext";
-import { UserInfoContextProvider } from "./contexts/UserInfoContext";
 import { WorkspaceContextProvider } from "./contexts/WorkspaceContext";
 
 const root = ReactDOM.createRoot(
@@ -13,14 +12,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <RecoilRoot>
-    <UserInfoContextProvider>
-      <WorkspaceContextProvider>
-        <UIContextProvider>
-          <TeamContextProvider>
-            <App />
-          </TeamContextProvider>
-        </UIContextProvider>
-      </WorkspaceContextProvider>
-    </UserInfoContextProvider>
+    <WorkspaceContextProvider>
+      <UIContextProvider>
+        <TeamContextProvider>
+          <App />
+        </TeamContextProvider>
+      </UIContextProvider>
+    </WorkspaceContextProvider>
   </RecoilRoot>
 );

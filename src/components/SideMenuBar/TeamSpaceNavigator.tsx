@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Accordion } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import { MdOutlineAddBox } from "react-icons/md";
 import axios from "axios";
 
 import { NestedAccordionBody, CustomH5, EndPointCustomH5 } from "./SideMenuBar";
@@ -53,7 +54,7 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
                       <EndPointCustomH5
                         key={page.pageId}
                         className="page-item"
-                        $active={params.id === page.pageId.toString()}
+                        $active={params.pageId === page.pageId.toString()}
                         onClick={() => navigate(`/space/${page.pageId}`)}
                       >
                         {page.title}
@@ -61,6 +62,9 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
                     );
                   }
                 })}
+                <EndPointCustomH5 $active={false}>
+                  <MdOutlineAddBox /> Add Page
+                </EndPointCustomH5>
               </NestedAccordionBody>
             </Accordion>
           </Accordion.Item>

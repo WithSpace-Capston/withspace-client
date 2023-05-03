@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRecoilValue } from "recoil";
 import { useNavigate, useParams } from "react-router-dom";
 import { Accordion } from "react-bootstrap";
 import { MdOutlineAddBox } from "react-icons/md";
@@ -10,6 +11,7 @@ import {
   CustomH5,
   EndPointCustomH5,
 } from "./SideMenuBar";
+import { userInfoState } from "../../contexts/UserInfoState";
 
 type PersonalSpaceNavigatorType = {
   userId: number | undefined;
@@ -24,6 +26,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
   const params = useParams();
   const navigate = useNavigate();
 
+  const userInfo = useRecoilValue(userInfoState);
   const [pageListInfo, setPageListInfo] = useState<PageListType | undefined>();
 
   useEffect(() => {
@@ -39,6 +42,24 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
     fetchPersonalSpace();
   }, [props.userId, navigate]);
 
+  const addNewPage = async () => {
+    const token = localStorage.getItem("withspace_token");
+
+    const userInfoFetchRes = await axios.get(`/member/${userInfo.id}/space`, {
+      headers: { Authorization: token },
+    });
+    const spaceId = userInfoFetchRes.data.data.spaceId;
+
+    const addPageRes = await axios.post(
+      `/space/${spaceId}/page`,
+      {
+        title: "새로운 페이지",
+      },
+      { headers: { Authorization: token } }
+    );
+    navigate(`/space/${addPageRes.data.data.pageId}`);
+  };
+
   return (
     <>
       <Accordion.Item eventKey="0">
@@ -51,7 +72,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
               if (page.parentId === null) {
                 return (
                   <EndPointCustomH5
-                    $active={params.id === page.pageId.toString()}
+                    $active={params.pageId === page.pageId.toString()}
                     key={page.pageId}
                     className="page-item"
                     onClick={() => navigate(`/space/${page.pageId}`)}
@@ -61,7 +82,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
                 );
               }
             })}
-            <EndPointCustomH5 $active={false}>
+            <EndPointCustomH5 $active={false} onClick={addNewPage}>
               <MdOutlineAddBox /> Add Page
             </EndPointCustomH5>
           </NestedAccordionBody>

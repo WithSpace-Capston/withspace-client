@@ -15,7 +15,7 @@ function Workspace() {
   useEffect(() => {
     const fetchInitialContent = async () => {
       const token = localStorage.getItem("withspace_token");
-      const response = await axios.get(`/page/${params.id}`, {
+      const response = await axios.get(`/page/${params.pageId}`, {
         headers: { Authorization: token },
       });
       const { pageTitle, content } = response.data;
@@ -23,7 +23,7 @@ function Workspace() {
     };
 
     fetchInitialContent();
-  }, [params.id, setSpace]);
+  }, [params.pageId, setSpace]);
 
   return (
     <div id="editor">

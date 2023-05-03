@@ -14,8 +14,11 @@ function App() {
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/create-account" element={<CreateAccount />} />
-          <Route path="/space/:id" element={<Main space="space" />} />
-          <Route path="/schedule/:id" element={<Main space="schedule" />} />
+          <Route path="/space/:pageId" element={<Main space="space" />} />
+          <Route
+            path="/schedule/:scheduleId"
+            element={<Main space="schedule" />}
+          />
         </Routes>
         {/* Chatting 라우팅은 일단 나중에 생각하기 */}
         {/* <Chatting /> */}
