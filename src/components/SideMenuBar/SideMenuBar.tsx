@@ -49,7 +49,7 @@ function SideMenuBar() {
   return (
     <div className="side-menu-bar">
       <UserName name={userInfo?.memberName} />
-      <Accordion alwaysOpen flush>
+      <Accordion alwaysOpen flush defaultActiveKey="0">
         <Accordion.Item eventKey="0">
           <Accordion.Header>
             <CustomH5>Personal Space</CustomH5>
@@ -78,9 +78,12 @@ export const CustomH5 = styled.h5`
   margin: 0;
 `;
 
-export const EndPointCustomH5 = styled.h5`
+export const EndPointCustomH5 = styled.h5<{ $active: boolean }>`
   margin: 0;
   padding: 16px 20px;
+
+  background-color: ${(props) => (props.$active ? "whitesmoke" : "white")};
+
   &:hover {
     background-color: whitesmoke;
     transition: 0.5s;

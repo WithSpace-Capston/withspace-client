@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Accordion } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import { NestedAccordionBody, CustomH5, EndPointCustomH5 } from "./SideMenuBar";
@@ -16,6 +16,7 @@ type PageListType = {
 };
 
 function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
+  const params = useParams();
   const navigate = useNavigate();
 
   const [pageListInfo, setPageListInfo] = useState<PageListType | undefined>();
@@ -52,6 +53,7 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
                       <EndPointCustomH5
                         key={page.pageId}
                         className="page-item"
+                        $active={params.id === page.pageId.toString()}
                         onClick={() => navigate(`/space/${page.pageId}`)}
                       >
                         {page.title}
@@ -64,13 +66,14 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
           </Accordion.Item>
           <Accordion.Item eventKey={`${props.teamId} schedule`}>
             <EndPointCustomH5
+              $active={false}
               onClick={() => navigate(`/schedule/${pageListInfo?.spaceId}`)}
             >
               스케줄
             </EndPointCustomH5>
           </Accordion.Item>
           <Accordion.Item eventKey={`${props.teamId} chatting`}>
-            <EndPointCustomH5>단체채팅</EndPointCustomH5>
+            <EndPointCustomH5 $active={false}>단체채팅</EndPointCustomH5>
           </Accordion.Item>
         </Accordion>
       </NestedAccordionBody>

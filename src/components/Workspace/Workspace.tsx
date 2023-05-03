@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { useParams } from "react-router-dom";
 import "@toast-ui/editor/dist/toastui-editor.css";
