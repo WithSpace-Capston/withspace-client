@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { BsArrowRightShort } from "react-icons/bs";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -15,9 +14,11 @@ function WorkspaceBreadcrumb() {
 
   useEffect(() => {
     const createPageList = async () => {
+      pageList = [];
+      let searchPageId = params.pageId;
       const token = localStorage.getItem("withspace_token");
       while (true) {
-        const response = await axios.get(`/page/${params.pageId}`, {
+        const response = await axios.get(`/page/${searchPageId}`, {
           headers: { Authorization: token },
         });
         pageList.unshift({
@@ -25,6 +26,7 @@ function WorkspaceBreadcrumb() {
           title: response.data.pageTitle,
         });
         if (response.data.parentPageId === null) break;
+        searchPageId = response.data.parentPageId;
       }
     };
 
@@ -35,15 +37,15 @@ function WorkspaceBreadcrumb() {
     <BreadcrumbWrapper>
       {pageList.map((page) => {
         return (
-          <>
-            <BsArrowRightShort />
+          <div key={page.id}>
+            <span>/</span>
             <BreadcrubItem
               $active={page.id.toString() === params.pageId}
               onClick={() => navigate(`/space/${page.id}`)}
             >
               {page.title}
             </BreadcrubItem>
-          </>
+          </div>
         );
       })}
     </BreadcrumbWrapper>

@@ -6,7 +6,7 @@ import axios from "axios";
 import { MenuButton } from "./TopMenuBar";
 import { spaceState, spaceEditedState } from "../Workspace/recoil/SpaceState";
 
-function UploadButton() {
+function SaveButton() {
   const params = useParams();
 
   const [space, setSpace] = useRecoilState(spaceState);
@@ -17,7 +17,7 @@ function UploadButton() {
 
     // Title Upload Function
     const titleUploadRes = await axios.patch(
-      `/page/${params.id}/title`,
+      `/page/${params.pageId}/title`,
       {
         title: space.title,
       },
@@ -27,7 +27,7 @@ function UploadButton() {
 
     // Content Upload Function
     const contentUploadRes = await axios.patch(
-      `/page/${params.id}/content`,
+      `/page/${params.pageId}/content`,
       {
         content: space.content,
       },
@@ -40,9 +40,9 @@ function UploadButton() {
 
   return (
     <MenuButton onClick={spaceUpload}>
-      <BsUpload /> Upload
+      <BsUpload /> Save
     </MenuButton>
   );
 }
 
-export default UploadButton;
+export default SaveButton;

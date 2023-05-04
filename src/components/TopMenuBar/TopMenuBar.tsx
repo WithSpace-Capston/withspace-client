@@ -5,12 +5,12 @@ import Alarms from "./Alarms";
 import Search from "./Search";
 import Update from "./Update";
 import ETCMenu from "./ETCMenu";
-import UploadButton from "./UploadButton";
+import SaveButton from "./SaveButton";
 
 function TopMenuBar() {
   return (
     <Menu>
-      <UploadButton />
+      <SaveButton />
       <Members />
       <Alarms />
       <Search />

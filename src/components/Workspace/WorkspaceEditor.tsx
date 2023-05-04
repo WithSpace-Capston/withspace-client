@@ -25,8 +25,13 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
   const [insertPageModalActive, setInsertPageModalActive] = useState(false);
   const [deletePageModalActive, setDeletePageModalActive] = useState(false);
 
+  const insertPageModalShow = () => setInsertPageModalActive(true);
+  const insertPageModalClose = () => setInsertPageModalActive(false);
+
+  const deletePageModalShow = () => setDeletePageModalActive(true);
+  const deletePageModalClose = () => setDeletePageModalActive(false);
+
   useEffect(() => {
-    console.log(space.content);
     if (space.content === null) {
       workspaceRef.current?.getInstance().setMarkdown("");
     } else if (space.content) {
@@ -34,10 +39,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
     }
   }, [space.content]);
 
-  const deletePageModalShow = () => setDeletePageModalActive(true);
-  const deletePageModalClose = () => setDeletePageModalActive(false);
-
-  const createNewPageButton = () => {
+  const createInsertPageButton = () => {
     const button = document.createElement("button");
     button.className = "toastui-editor-toolbar-icons";
     button.style.backgroundImage = "none";
@@ -45,7 +47,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
     button.style.width = "50px";
     button.innerHTML = "Create";
     button.addEventListener("click", () => {
-      console.log("button click test!");
+      insertPageModalShow();
     });
     return button;
   };
@@ -69,6 +71,34 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
     setSpace({ ...space, content: md });
   };
 
+  const insertPageHandler = async () => {
+    const token = localStorage.getItem("withspace_token");
+
+    const getSpaceIdRes = await axios.get(`/member/${userInfo.id}/space`, {
+      headers: { Authorization: token },
+    });
+    const spaceId = getSpaceIdRes.data.data.spaceId;
+
+    const insertPageRes = await axios.post(
+      `/space/${spaceId}/page`,
+      {
+        title: "새로운 페이지",
+        parentPageId: params.pageId?.toString(),
+      },
+      { headers: { Authorization: token } }
+    );
+    const createdPageId = insertPageRes.data.data.pageId;
+    const createdPageTitle = insertPageRes.data.data.title;
+
+    workspaceRef.current
+      ?.getInstance()
+      .insertText(
+        `\n[${createdPageTitle}](${window.location.protocol}//${window.location.host}/space/${createdPageId})`
+      );
+
+    insertPageModalClose();
+  };
+
   const deletePageHandler = async () => {
     const token = localStorage.getItem("withspace_token");
     await axios.delete(`/page/${params.pageId}`, {
@@ -88,10 +118,22 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
           <Button variant="primary" onClick={deletePageHandler}>
             예
           </Button>
-          <Button
-            variant="second"
-            onClick={() => setDeletePageModalActive(false)}
-          >
+          <Button variant="second" onClick={deletePageModalClose}>
+            취소
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={insertPageModalActive} onHide={insertPageModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            해당 위치에 새로운 페이지를 삽입하시겠습니까?
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button variant="primary" onClick={insertPageHandler}>
+            예
+          </Button>
+          <Button variant="second" onClick={insertPageModalClose}>
             취소
           </Button>
         </Modal.Footer>
@@ -109,8 +151,8 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
           ["code", "codeblock"],
           [
             {
-              el: createNewPageButton(),
-              name: "createNewPageButton",
+              el: createInsertPageButton(),
+              name: "createInsertPageButton",
             },
             {
               el: createDeletePageButton(),
