@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import axios from "axios";
 
+import WorkspaceBreadcrumb from "./SpaceBreadcrumb";
 import WorkspaceTitle from "./WorkspaceTitle";
 import WorkspaceEditor from "./WorkspaceEditor";
 import { spaceState } from "./recoil/SpaceState";
@@ -27,6 +28,7 @@ function Workspace() {
 
   return (
     <div id="editor">
+      <WorkspaceBreadcrumb />
       <WorkspaceTitle />
       <WorkspaceEditor content={space.content} />
     </div>

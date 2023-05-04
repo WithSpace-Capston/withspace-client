@@ -22,6 +22,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   const workspaceRef = useRef<Editor>(null);
+  const [insertPageModalActive, setInsertPageModalActive] = useState(false);
   const [deletePageModalActive, setDeletePageModalActive] = useState(false);
 
   useEffect(() => {
@@ -70,11 +71,10 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
 
   const deletePageHandler = async () => {
     const token = localStorage.getItem("withspace_token");
-    const response = await axios.delete(`/page/${params.pageId}`, {
+    await axios.delete(`/page/${params.pageId}`, {
       headers: { Authorization: token },
     });
     deletePageModalClose();
-    console.log(response);
     navigate(`/space/${userInfo.defaultPageId}`);
   };
 
@@ -98,7 +98,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
       </Modal>
       <Editor
         ref={workspaceRef}
-        height={window.innerHeight - 105 + "px"}
+        height={window.innerHeight - 155 + "px"}
         previewStyle="vertical"
         onChange={changeWorkspaceTextHandler}
         toolbarItems={[
