@@ -160,6 +160,20 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
             },
           ],
         ]}
+        hooks={{
+          addImageBlobHook: async (blob, callback) => {
+            let formData = new FormData();
+            formData.append("file", blob, "filename.jpg");
+            const token = localStorage.getItem("withspace_token");
+            const response = await axios.post(`/image`, formData, {
+              headers: {
+                Authorization: token,
+                "Content-Type": "multipart/form-data",
+              },
+            });
+            callback(response.data);
+          },
+        }}
       />
     </>
   );

@@ -1,33 +1,24 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-
-let pageList: {
-  id: number;
-  title: string;
-}[] = [];
 
 function WorkspaceBreadcrumb() {
   const params = useParams();
   const navigate = useNavigate();
 
+  const [pageList, setPageList] = useState<
+    { pageId: number; pageTitle: string }[]
+  >([]);
+
   useEffect(() => {
     const createPageList = async () => {
-      pageList = [];
-      let searchPageId = params.pageId;
       const token = localStorage.getItem("withspace_token");
-      while (true) {
-        const response = await axios.get(`/page/${searchPageId}`, {
-          headers: { Authorization: token },
-        });
-        pageList.unshift({
-          id: response.data.pageId,
-          title: response.data.pageTitle,
-        });
-        if (response.data.parentPageId === null) break;
-        searchPageId = response.data.parentPageId;
-      }
+      const response = await axios.get(`/page/${params.pageId}/hierarchy`, {
+        headers: { Authorization: token },
+      });
+      setPageList(response.data);
+      console.log(response.data);
     };
 
     createPageList();
@@ -37,13 +28,13 @@ function WorkspaceBreadcrumb() {
     <BreadcrumbWrapper>
       {pageList.map((page) => {
         return (
-          <div key={page.id}>
+          <div key={page.pageId}>
             <span>/</span>
             <BreadcrubItem
-              $active={page.id.toString() === params.pageId}
-              onClick={() => navigate(`/space/${page.id}`)}
+              $active={page.pageId.toString() === params.pageId}
+              onClick={() => navigate(`/space/${page.pageId}`)}
             >
-              {page.title}
+              {page.pageTitle}
             </BreadcrubItem>
           </div>
         );
