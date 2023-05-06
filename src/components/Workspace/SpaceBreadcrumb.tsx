@@ -18,7 +18,6 @@ function WorkspaceBreadcrumb() {
         headers: { Authorization: token },
       });
       setPageList(response.data);
-      console.log(response.data);
     };
 
     createPageList();

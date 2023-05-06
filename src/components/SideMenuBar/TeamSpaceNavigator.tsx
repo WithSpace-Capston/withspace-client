@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
 import { Accordion } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlineAddBox } from "react-icons/md";
 import axios from "axios";
 
+import { userInfoState } from "../../contexts/UserInfoState";
 import { NestedAccordionBody, CustomH5, EndPointCustomH5 } from "./SideMenuBar";
 
 type TeamSpaceNavigatorType = {
@@ -20,6 +22,7 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
   const params = useParams();
   const navigate = useNavigate();
 
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [pageListInfo, setPageListInfo] = useState<PageListType | undefined>();
 
   useEffect(() => {
@@ -55,7 +58,14 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
                         key={page.pageId}
                         className="page-item"
                         $active={params.pageId === page.pageId.toString()}
-                        onClick={() => navigate(`/space/${page.pageId}`)}
+                        onClick={() => {
+                          setUserInfo({
+                            ...userInfo,
+                            inPersonal: false,
+                            activeTeamId: props.teamId,
+                          });
+                          navigate(`/space/${page.pageId}`);
+                        }}
                       >
                         {page.title}
                       </EndPointCustomH5>
@@ -71,7 +81,14 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
           <Accordion.Item eventKey={`${props.teamId} schedule`}>
             <EndPointCustomH5
               $active={false}
-              onClick={() => navigate(`/schedule/${pageListInfo?.spaceId}`)}
+              onClick={() => {
+                setUserInfo({
+                  ...userInfo,
+                  inPersonal: false,
+                  activeTeamId: props.teamId,
+                });
+                navigate(`/schedule/${pageListInfo?.spaceId}`);
+              }}
             >
               스케줄
             </EndPointCustomH5>

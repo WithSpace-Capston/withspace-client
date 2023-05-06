@@ -46,7 +46,13 @@ function Login() {
     const fetchedUserInfo = userInfoResponse.data.data;
     const userId = fetchedUserInfo.id;
 
-    setUserInfo({ ...userInfo, id: userId, logined: true });
+    setUserInfo({
+      ...userInfo,
+      id: userId,
+      logined: true,
+      inPersonal: true,
+      activeTeamId: null,
+    });
 
     const pageInfoResponse = await axios.get(`/member/${userInfo.id}/space`, {
       headers: { Authorization: token },

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useNavigate, useParams } from "react-router-dom";
 import { Accordion } from "react-bootstrap";
 import { MdOutlineAddBox } from "react-icons/md";
@@ -26,7 +26,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
   const params = useParams();
   const navigate = useNavigate();
 
-  const userInfo = useRecoilValue(userInfoState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [pageListInfo, setPageListInfo] = useState<PageListType | undefined>();
 
   useEffect(() => {
@@ -75,7 +75,14 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
                     $active={params.pageId === page.pageId.toString()}
                     key={page.pageId}
                     className="page-item"
-                    onClick={() => navigate(`/space/${page.pageId}`)}
+                    onClick={() => {
+                      setUserInfo({
+                        ...userInfo,
+                        inPersonal: true,
+                        activeTeamId: null,
+                      });
+                      navigate(`/space/${page.pageId}`);
+                    }}
                   >
                     {page.title}
                   </EndPointCustomH5>
@@ -91,7 +98,10 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
       <NestedAccordionItem eventKey="1">
         <EndPointCustomH5
           $active={false}
-          onClick={() => navigate(`/schedule/${pageListInfo?.spaceId}`)}
+          onClick={() => {
+            setUserInfo({ ...userInfo, inPersonal: true, activeTeamId: null });
+            navigate(`/schedule/${pageListInfo?.spaceId}`);
+          }}
         >
           스케줄
         </EndPointCustomH5>

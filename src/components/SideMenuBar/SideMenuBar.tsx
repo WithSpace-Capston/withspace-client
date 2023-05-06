@@ -52,6 +52,8 @@ function SideMenuBar() {
         id: userInfo.id,
         logined: true,
         defaultPageId: defaultPageId,
+        inPersonal: true,
+        activeTeamId: null,
       });
       setUser(userInfo);
     };
