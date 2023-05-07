@@ -6,6 +6,7 @@ import { OverlayTrigger, Popover } from "react-bootstrap";
 import { BsFillPeopleFill } from "react-icons/bs";
 
 import Member from "./Member";
+import JoinTeamButton from "./JoinTeamButton";
 import { userInfoState } from "../../../contexts/UserInfoState";
 import { useTeamState, useTeamDispatch } from "../../../contexts/TeamContext";
 
@@ -88,6 +89,7 @@ function Members() {
                 />
               );
             })}
+          <JoinTeamButton />
         </Popover>
       }
     >

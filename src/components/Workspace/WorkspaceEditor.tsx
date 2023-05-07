@@ -37,7 +37,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
     } else if (space.content) {
       workspaceRef.current?.getInstance().setMarkdown(space.content!);
     }
-  }, [space.content]);
+  }, [space.content, setSpaceEdited]);
 
   const createInsertPageButton = () => {
     const button = document.createElement("button");

@@ -1,16 +1,16 @@
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { useParams } from "react-router-dom";
 import { BsUpload } from "react-icons/bs";
 import axios from "axios";
+import styled from "styled-components";
 
-import { MenuButton } from "./TopMenuBar";
 import { spaceState, spaceEditedState } from "../Workspace/recoil/SpaceState";
 
 function SaveButton() {
   const params = useParams();
 
   const space = useRecoilValue(spaceState);
-  const setSpaceEdited = useSetRecoilState(spaceEditedState);
+  const [spaceEdited, setSpaceEdited] = useRecoilState(spaceEditedState);
 
   const spaceUpload = async () => {
     const token = localStorage.getItem("withspace_token");
@@ -39,10 +39,20 @@ function SaveButton() {
   };
 
   return (
-    <MenuButton onClick={spaceUpload}>
+    <SaveButtonWrapper onClick={spaceUpload} $isEdited={spaceEdited}>
       <BsUpload /> Save
-    </MenuButton>
+    </SaveButtonWrapper>
   );
 }
 
 export default SaveButton;
+
+const SaveButtonWrapper = styled.h3<{ $isEdited: boolean | undefined }>`
+  margin: 0;
+  padding: 10px;
+  background-color: ${(props) => (props.$isEdited ? "white" : "whitesmoke")};
+
+  :hover {
+    background-color: whitesmoke;
+  }
+`;
