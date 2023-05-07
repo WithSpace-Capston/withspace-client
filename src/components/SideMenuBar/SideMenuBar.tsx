@@ -5,7 +5,6 @@ import { Accordion } from "react-bootstrap";
 import styled from "styled-components";
 import axios from "axios";
 
-import "./SideMenuBar.css";
 import UserName from "./UserName";
 import PersonalSpaceNavigator from "./PersonalSpaceNavigator";
 import TeamSpaceNavigator from "./TeamSpaceNavigator";

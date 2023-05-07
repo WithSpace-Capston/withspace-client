@@ -1,4 +1,5 @@
 import { Card, Badge } from "react-bootstrap";
+import styled from "styled-components";
 
 type MemberType = {
   memberName: String;
@@ -7,14 +8,23 @@ type MemberType = {
 
 function Member(props: MemberType) {
   return (
-    <Card body>
+    <MemberCard body>
       <Badge pill bg={props.status ? "success" : "danger"}>
         &nbsp;
       </Badge>
       &nbsp;
       {props.memberName}
-    </Card>
+    </MemberCard>
   );
 }
 
 export default Member;
+
+const MemberCard = styled(Card)`
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f7f7f5;
+    transition: 0.5s;
+  }
+`;
