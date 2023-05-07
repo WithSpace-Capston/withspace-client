@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
 
 import SideMenuBar from "./components/SideMenuBar/SideMenuBar";
 import TopMenuBar from "./components/TopMenuBar/TopMenuBar";
@@ -15,9 +16,9 @@ function Main(props: MainType) {
 
   return (
     <>
-      <div className="side">
+      <SideWrapper>
         <SideMenuBar />
-      </div>
+      </SideWrapper>
       <div className="main">
         <TopMenuBar />
         {props.space === "space" && <Workspace />}
@@ -28,3 +29,10 @@ function Main(props: MainType) {
 }
 
 export default Main;
+
+const SideWrapper = styled.div`
+  overflow: scroll;
+  width: 20%;
+  height: 100vh;
+  background-color: #f7f7f5;
+`;

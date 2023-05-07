@@ -62,7 +62,7 @@ function SideMenuBar() {
   }, [navigate, setUserInfo]);
 
   return (
-    <div className="side-menu-bar">
+    <SideMenuBarWrapper>
       <UserName name={user?.memberName} />
       <Accordion alwaysOpen flush defaultActiveKey="0">
         <Accordion.Item eventKey="0">
@@ -83,11 +83,15 @@ function SideMenuBar() {
           );
         })}
       </Accordion>
-    </div>
+    </SideMenuBarWrapper>
   );
 }
 
 export default SideMenuBar;
+
+const SideMenuBarWrapper = styled.div`
+  background-color: #f7f7f5;
+`;
 
 export const CustomH5 = styled.h5`
   margin: 0;
