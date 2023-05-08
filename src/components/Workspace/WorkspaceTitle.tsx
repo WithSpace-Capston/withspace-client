@@ -15,7 +15,7 @@ function WorkspaceTitle() {
 
   return (
     <TitleInput size="lg">
-      <Form.Control
+      <FormControl
         type="text"
         placeholder="Title"
         value={space.title}
@@ -29,4 +29,10 @@ export default WorkspaceTitle;
 
 const TitleInput = styled(InputGroup)`
   height: 50px;
+`;
+
+const FormControl = styled(Form.Control)`
+  &:focus {
+    box-shadow: none;
+  }
 `;

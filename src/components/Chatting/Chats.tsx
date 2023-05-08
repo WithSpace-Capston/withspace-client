@@ -1,18 +1,25 @@
-import Chat from "./Chat";
+import styled from "styled-components";
 
-import "./Chats.css";
+import Chat from "./Chat";
 
 function Chats() {
   return (
-    <div className="chatting__chats">
+    <ChatsWrapper>
       <Chat myChat={false} />
       <Chat myChat={true} />
       <Chat myChat={false} />
       <Chat myChat={true} />
       <Chat myChat={false} />
       <Chat myChat={true} />
-    </div>
+    </ChatsWrapper>
   );
 }
 
 export default Chats;
+
+const ChatsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  padding: 16px;
+`;

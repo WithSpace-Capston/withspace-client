@@ -6,6 +6,7 @@ import { MdOutlineAddBox } from "react-icons/md";
 import axios from "axios";
 
 import { userInfoState } from "../../contexts/UserInfoState";
+import { uiState } from "../../contexts/UIState";
 import { NestedAccordionBody, CustomH5, EndPointCustomH5 } from "./SideMenuBar";
 
 type TeamSpaceNavigatorType = {
@@ -23,6 +24,7 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [uiInfo, setUiInfo] = useRecoilState(uiState);
   const [pageListInfo, setPageListInfo] = useState<PageListType | undefined>();
 
   useEffect(() => {
@@ -94,7 +96,12 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
             </EndPointCustomH5>
           </Accordion.Item>
           <Accordion.Item eventKey={`${props.teamId} chatting`}>
-            <EndPointCustomH5 $active={false}>단체채팅</EndPointCustomH5>
+            <EndPointCustomH5
+              $active={false}
+              onClick={() => setUiInfo({ isChatting: true })}
+            >
+              단체채팅
+            </EndPointCustomH5>
           </Accordion.Item>
         </Accordion>
       </NestedAccordionBody>

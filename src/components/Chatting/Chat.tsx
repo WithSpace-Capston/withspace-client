@@ -1,6 +1,5 @@
+import styled from "styled-components";
 import { Card, Image } from "react-bootstrap";
-
-import "./Chat.css";
 
 type ChatType = {
   myChat: boolean;
@@ -8,20 +7,28 @@ type ChatType = {
 
 function Chat(props: ChatType) {
   return (
-    <div className={`chat ${props.myChat ? "my-chat" : "other-chat"}`}>
-      <div className="chat-profile-image">
-        <Image
-          style={{ marginBottom: "5px" }}
-          width={"35px"}
-          src="https://media.istockphoto.com/id/1223671392/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=s0aTdmT5aU6b8ot7VKm11DeID6NctRCpB755rA1BIP0="
-          rounded={true}
-        />
-      </div>
+    <ChatWrapper $myChat={props.myChat}>
+      <span>이지석</span>
       <Card>
         <Card.Body>short test</Card.Body>
       </Card>
-    </div>
+    </ChatWrapper>
   );
 }
 
 export default Chat;
+
+const ChatWrapper = styled.div<{ $myChat: boolean }>`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  padding-left: ${(props) => props.$myChat && "10%"};
+  padding-right: ${(props) => !props.$myChat && "10%"};
+
+  span {
+    text-align: ${(props) => (props.$myChat ? "right" : "left")};
+    padding-left: ${(props) => !props.$myChat && "10px"};
+    padding-right: ${(props) => props.$myChat && "10px"};
+  }
+`;

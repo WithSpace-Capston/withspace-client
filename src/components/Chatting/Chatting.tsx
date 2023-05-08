@@ -1,31 +1,34 @@
+import { useRecoilState } from "recoil";
 import { Offcanvas } from "react-bootstrap";
+import styled from "styled-components";
 
 import Chats from "./Chats";
 import InputChat from "./InputChat";
-import { useUIState, useUIDispatch } from "../../contexts/UIContext";
-import "./Chatting.css";
+import { uiState } from "../../contexts/UIState";
 
 function Chatting() {
-  const uiState = useUIState();
-  const uiDispatch = useUIDispatch();
+  const [uiInfo, setUiInfo] = useRecoilState(uiState);
 
-  const closeChattingHandler = () => {
-    uiDispatch({ type: "TOGGLE_CHATTING" });
+  const hideChatting = () => {
+    setUiInfo({ isChatting: false });
   };
 
   return (
-    <Offcanvas
-      show={uiState.isOpenChatting}
-      onHide={closeChattingHandler}
-      placement="end"
-    >
+    <Offcanvas show={uiInfo.isChatting} onHide={hideChatting} placement="end">
       <Offcanvas.Header closeButton></Offcanvas.Header>
-      <Offcanvas.Body className="chatting">
+      <OffcanvasBody>
         <Chats />
         <InputChat />
-      </Offcanvas.Body>
+      </OffcanvasBody>
     </Offcanvas>
   );
 }
 
 export default Chatting;
+
+const OffcanvasBody = styled(Offcanvas.Body)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+`;

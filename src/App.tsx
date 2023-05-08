@@ -20,8 +20,6 @@ function App() {
             element={<Main space="schedule" />}
           />
         </Routes>
-        {/* Chatting 라우팅은 일단 나중에 생각하기 */}
-        {/* <Chatting /> */}
       </div>
     </BrowserRouter>
   );

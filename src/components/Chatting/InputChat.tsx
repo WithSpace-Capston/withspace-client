@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Form, InputGroup, Button } from "react-bootstrap";
-
-import "./InputChat.css";
+import styled from "styled-components";
 
 function InputChat() {
   const [message, setMessage] = useState("");
@@ -16,7 +15,7 @@ function InputChat() {
   };
 
   return (
-    <div className="chat-input-form">
+    <ChatInputForm>
       <Form onSubmit={handleSubmit}>
         <InputGroup>
           <Form.Control
@@ -30,8 +29,12 @@ function InputChat() {
           </Button>
         </InputGroup>
       </Form>
-    </div>
+    </ChatInputForm>
   );
 }
 
 export default InputChat;
+
+const ChatInputForm = styled.div`
+  margin: 16px;
+`;
