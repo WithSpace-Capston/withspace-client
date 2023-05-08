@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { Accordion } from "react-bootstrap";
+import { MdOutlineAddBox } from "react-icons/md";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -81,6 +82,16 @@ function SideMenuBar() {
             />
           );
         })}
+        <Accordion.Item eventKey="9998">
+          <EndPointCustomH5 $active={false}>
+            <MdOutlineAddBox /> 팀 생성
+          </EndPointCustomH5>
+        </Accordion.Item>
+        <Accordion.Item eventKey="9999">
+          <EndPointCustomH5 $active={false}>
+            <MdOutlineAddBox /> 팀 가입
+          </EndPointCustomH5>
+        </Accordion.Item>
       </Accordion>
     </SideMenuBarWrapper>
   );

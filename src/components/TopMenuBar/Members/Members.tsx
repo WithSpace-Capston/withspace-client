@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import { BsFillPeopleFill } from "react-icons/bs";
 
 import Member from "./Member";
-import JoinTeamButton from "./JoinTeamButton";
 import { userInfoState } from "../../../contexts/UserInfoState";
-import { useTeamState, useTeamDispatch } from "../../../contexts/TeamContext";
+import { useTeamState } from "../../../contexts/TeamContext";
 
 type FriendInfoType = {
   id: number;
@@ -23,9 +21,7 @@ type TeamMemberInfoType = {
 }[];
 
 function Members() {
-  const params = useParams();
   const teamState = useTeamState();
-  const teamDispatch = useTeamDispatch();
 
   const userInfo = useRecoilValue(userInfoState);
   const [friendInfo, setFriendInfo] = useState<FriendInfoType | undefined>();
@@ -89,7 +85,6 @@ function Members() {
                 />
               );
             })}
-          <JoinTeamButton />
         </Popover>
       }
     >

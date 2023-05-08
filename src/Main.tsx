@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import SideMenuBar from "./components/SideMenuBar/SideMenuBar";
@@ -11,9 +10,6 @@ type MainType = {
 };
 
 function Main(props: MainType) {
-  const params = useParams();
-  console.log(params);
-
   return (
     <>
       <SideWrapper>
