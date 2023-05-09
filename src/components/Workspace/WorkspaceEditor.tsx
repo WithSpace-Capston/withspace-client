@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import { useParams, useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import { Editor } from "@toast-ui/react-editor";
@@ -19,7 +19,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
 
   const [space, setSpace] = useRecoilState(spaceState);
   const setSpaceEdited = useSetRecoilState(spaceEditedState);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const userInfo = useRecoilValue(userInfoState);
 
   const workspaceRef = useRef<Editor>(null);
   const [insertPageModalActive, setInsertPageModalActive] = useState(false);
@@ -32,12 +32,12 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
   const deletePageModalClose = () => setDeletePageModalActive(false);
 
   useEffect(() => {
-    if (space.content === null) {
+    if (props.content === null) {
       workspaceRef.current?.getInstance().setMarkdown("");
-    } else if (space.content) {
-      workspaceRef.current?.getInstance().setMarkdown(space.content!);
+    } else if (props.content) {
+      workspaceRef.current?.getInstance().setMarkdown(props.content);
     }
-  }, [space.content, setSpaceEdited]);
+  }, [props.content]);
 
   const createInsertPageButton = () => {
     const button = document.createElement("button");
