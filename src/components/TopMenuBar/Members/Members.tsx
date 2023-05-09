@@ -6,6 +6,7 @@ import axios from "axios";
 
 import Member from "./Member";
 import AddNewFriendButton from "./AddNewFriendButton";
+import { MenuButton } from "../TopMenuBar";
 import { userInfoState } from "../../../contexts/UserInfoState";
 import { useTeamState } from "../../../contexts/TeamContext";
 
@@ -90,9 +91,9 @@ function Members() {
         </Popover>
       }
     >
-      <h3>
+      <MenuButton>
         <BsFillPeopleFill /> 멤버
-      </h3>
+      </MenuButton>
     </OverlayTrigger>
   );
 }

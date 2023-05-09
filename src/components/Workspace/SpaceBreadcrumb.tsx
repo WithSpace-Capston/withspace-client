@@ -60,5 +60,6 @@ const BreadcrubItem = styled.span<{ $active: boolean }>`
 
   &:hover {
     background-color: whitesmoke;
+    cursor: pointer;
   }
 `;

@@ -52,7 +52,8 @@ const SaveButtonWrapper = styled.h3<{ $isEdited: boolean | undefined }>`
   padding: 10px;
   background-color: ${(props) => (props.$isEdited ? "white" : "whitesmoke")};
 
-  :hover {
+  &:hover {
     background-color: whitesmoke;
+    cursor: pointer;
   }
 `;

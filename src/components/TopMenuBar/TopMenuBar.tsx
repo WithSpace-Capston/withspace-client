@@ -40,7 +40,8 @@ export const MenuButton = styled.h3`
   margin: 0;
   padding: 10px;
 
-  :hover {
+  &:hover {
     background-color: whitesmoke;
+    cursor: pointer;
   }
 `;
