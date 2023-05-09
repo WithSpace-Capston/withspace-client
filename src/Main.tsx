@@ -15,8 +15,6 @@ type MainType = {
 function Main(props: MainType) {
   const uiInfo = useRecoilValue(uiState);
 
-  console.log(uiInfo);
-
   return (
     <>
       <SideWrapper>

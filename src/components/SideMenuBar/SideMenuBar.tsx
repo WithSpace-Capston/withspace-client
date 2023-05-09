@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { Accordion } from "react-bootstrap";
-import { MdOutlineAddBox } from "react-icons/md";
 import styled from "styled-components";
 import axios from "axios";
 
 import UserName from "./UserName";
 import PersonalSpaceNavigator from "./PersonalSpaceNavigator";
 import TeamSpaceNavigator from "./TeamSpaceNavigator";
+import CreateTeamButton from "./CreateTeamButton";
+import JoinTeamButton from "./JoinTeamButton";
 import { parseJwt } from "../Login/Login";
 import { userInfoState } from "../../contexts/UserInfoState";
 
@@ -82,16 +83,8 @@ function SideMenuBar() {
             />
           );
         })}
-        <Accordion.Item eventKey="9998">
-          <EndPointCustomH5 $active={false}>
-            <MdOutlineAddBox /> 팀 생성
-          </EndPointCustomH5>
-        </Accordion.Item>
-        <Accordion.Item eventKey="9999">
-          <EndPointCustomH5 $active={false}>
-            <MdOutlineAddBox /> 팀 가입
-          </EndPointCustomH5>
-        </Accordion.Item>
+        <CreateTeamButton />
+        <JoinTeamButton />
       </Accordion>
     </SideMenuBarWrapper>
   );
@@ -116,6 +109,7 @@ export const EndPointCustomH5 = styled.h5<{ $active: boolean }>`
   &:hover {
     background-color: whitesmoke;
     transition: 0.5s;
+    cursor: pointer;
   }
 `;
 

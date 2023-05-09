@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import axios from "axios";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import { BsFillPeopleFill } from "react-icons/bs";
+import axios from "axios";
 
 import Member from "./Member";
+import AddNewFriendButton from "./AddNewFriendButton";
 import { userInfoState } from "../../../contexts/UserInfoState";
 import { useTeamState } from "../../../contexts/TeamContext";
 
@@ -85,6 +86,7 @@ function Members() {
                 />
               );
             })}
+          <AddNewFriendButton />
         </Popover>
       }
     >

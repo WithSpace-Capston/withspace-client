@@ -20,7 +20,7 @@ function Member(props: MemberType) {
 
 export default Member;
 
-const MemberCard = styled(Card)`
+export const MemberCard = styled(Card)`
   cursor: pointer;
 
   &:hover {
