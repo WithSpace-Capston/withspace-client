@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Modal } from "react-bootstrap";
 import styled from "styled-components";
 import axios from "axios";
 
