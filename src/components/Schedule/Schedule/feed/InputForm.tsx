@@ -9,6 +9,8 @@ import useTodo from "../hooks/useHandleTodo";
 import { ReactComponent as ThreeDot } from "../images/three-dots.svg";
 import { ReactComponent as TodoCheck } from "../images/todo-check.svg";
 
+import { useScheduleDispatch } from "../../../../contexts/ScheduleContext";
+
 interface InputFormProps {
   category: ICategory;
   id?: string;
@@ -16,6 +18,7 @@ interface InputFormProps {
 }
 
 const InputForm = ({ category, initialValue = " ", id }: InputFormProps) => {
+  const scheduleDispatch = useScheduleDispatch();
   const { value, onChange, resetValue } = useInput(initialValue);
   const { insertTodo, editTodo } = useTodo();
   const [editing, setEditing] = useRecoilState(editingState);

@@ -8,6 +8,7 @@ import { GlobalStyle } from "./components/Schedule/Schedule/styles/global-style"
 import { TeamContextProvider } from "./contexts/TeamContext";
 import { UserInfoContextProvider } from "./contexts/UserInfoContext";
 import { WorkspaceContextProvider } from "./contexts/WorkspaceContext";
+import { ScheduleContextProvider } from "./contexts/ScheduleContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -15,11 +16,15 @@ const root = ReactDOM.createRoot(
 root.render(
   <UserInfoContextProvider>
     <WorkspaceContextProvider>
-      <UIContextProvider>
-        <TeamContextProvider>
-          <App />
-        </TeamContextProvider>
-      </UIContextProvider>
+      <RecoilRoot>
+        <ScheduleContextProvider>
+          <UIContextProvider>
+            <TeamContextProvider>
+              <App />
+            </TeamContextProvider>
+          </UIContextProvider>
+        </ScheduleContextProvider>
+      </RecoilRoot>
     </WorkspaceContextProvider>
   </UserInfoContextProvider>
 );
