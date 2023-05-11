@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { Accordion } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlineAddBox } from "react-icons/md";
@@ -20,11 +20,11 @@ type PageListType = {
 };
 
 function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
-  const params = useParams();
   const navigate = useNavigate();
+  const params = useParams();
 
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const [uiInfo, setUiInfo] = useRecoilState(uiState);
+  const setUiInfo = useSetRecoilState(uiState);
   const [pageListInfo, setPageListInfo] = useState<PageListType | undefined>();
 
   useEffect(() => {
@@ -39,6 +39,27 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
 
     fetchTeamSpace();
   }, [props.teamId]);
+
+  const addNewPageHandler = async () => {
+    const token = localStorage.getItem("withspace_token");
+
+    const fetchTeamSpaceRes = await axios.get(`/team/${props.teamId}/space`, {
+      headers: { "JWT-Authorization": `Bearer ${token}` },
+    });
+    const spaceId = fetchTeamSpaceRes.data.data.spaceId;
+
+    const addNewPageRes = await axios.post(
+      `/space/${spaceId}/page`,
+      {
+        title: "새로운 페이지",
+      },
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
+    );
+    const createdPageId = addNewPageRes.data.data.pageId;
+
+    navigate(`/space/${createdPageId}`);
+    window.location.reload();
+  };
 
   return (
     <Accordion.Item eventKey={`${props.teamId}`}>
@@ -74,7 +95,7 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
                     );
                   }
                 })}
-                <EndPointCustomH5 $active={false}>
+                <EndPointCustomH5 $active={false} onClick={addNewPageHandler}>
                   <MdOutlineAddBox /> Add Page
                 </EndPointCustomH5>
               </NestedAccordionBody>

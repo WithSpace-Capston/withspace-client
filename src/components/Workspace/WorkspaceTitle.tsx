@@ -18,7 +18,7 @@ function WorkspaceTitle() {
       <FormControl
         type="text"
         placeholder="Title"
-        value={space.title}
+        value={space.title || ""}
         onChange={titleChangeHandler}
       />
     </TitleInput>

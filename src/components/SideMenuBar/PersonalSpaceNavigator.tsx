@@ -23,8 +23,8 @@ type PageListType = {
 };
 
 function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
-  const params = useParams();
   const navigate = useNavigate();
+  const params = useParams();
 
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [pageListInfo, setPageListInfo] = useState<PageListType | undefined>();
@@ -40,7 +40,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
     };
 
     fetchPersonalSpace();
-  }, [props.userId, navigate]);
+  }, [props.userId]);
 
   const addNewPage = async () => {
     const token = localStorage.getItem("withspace_token");
@@ -57,6 +57,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
       },
       { headers: { "JWT-Authorization": `Bearer ${token}` } }
     );
+
     navigate(`/space/${addPageRes.data.data.pageId}`);
   };
 

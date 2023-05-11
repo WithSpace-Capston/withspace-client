@@ -1,11 +1,10 @@
 import styled from "styled-components";
 
 type UserNameType = {
-  name: string | undefined;
+  name: string | null;
 };
 
 function UserName(props: UserNameType) {
-  console.log(`UserName -> ${props.name}`);
   return <UsernameH5 className="username">{props.name}</UsernameH5>;
 }
 

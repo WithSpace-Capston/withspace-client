@@ -1,82 +1,30 @@
-import { useState, useEffect } from "react";
-import { useSetRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { Accordion } from "react-bootstrap";
 import styled from "styled-components";
-import axios from "axios";
 
 import UserName from "./UserName";
 import PersonalSpaceNavigator from "./PersonalSpaceNavigator";
 import TeamSpaceNavigator from "./TeamSpaceNavigator";
 import CreateTeamButton from "./CreateTeamButton";
 import JoinTeamButton from "./JoinTeamButton";
-import { parseJwt } from "../Login/Login";
 import { userInfoState } from "../../contexts/UserInfoState";
 
-type UserInfoType = {
-  id: number;
-  memberName: string;
-  teamList: { teamId: number; teamName: string }[];
-};
-
 function SideMenuBar() {
-  const navigate = useNavigate();
-
-  const [user, setUser] = useState<UserInfoType | undefined>();
-  const setUserInfo = useSetRecoilState(userInfoState);
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      const token = localStorage.getItem("withspace_token");
-
-      if (token === null) {
-        navigate("/login");
-      } else {
-        const now = Math.floor(new Date().getTime() / 1000);
-        if (parseJwt(token).exp < now) {
-          localStorage.removeItem("withspace_token");
-          navigate("/login");
-        }
-      }
-
-      const response = await axios.get(`/member`, {
-        headers: { "JWT-Authorization": `Bearer ${token}` },
-      });
-      const userInfo = response.data.data;
-      console.log(userInfo);
-      setUser(userInfo);
-
-      const response2 = await axios.get(`/member/${userInfo.id}/space`, {
-        headers: { "JWT-Authorization": `bearer ${token}` },
-      });
-      console.log(response2);
-      const defaultPageId = response2.data.data.pageList[0].pageId;
-
-      setUserInfo({
-        id: userInfo.id,
-        logined: true,
-        defaultPageId: defaultPageId,
-        inPersonal: true,
-        activeTeamId: null,
-      });
-    };
-
-    fetchUserInfo();
-  }, [navigate, setUserInfo]);
+  const userInfo = useRecoilValue(userInfoState);
 
   return (
     <SideMenuBarWrapper>
-      <UserName name={user?.memberName} />
+      <UserName name={userInfo.name} />
       <Accordion alwaysOpen flush defaultActiveKey="0">
         <Accordion.Item eventKey="0">
           <Accordion.Header>
             <CustomH5>Personal Space</CustomH5>
           </Accordion.Header>
           <NestedAccordionBody>
-            <PersonalSpaceNavigator userId={user?.id} />
+            <PersonalSpaceNavigator userId={userInfo.id} />
           </NestedAccordionBody>
         </Accordion.Item>
-        {user?.teamList.map((team) => {
+        {userInfo.teamList.map((team) => {
           return (
             <TeamSpaceNavigator
               key={team.teamId}

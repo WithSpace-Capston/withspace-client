@@ -40,6 +40,7 @@ function Login() {
   const processingLogin = async () => {
     const token = localStorage.getItem("withspace_token");
 
+    // /member 정상 작동
     const userInfoResponse = await axios.get(`/member`, {
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
@@ -54,6 +55,7 @@ function Login() {
       activeTeamId: null,
     });
 
+    // /member/:memberId/space 정상 작동
     const pageInfoResponse = await axios.get(`/member/${userInfo.id}/space`, {
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
@@ -71,6 +73,7 @@ function Login() {
     rememberMe: boolean
   ) => {
     try {
+      // login-process 정상 작동
       const response = await axios.post(
         `/login-process`,
         {
