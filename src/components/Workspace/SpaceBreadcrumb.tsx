@@ -15,7 +15,7 @@ function WorkspaceBreadcrumb() {
     const createPageList = async () => {
       const token = localStorage.getItem("withspace_token");
       const response = await axios.get(`/page/${params.pageId}/hierarchy`, {
-        headers: { Authorization: token },
+        headers: { "JWT-Authorization": `Bearer ${token}` },
       });
       setPageList(response.data);
     };

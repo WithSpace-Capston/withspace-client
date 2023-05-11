@@ -41,7 +41,7 @@ function Login() {
     const token = localStorage.getItem("withspace_token");
 
     const userInfoResponse = await axios.get(`/member`, {
-      headers: { Authorization: token },
+      headers: { "JWT-Authorization": `Bearer ${token}` },
     });
     const fetchedUserInfo = userInfoResponse.data.data;
     const userId = fetchedUserInfo.id;
@@ -55,7 +55,7 @@ function Login() {
     });
 
     const pageInfoResponse = await axios.get(`/member/${userInfo.id}/space`, {
-      headers: { Authorization: token },
+      headers: { "JWT-Authorization": `Bearer ${token}` },
     });
     const pageInfo = pageInfoResponse.data.data;
     const pageId = pageInfo.pageList[0].pageId;

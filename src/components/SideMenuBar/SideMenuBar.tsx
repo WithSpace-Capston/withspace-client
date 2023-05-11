@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
-import { Accordion, Modal } from "react-bootstrap";
+import { Accordion } from "react-bootstrap";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -40,12 +40,12 @@ function SideMenuBar() {
       }
 
       const response = await axios.get(`/member`, {
-        headers: { Authorization: token },
+        headers: { "JWT-Authorization": `Bearer ${token}` },
       });
       const userInfo = response.data.data;
 
       const response2 = await axios.get(`/member/${userInfo.id}/space`, {
-        headers: { Authorization: token },
+        headers: { "JWT-Authorization": `Bearer ${token}` },
       });
       const defaultPageId = response2.data.data.pageList[0].pageId;
 

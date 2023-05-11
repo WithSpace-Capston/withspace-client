@@ -38,7 +38,7 @@ function Members() {
     if (userInfo.inPersonal && !userInfo.activeTeamId) {
       const fetchFriendInfo = async () => {
         const response = await axios.get(`/${userInfo.id}/friend`, {
-          headers: { Authorization: token },
+          headers: { "JWT-Authorization": `Bearer ${token}` },
         });
         const friendList: FriendInfoType = response.data.data;
         setFriendInfo(friendList);
@@ -50,7 +50,7 @@ function Members() {
     if (!userInfo.inPersonal && userInfo.activeTeamId) {
       const fetchTeamMemberInfo = async () => {
         const response = await axios.get(`/team/${userInfo.activeTeamId}`, {
-          headers: { Authorization: token },
+          headers: { "JWT-Authorization": `Bearer ${token}` },
         });
         const memberList: TeamMemberInfoType =
           response.data.data.memberTeamList;

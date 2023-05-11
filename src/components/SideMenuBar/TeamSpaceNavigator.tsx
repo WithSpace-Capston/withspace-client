@@ -31,7 +31,7 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
     const fetchTeamSpace = async () => {
       const token = localStorage.getItem("withspace_token");
       const response = await axios.get(`/team/${props.teamId}/space`, {
-        headers: { Authorization: token },
+        headers: { "JWT-Authorization": `Bearer ${token}` },
       });
       const pageList = response.data.data;
       setPageListInfo(pageList);

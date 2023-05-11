@@ -33,7 +33,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
     const fetchPersonalSpace = async () => {
       const token = localStorage.getItem("withspace_token");
       const response = await axios.get(`/member/${props.userId}/space`, {
-        headers: { Authorization: token },
+        headers: { "JWT-Authorization": `Bearer ${token}` },
       });
       const pageList = response.data.data;
       setPageListInfo(pageList);
@@ -46,7 +46,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
     const token = localStorage.getItem("withspace_token");
 
     const userInfoFetchRes = await axios.get(`/member/${userInfo.id}/space`, {
-      headers: { Authorization: token },
+      headers: { "JWT-Authorization": `Bearer ${token}` },
     });
     const spaceId = userInfoFetchRes.data.data.spaceId;
 
@@ -55,7 +55,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
       {
         title: "새로운 페이지",
       },
-      { headers: { Authorization: token } }
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
     );
     navigate(`/space/${addPageRes.data.data.pageId}`);
   };

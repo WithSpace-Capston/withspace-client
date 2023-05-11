@@ -21,7 +21,7 @@ function SaveButton() {
       {
         title: space.title,
       },
-      { headers: { Authorization: token } }
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
     );
 
     // Content Upload Function
@@ -30,7 +30,7 @@ function SaveButton() {
       {
         content: space.content,
       },
-      { headers: { Authorization: token } }
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
     );
 
     setSpaceEdited(false);

@@ -75,7 +75,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
     const token = localStorage.getItem("withspace_token");
 
     const getSpaceIdRes = await axios.get(`/member/${userInfo.id}/space`, {
-      headers: { Authorization: token },
+      headers: { "JWT-Authorization": `Bearer ${token}` },
     });
     const spaceId = getSpaceIdRes.data.data.spaceId;
 
@@ -85,7 +85,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
         title: "새로운 페이지",
         parentPageId: params.pageId?.toString(),
       },
-      { headers: { Authorization: token } }
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
     );
     const createdPageId = insertPageRes.data.data.pageId;
     const createdPageTitle = insertPageRes.data.data.title;
@@ -102,7 +102,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
   const deletePageHandler = async () => {
     const token = localStorage.getItem("withspace_token");
     await axios.delete(`/page/${params.pageId}`, {
-      headers: { Authorization: token },
+      headers: { "JWT-Authorization": `Bearer ${token}` },
     });
     deletePageModalClose();
     navigate(`/space/${userInfo.defaultPageId}`);
@@ -167,7 +167,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
             const token = localStorage.getItem("withspace_token");
             const response = await axios.post(`/image`, formData, {
               headers: {
-                Authorization: token,
+                "JWT-Authorization": `Bearer ${token}`,
                 "Content-Type": "multipart/form-data",
               },
             });

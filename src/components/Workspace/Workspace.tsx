@@ -19,7 +19,7 @@ function Workspace() {
     const fetchInitialContent = async () => {
       const token = localStorage.getItem("withspace_token");
       const response = await axios.get(`/page/${params.pageId}`, {
-        headers: { Authorization: token },
+        headers: { "JWT-Authorization": `Bearer ${token}` },
       });
       const { pageTitle, content } = response.data;
       setContent(content);

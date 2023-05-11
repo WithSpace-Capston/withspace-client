@@ -31,14 +31,14 @@ function CreateTeamButton() {
         memberId: userInfo.id,
         teamName: teamName,
       },
-      { headers: { Authorization: token } }
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
     );
     const createdTeamId = createTeamRes.data.teamId;
 
     const createdTeamSpaceRes = await axios.get(
       `/team/${createdTeamId}/space`,
       {
-        headers: { Authorization: token },
+        headers: { "JWT-Authorization": `Bearer ${token}` },
       }
     );
     const createdTeamInitialPageId =
@@ -69,7 +69,7 @@ function CreateTeamButton() {
           <Modal.Title>팀 생성</Modal.Title>
         </Modal.Header>
         <ModalBody>
-          <CreateTeamLabel>팀 이름</CreateTeamLabel>
+          <CreateTeamTitleLabel>팀 이름</CreateTeamTitleLabel>
           <Form.Control
             size="lg"
             type="text"
@@ -95,7 +95,7 @@ const ModalBody = styled(Modal.Body)`
   padding: 40px 20px;
 `;
 
-const CreateTeamLabel = styled.div`
+const CreateTeamTitleLabel = styled.div`
   font-size: 20px;
   font-weight: bold;
 `;
