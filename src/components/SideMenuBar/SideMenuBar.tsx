@@ -43,10 +43,13 @@ function SideMenuBar() {
         headers: { "JWT-Authorization": `Bearer ${token}` },
       });
       const userInfo = response.data.data;
+      console.log(userInfo);
+      setUser(userInfo);
 
       const response2 = await axios.get(`/member/${userInfo.id}/space`, {
-        headers: { "JWT-Authorization": `Bearer ${token}` },
+        headers: { "JWT-Authorization": `bearer ${token}` },
       });
+      console.log(response2);
       const defaultPageId = response2.data.data.pageList[0].pageId;
 
       setUserInfo({
@@ -56,7 +59,6 @@ function SideMenuBar() {
         inPersonal: true,
         activeTeamId: null,
       });
-      setUser(userInfo);
     };
 
     fetchUserInfo();

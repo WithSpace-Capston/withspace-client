@@ -5,12 +5,12 @@ import Chat from "./Chat";
 function Chats() {
   return (
     <ChatsWrapper>
-      <Chat myChat={false} />
-      <Chat myChat={true} />
-      <Chat myChat={false} />
-      <Chat myChat={true} />
-      <Chat myChat={false} />
-      <Chat myChat={true} />
+      <Chat myChat={false} name="이동준" message="채팅입니다." />
+      <Chat myChat={false} name="서한슬" message="채팅입니다." />
+      <Chat myChat={false} name="한지수" message="채팅입니다." />
+      <Chat myChat={false} name="이동준" message="채팅입니다." />
+      <Chat myChat={false} name="서한슬" message="채팅입니다." />
+      <Chat myChat={true} name="이지석" message="채팅입니다." />
     </ChatsWrapper>
   );
 }

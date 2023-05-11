@@ -1,16 +1,18 @@
 import styled from "styled-components";
-import { Card, Image } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 type ChatType = {
   myChat: boolean;
+  name: string;
+  message: string;
 };
 
 function Chat(props: ChatType) {
   return (
     <ChatWrapper $myChat={props.myChat}>
-      <span>이지석</span>
+      <span>{props.name}</span>
       <Card>
-        <Card.Body>short test</Card.Body>
+        <Card.Body>{props.message}</Card.Body>
       </Card>
     </ChatWrapper>
   );

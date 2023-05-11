@@ -135,7 +135,7 @@ const TeamListWrapper = styled.div`
   overflow: scroll;
 `;
 
-const SearchBarWrapper = styled.div`
+export const SearchBarWrapper = styled.div`
   display: flex;
 
   .search-button {
