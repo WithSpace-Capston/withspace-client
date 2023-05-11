@@ -58,12 +58,12 @@ function AddNewFriendButton() {
             {friendList &&
               friendList.map((friend) => {
                 return (
-                  <Card body key={friend.memberId}>
+                  <FriendCard body key={friend.memberId}>
                     <FriendCardContentWrapper>
                       <span className="name">{friend.memberName}</span>
                       <Button>추가</Button>
                     </FriendCardContentWrapper>
-                  </Card>
+                  </FriendCard>
                 );
               })}
           </FriendListWrapper>
@@ -97,6 +97,10 @@ const FriendListWrapper = styled.div`
   height: 400px;
   margin: 10px 0;
   overflow: scroll;
+`;
+
+const FriendCard = styled(Card)`
+  margin: 2.5px 0;
 `;
 
 const FriendCardContentWrapper = styled.div`
