@@ -1,13 +1,23 @@
 import { useState } from "react";
-import { Accordion, Modal, Button, Form, Col } from "react-bootstrap";
+import { useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { Accordion, Modal, Button, Form, Card } from "react-bootstrap";
 import { MdOutlineAddBox } from "react-icons/md";
 import styled from "styled-components";
+import axios from "axios";
 
 import { EndPointCustomH5 } from "./SideMenuBar";
+import { userInfoState } from "../../contexts/UserInfoState";
 
 function JoinTeamButton() {
+  const navigate = useNavigate();
+
+  const userInfo = useRecoilValue(userInfoState);
   const [joinTeamModal, setJoinTeamModal] = useState(false);
   const [teamName, setTeamName] = useState("");
+  const [searchedTeamList, setSearchedTeamList] = useState<
+    { teamId: number; teamName: string }[]
+  >([]);
 
   const teamNameChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -15,7 +25,14 @@ function JoinTeamButton() {
     setTeamName(event.target.value);
   };
 
-  const joinTeamHandler = () => {};
+  const searchTeamHandler = async () => {
+    const token = localStorage.getItem("withspace_token");
+    const response = await axios.get(`/team/name/${teamName}`, {
+      headers: { "JWT-Authorization": `Bearer ${token}` },
+    });
+    console.log(response);
+    setSearchedTeamList(response.data.data);
+  };
 
   return (
     <div>
@@ -47,9 +64,52 @@ function JoinTeamButton() {
               value={teamName}
               onChange={teamNameChangeHandler}
             />
-            <Button className="search-button">검색</Button>
+            <Button className="search-button" onClick={searchTeamHandler}>
+              검색
+            </Button>
           </SearchBarWrapper>
-          <TeamListWrapper></TeamListWrapper>
+          <TeamListWrapper>
+            {searchedTeamList &&
+              searchedTeamList.map((team) => {
+                return (
+                  <>
+                    <Card body key={team.teamId}>
+                      {team.teamName}
+                    </Card>
+                    <Button
+                      onClick={async () => {
+                        const token = localStorage.getItem("withspace_token");
+
+                        const joinTeamRes = await axios.post(
+                          `/team/${team.teamId}/members`,
+                          {
+                            memberId: userInfo.id,
+                          },
+                          {
+                            headers: { "JWT-Authorization": `Bearer ${token}` },
+                          }
+                        );
+                        const joinedTeamId = joinTeamRes.data.data.teamId;
+
+                        const joinedTeamSpaceRes = await axios.get(
+                          `/team/${joinedTeamId}/space`,
+                          {
+                            headers: { "JWT-Authorization": token },
+                          }
+                        );
+                        const joinedTeamInitialPageId =
+                          joinedTeamSpaceRes.data.data.pageList[0].pageId;
+
+                        setJoinTeamModal(false);
+                        navigate(`/space/${joinedTeamInitialPageId}`);
+                      }}
+                    >
+                      가입
+                    </Button>
+                  </>
+                );
+              })}
+          </TeamListWrapper>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setJoinTeamModal(false)}>
@@ -72,7 +132,6 @@ const JoinTeamTitleLabel = styled.div`
 const TeamListWrapper = styled.div`
   height: 400px;
   margin: 10px 0;
-  background-color: green;
   overflow: scroll;
 `;
 

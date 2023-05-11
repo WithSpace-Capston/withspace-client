@@ -57,6 +57,7 @@ function Login() {
     const pageInfoResponse = await axios.get(`/member/${userInfo.id}/space`, {
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
+
     const pageInfo = pageInfoResponse.data.data;
     const pageId = pageInfo.pageList[0].pageId;
 
