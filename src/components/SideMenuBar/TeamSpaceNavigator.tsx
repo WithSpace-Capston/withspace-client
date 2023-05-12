@@ -61,6 +61,8 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
     window.location.reload();
   };
 
+  const quitTeamHandler = async (teamId: number) => {};
+
   return (
     <Accordion.Item eventKey={`${props.teamId}`}>
       <Accordion.Header>
@@ -122,6 +124,14 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
               onClick={() => setUiInfo({ isChatting: true })}
             >
               단체채팅
+            </EndPointCustomH5>
+          </Accordion.Item>
+          <Accordion.Item eventKey={`${props.teamId} quit`}>
+            <EndPointCustomH5
+              $active={false}
+              onClick={() => quitTeamHandler(props.teamId)}
+            >
+              팀 탈퇴
             </EndPointCustomH5>
           </Accordion.Item>
         </Accordion>

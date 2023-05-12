@@ -10,7 +10,7 @@ import { MenuButton } from "../TopMenuBar";
 import { userInfoState } from "../../../contexts/UserInfoState";
 import { useTeamState } from "../../../contexts/TeamContext";
 
-type FriendInfoType = {
+export type FriendInfoType = {
   id: number;
   name: string;
   status: boolean;
@@ -70,11 +70,13 @@ function Members() {
           {teamState.isPersonal &&
             friendInfo?.map((friend) => {
               return (
-                <Member
-                  key={`${friend.id}`}
-                  memberName={friend.name}
-                  status={friend.status}
-                />
+                <div>
+                  <Member
+                    key={`${friend.id}`}
+                    memberName={friend.name}
+                    status={friend.status}
+                  />
+                </div>
               );
             })}
           {!teamState.isPersonal &&
@@ -87,7 +89,7 @@ function Members() {
                 />
               );
             })}
-          <AddNewFriendButton />
+          {teamState.isPersonal && <AddNewFriendButton friends={friendInfo} />}
         </Popover>
       }
     >
