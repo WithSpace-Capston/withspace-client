@@ -63,10 +63,10 @@ function Members() {
 
   return (
     <OverlayTrigger
-      trigger="click"
       placement="bottom"
+      trigger="click"
       overlay={
-        <Popover>
+        <Popover style={{ position: "relative", zIndex: "0" }}>
           {teamState.isPersonal &&
             friendInfo?.map((friend) => {
               return (

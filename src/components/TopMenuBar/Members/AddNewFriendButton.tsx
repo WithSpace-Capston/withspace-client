@@ -24,6 +24,10 @@ function AddNewFriendButton(props: AddNewFriendButtonProps) {
     props.friends?.map((friend) => friend.id)
   );
 
+  const openModal = () => {
+    setAddFriendModal(true);
+  };
+
   const closeModal = () => {
     setAddFriendModal(false);
     setFriendName("");
@@ -60,8 +64,8 @@ function AddNewFriendButton(props: AddNewFriendButtonProps) {
   };
 
   return (
-    <div>
-      <AddFriendButton body onClick={() => setAddFriendModal(true)}>
+    <div style={{ position: "relative", zIndex: "9999999999" }}>
+      <AddFriendButton body onClick={openModal}>
         <MdOutlineAddBox /> 친구 추가
       </AddFriendButton>
       <Modal
