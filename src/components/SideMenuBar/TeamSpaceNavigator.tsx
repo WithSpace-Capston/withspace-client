@@ -61,17 +61,17 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
     window.location.reload();
   };
 
-  const quitTeamHandler = async (teamId: number) => {
+  const quitTeamHandler = async () => {
     console.log("quitTeamHandler test");
 
     const token = localStorage.getItem("withspace_token");
 
-    await axios.delete(`/team/${teamId}`, {
-      headers: { "JWT-Authorization": token },
+    await axios.delete(`/team/${props.teamId}`, {
+      headers: { "JWT-Authorization": `Bearer ${token}` },
     });
 
     const fetchUserInfoRes = await axios.get(`/member/${userInfo.id}`, {
-      headers: { "JWT-Authorization": token },
+      headers: { "JWT-Authorization": `Bearer ${token}` },
     });
     setUserInfo({ ...userInfo, teamList: fetchUserInfoRes.data.data.teamList });
     navigate(`/space/${userInfo.defaultPageId}`);
@@ -142,10 +142,7 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
             </EndPointCustomH5>
           </Accordion.Item>
           <Accordion.Item eventKey={`${props.teamId} quit`}>
-            <EndPointCustomH5
-              $active={false}
-              onClick={() => quitTeamHandler(props.teamId)}
-            >
+            <EndPointCustomH5 $active={false} onClick={quitTeamHandler}>
               팀 탈퇴
             </EndPointCustomH5>
           </Accordion.Item>
