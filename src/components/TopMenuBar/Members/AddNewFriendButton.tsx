@@ -83,7 +83,7 @@ function AddNewFriendButton(props: AddNewFriendButtonProps) {
             <Form.Control
               size="lg"
               type="text"
-              placeholder="팀 이름을 입력해주세요."
+              placeholder="친구 이름을 입력해주세요."
               value={friendName}
               onChange={friendNameChangeHandler}
             />

@@ -36,11 +36,13 @@ function Members() {
 
     // Personal Space에 있을 때는 유저의 친구 fetch
     if (userInfo.inPersonal && !userInfo.activeTeamId) {
+      console.log("친구 fetch 테스트");
       const fetchFriendInfo = async () => {
         const response = await axios.get(`/${userInfo.id}/friend`, {
           headers: { "JWT-Authorization": `Bearer ${token}` },
         });
         const friendList: FriendInfoType = response.data.data;
+        console.log(friendList);
         setFriendInfo(friendList);
       };
       fetchFriendInfo();
@@ -48,6 +50,7 @@ function Members() {
 
     // Team Space에 있을 때는 팀 멤버 fetch
     if (!userInfo.inPersonal && userInfo.activeTeamId) {
+      console.log("팀 스페이스 멤버 fetch 테스트");
       const fetchTeamMemberInfo = async () => {
         const response = await axios.get(`/team/${userInfo.activeTeamId}`, {
           headers: { "JWT-Authorization": `Bearer ${token}` },
@@ -70,13 +73,12 @@ function Members() {
           {teamState.isPersonal &&
             friendInfo?.map((friend) => {
               return (
-                <div>
-                  <Member
-                    key={`${friend.id}`}
-                    memberName={friend.name}
-                    status={friend.status}
-                  />
-                </div>
+                <Member
+                  key={`${friend.id}`}
+                  memberName={friend.name}
+                  status={friend.status}
+                  isFriend={true}
+                />
               );
             })}
           {!teamState.isPersonal &&
@@ -86,6 +88,7 @@ function Members() {
                   key={`${member.userId}`}
                   memberName={member.memberName}
                   status={member.status}
+                  isFriend={false}
                 />
               );
             })}
