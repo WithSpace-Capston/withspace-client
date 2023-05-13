@@ -85,9 +85,13 @@ const Item = styled.div<{ isSelected: Boolean }>`
     position: relative;
     cursor: pointer;
     display: flex;
+    border: 0px;
     flex-direction: column;
     align0items: center;
     margin-bottom: 4px;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #fff;
 
     .count {
       positon: absolute;
@@ -109,12 +113,12 @@ const Item = styled.div<{ isSelected: Boolean }>`
       isSelected
         ? css`
             color: #000;
-            font-size: 12px;
+            font-size: 14px;
             text-decoration: underline;
           `
         : css`
             color: #b6b6b6;
-            font-size: 11px;
+            font-size: 13px;
           `}
   }
 `;

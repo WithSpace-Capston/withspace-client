@@ -3,7 +3,7 @@ import { useSetRecoilState } from "recoil";
 import add from "../images/feedAddButton.png";
 import box from "../images/openBox.png";
 import { editingState } from "../stores/editing";
-import {ICategory} from "../interfaces/ICategory"
+import { ICategory } from "../interfaces/ICategory";
 
 interface CategoryButtonProps {
   category: ICategory;
@@ -34,6 +34,8 @@ const Wrapper = styled.div`
     height: 36px;
     border-radius: 4px;
     margin: 6px 0;
+    background-color: ${({ theme }) => theme.palette.mono.gray_f5};
+    border: 1px solid ${({ theme }) => theme.palette.mono.gray_f0};
   }
 `;
 
@@ -41,21 +43,33 @@ const Inner = styled.div<{ color: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   width: 100%;
   height: 100%;
   padding: 8px;
+
   & > img {
     width: 22px;
     height: 22px;
+    display: block;
+    margin: 0 auto;
+
   }
+
   button {
+    display: flex;
+    align-items: center;
     width: 18px;
     height: 18px;
+    border: 0;
+    justify-content: flex-end;
+    background-color: #f5f5f5;
     & > img {
-      width: 100%;
-      height: auto;
+      width: 18px;
+      height: 18px;
     }
   }
+
   div {
     font-weight: 800;
     font-size: 15px;

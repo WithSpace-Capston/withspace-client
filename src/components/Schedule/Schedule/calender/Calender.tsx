@@ -93,6 +93,6 @@ const Days = styled.div`
 
   & > div {
     margin: 4px auto;
-    font-size: 10px;
+    font-size: 15px;
   }
 `;
