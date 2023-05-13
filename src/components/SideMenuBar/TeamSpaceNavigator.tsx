@@ -61,7 +61,22 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
     window.location.reload();
   };
 
-  const quitTeamHandler = async (teamId: number) => {};
+  const quitTeamHandler = async (teamId: number) => {
+    console.log("quitTeamHandler test");
+
+    const token = localStorage.getItem("withspace_token");
+
+    await axios.delete(`/team/${teamId}`, {
+      headers: { "JWT-Authorization": token },
+    });
+
+    const fetchUserInfoRes = await axios.get(`/member/${userInfo.id}`, {
+      headers: { "JWT-Authorization": token },
+    });
+    setUserInfo({ ...userInfo, teamList: fetchUserInfoRes.data.data.teamList });
+    navigate(`/space/${userInfo.defaultPageId}`);
+    window.location.reload();
+  };
 
   return (
     <Accordion.Item eventKey={`${props.teamId}`}>
