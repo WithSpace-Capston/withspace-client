@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import more from "../images/more.png";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Feed = () => {
   const categories = useRecoilValue(categoryState);
@@ -13,30 +14,30 @@ const Feed = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <Wrapper>
-      <Title>
-        Feed
-        <ButtonWrapper>
-          <button onClick={toggleDown}>
-            <img src={more} />
-            {isOpen && (
-              <PositionWrapper>
-                <DropdownMenu>
-                  <MenuItem>카테고리 추가</MenuItem>
-                  <MenuItem>간편일정 등록</MenuItem>
-                </DropdownMenu>
-              </PositionWrapper>
-            )}
-          </button>
-        </ButtonWrapper>
-      </Title>
-      <List>
-        {categories.map((category) => (
-          <FeedItemList category={category} key={category.label} />
-        ))}
-      </List>
-      <MenuBottomSheet />
-    </Wrapper>
+      <Wrapper>
+        <Title>
+          Feed
+          <ButtonWrapper>
+            <button onClick={toggleDown}>
+              <img src={more} />
+              {isOpen && (
+                <PositionWrapper>
+                  <DropdownMenu>
+                    <RouterLink to={"/AddCategory"}>카테고리 추가</RouterLink>
+                    <RouterLink to={"/EasyTodo"}>간편일정 등록</RouterLink>
+                  </DropdownMenu>
+                </PositionWrapper>
+              )}
+            </button>
+          </ButtonWrapper>
+        </Title>
+        <List>
+          {categories.map((category) => (
+            <FeedItemList category={category} key={category.label} />
+          ))}
+        </List>
+        <MenuBottomSheet />
+      </Wrapper>
   );
 };
 
@@ -78,13 +79,12 @@ const DropdownMenu = styled.div`
   border: 1px solid #ccc;
 `;
 
-const MenuItem = styled.div`
+const RouterLink = styled(Link)`
+  color: #000;
   padding: 4px;
   cursor: pointer;
   font-size: 18px;
-  &:hover {
-    background-color: #ddd;
-  }
+  text-decoration: none;
 `;
 
 const PositionWrapper = styled.div`

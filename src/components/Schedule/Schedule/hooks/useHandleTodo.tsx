@@ -14,7 +14,7 @@ const useHandleTodo = () => {
     if (inputValue) {
       const newTodo = {
         label: inputValue,
-        id: String(),
+        id: uuid(),
         isDone: false,
         category: category,
       };

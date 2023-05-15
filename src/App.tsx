@@ -3,8 +3,10 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import Main from "./Main";
 import Login from "./components/Login/Login";
 import CreateAccount from "./components/Login/CreateAccount";
+import AddCategory from "./components/Schedule/Schedule/feed/AddCategory";
 
 import "./App.css";
+import Feed from "./components/Schedule/Schedule/feed/Feed";
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
           <Route path="/create-account" element={<CreateAccount />} />
           <Route path="/space/:id" element={<Main space="space" />} />
           <Route path="/calendar/:id" element={<Main space="calendar" />} />
+          <Route path="/AddCategory" element={<AddCategory />} />
         </Routes>
         {/* Chatting 라우팅은 일단 나중에 생각하기 */}
         {/* <Chatting /> */}

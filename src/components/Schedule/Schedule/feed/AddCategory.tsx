@@ -1,31 +1,49 @@
-import { BottomSheet } from "react-spring-bottom-sheet";
-import styled from "styled-components";
-import useBottomSheet from "../hooks/useBottomSheet";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
-const AddCategory = () => {
-  const {isOpen, onDismiss, selectedItem} = useBottomSheet(false);
+interface Category {
+  id: number;
+  name: string;
+}
+
+const AddCategory: React.FC = () => {
+  const [name, setName] = useState('');
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const handleAddCategory = () => {
+    const newCategory: Category = {
+      id: Date.now(),
+      name: name,
+    };
+    setCategories([...categories, newCategory]);
+    setName('');
+  };
 
   return (
-    <StyledBottomSheet open={isOpen} onDismiss={onDismiss}>
-      <Name>
-        <div>
-          <div></div>
-        </div>
-      </Name>
-    </StyledBottomSheet>
+    <div>
+      <Title>Add Category</Title>
+      <C_Title>카테고리 제목
+      <input type="text" value={name} onChange={handleNameChange} />
+      <button onClick={handleAddCategory}>Add</button>
+      </C_Title>
+      <h3>Categories:</h3>
+      <ul>
+        {categories.map((category) => (
+          <li key={category.id}>{category.name}</li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
 export default AddCategory;
 
-const StyledBottomSheet = styled(BottomSheet)`
-  & > div:nth-child(2) {
-    max-width: 700px;
-    margin: 0 auto;
-  }
-`;
+const Title = styled.div`
+`
 
-const Name = styled.div`
-  width: 100%;
-  height: 100%;
-`;
+const C_Title = styled.div`
+`
