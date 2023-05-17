@@ -6,7 +6,6 @@ import CreateAccount from "./components/Login/CreateAccount";
 import AddCategory from "./components/Schedule/Schedule/feed/AddCategory";
 
 import "./App.css";
-import Feed from "./components/Schedule/Schedule/feed/Feed";
 
 function App() {
   return (
