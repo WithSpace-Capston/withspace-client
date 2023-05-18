@@ -13,8 +13,8 @@ function TopMenuBar() {
       <SaveButton />
       <Members />
       <Alarms />
-      <Search />
-      <Update />
+      {/* <Search /> */}
+      {/* <Update /> */}
       <ETCMenu />
     </Menu>
   );

@@ -19,6 +19,11 @@ type PageListType = {
   pageList: { pageId: number; parentId: number | null; title: string }[];
 };
 
+type ChatroomInfoType = {
+  chatRoomId: number;
+  id: number;
+}[];
+
 function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
   const navigate = useNavigate();
   const params = useParams();
@@ -78,6 +83,22 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
     window.location.reload();
   };
 
+  const openChattingRoomHandler = async () => {
+    const token = localStorage.getItem("withspace_token");
+
+    const response = await axios.get(`/member/${userInfo.id}/chatrooms`, {
+      headers: { "JWT-Authorization": `Bearer ${token}` },
+    });
+    console.log(response.data.data);
+    const chatRoomInfoList: ChatroomInfoType = response.data.data;
+    const roomId = chatRoomInfoList.filter((room) => {
+      if (room.id === props.teamId) return room.id;
+    })[0].chatRoomId;
+
+    setUiInfo({ isChatting: true });
+    setUserInfo({ ...userInfo, activeChattingRoomId: roomId });
+  };
+
   return (
     <Accordion.Item eventKey={`${props.teamId}`}>
       <Accordion.Header>
@@ -134,10 +155,7 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
             </EndPointCustomH5>
           </Accordion.Item>
           <Accordion.Item eventKey={`${props.teamId} chatting`}>
-            <EndPointCustomH5
-              $active={false}
-              onClick={() => setUiInfo({ isChatting: true })}
-            >
+            <EndPointCustomH5 $active={false} onClick={openChattingRoomHandler}>
               단체채팅
             </EndPointCustomH5>
           </Accordion.Item>

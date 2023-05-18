@@ -1,16 +1,50 @@
+import { useState, useEffect } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import axios from "axios";
 
 import Chat from "./Chat";
+import { userInfoState } from "../../contexts/UserInfoState";
 
 function Chats() {
+  const userInfo = useRecoilValue(userInfoState);
+  const [messages, setMessages] = useState<
+    {
+      senderName: string;
+      senderId: number;
+      sendTime: string;
+      content: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    const fetchChattingRoom = async () => {
+      const token = localStorage.getItem("withspace_token");
+      const response = await axios.get(
+        `/chat/room/${userInfo.activeChattingRoomId}`,
+        {
+          headers: { "JWT-Authorization": `Baerer ${token}` },
+        }
+      );
+      setMessages(response.data.data.messageList);
+    };
+
+    fetchChattingRoom();
+  }, [userInfo.activeChattingRoomId]);
+
   return (
     <ChatsWrapper>
-      <Chat myChat={false} name="이동준" message="채팅입니다." />
-      <Chat myChat={false} name="서한슬" message="채팅입니다." />
-      <Chat myChat={false} name="한지수" message="채팅입니다." />
-      <Chat myChat={false} name="이동준" message="채팅입니다." />
-      <Chat myChat={false} name="서한슬" message="채팅입니다." />
-      <Chat myChat={true} name="이지석" message="채팅입니다." />
+      {messages.map((m) => {
+        const isMyChat = m.senderId === userInfo.id;
+        return (
+          <Chat
+            key={m.sendTime}
+            myChat={isMyChat}
+            name={m.senderName}
+            message={m.content}
+          />
+        );
+      })}
     </ChatsWrapper>
   );
 }

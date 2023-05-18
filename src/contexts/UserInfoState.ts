@@ -7,6 +7,7 @@ type UserInfoStateType = {
   defaultPageId: number;
   inPersonal: boolean;
   activeTeamId: number | null;
+  activeChattingRoomId: number | null;
   teamList: {
     teamId: number;
     teamName: string;
@@ -22,6 +23,7 @@ export const userInfoState = atom<UserInfoStateType>({
     defaultPageId: -1,
     inPersonal: true,
     activeTeamId: null,
+    activeChattingRoomId: null,
     teamList: [],
   },
 });

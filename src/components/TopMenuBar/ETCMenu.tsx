@@ -17,7 +17,6 @@ function ETCMenu() {
       {
         headers: {
           "JWT-Authorization": `Bearer ${token}`,
-          "Content-Type": "application/x-www-form-urlencoded",
         },
       }
     );

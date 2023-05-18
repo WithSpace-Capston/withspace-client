@@ -30,11 +30,13 @@ function Main(props: MainType) {
       // 만약 토큰이 없거나, 유효기간이 지났다면 로그인 화면으로 디라이렉트
       if (token === null) {
         navigate("/login");
+        return;
       } else {
         const now = Math.floor(new Date().getTime() / 1000);
         if (parseJwt(token).exp < now) {
           localStorage.removeItem("withspace_token");
           navigate("/login");
+          return;
         }
       }
 
@@ -56,6 +58,7 @@ function Main(props: MainType) {
         defaultPageId: defaultPageId,
         inPersonal: true,
         activeTeamId: null,
+        activeChattingRoomId: null,
         teamList: userInfo.teamList,
       });
 

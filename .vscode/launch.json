@@ -5,10 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "chrome",
+      "type": "msedge",
       "request": "launch",
-      "name": "localhost에 대해 Chrome 시작",
-      "url": "http://localhost:8080",
+      "name": "localhost에 대해 Edge 시작",
+      "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}"
     }
   ]

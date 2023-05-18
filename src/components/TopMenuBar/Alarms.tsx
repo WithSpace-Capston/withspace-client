@@ -48,6 +48,18 @@ function Alarms() {
     setFriendRequestList(friendRequestList.filter((req) => req.id !== id));
   };
 
+  const denyFriendHandler = async (id: number) => {
+    const token = localStorage.getItem("withspace_token");
+    await axios.post(
+      `/${userInfo.id}/friend/reject`,
+      {
+        friendId: id.toString(),
+      },
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
+    );
+    setFriendRequestList(friendRequestList.filter((req) => req.id !== id));
+  };
+
   return (
     <OverlayTrigger
       trigger="click"
@@ -76,7 +88,12 @@ function Alarms() {
                           >
                             수락
                           </CustomButton>
-                          <CustomButton variant="danger">거절</CustomButton>
+                          <CustomButton
+                            variant="danger"
+                            onClick={() => denyFriendHandler(req.id)}
+                          >
+                            거절
+                          </CustomButton>
                         </ButtonsWrapper>
                       </RequestCardContentWrapper>
                     </RequestCard>
