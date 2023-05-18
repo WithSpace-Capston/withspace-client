@@ -17,24 +17,24 @@ function Chats() {
     }[]
   >([]);
 
-  useEffect(() => {
-    const fetchChattingRoom = async () => {
-      const token = localStorage.getItem("withspace_token");
-      const response = await axios.get(
-        `/chat/room/${userInfo.activeChattingRoomId}`,
-        {
-          headers: { "JWT-Authorization": `Baerer ${token}` },
-        }
-      );
-      setMessages(response.data.data.messageList);
-    };
+  // useEffect(() => {
+  //   const fetchChattingRoom = async () => {
+  //     const token = localStorage.getItem("withspace_token");
+  //     const response = await axios.get(
+  //       `/chat/room/${userInfo.activeChattingRoomId}`,
+  //       {
+  //         headers: { "JWT-Authorization": `Baerer ${token}` },
+  //       }
+  //     );
+  //     setMessages(response.data.data.messageList);
+  //   };
 
-    fetchChattingRoom();
-  }, [userInfo.activeChattingRoomId]);
+  //   fetchChattingRoom();
+  // }, [userInfo.activeChattingRoomId]);
 
   return (
     <ChatsWrapper>
-      {messages.map((m) => {
+      {/* {messages.map((m) => {
         const isMyChat = m.senderId === userInfo.id;
         return (
           <Chat
@@ -44,7 +44,7 @@ function Chats() {
             message={m.content}
           />
         );
-      })}
+      })} */}
     </ChatsWrapper>
   );
 }

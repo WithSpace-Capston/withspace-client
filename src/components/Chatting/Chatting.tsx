@@ -17,36 +17,36 @@ function Chatting() {
   const client = useRef<Client>();
 
   useEffect(() => {
-    // connect();
-    // return () => disconnect();
+    connect();
+    return () => disconnect();
   }, []);
 
-  // const connect = () => {
-  //   const token = localStorage.getItem("withspace_token");
-  //   client.current = new Client({
-  //     brokerURL: `wss://api.withspace-api.com/chat`,
-  //     connectHeaders: {
-  //       "JWT-Authorization": `Bearer ${token}`,
-  //     },
-  //     onConnect: () => {
-  //       subscribe();
-  //     },
-  //   });
-  //   client.current.activate();
-  // };
+  const connect = () => {
+    const token = localStorage.getItem("withspace_token");
+    client.current = new Client({
+      brokerURL: `wss://api.withspace-api.com/chat`,
+      connectHeaders: {
+        "JWT-Authorization": `Bearer ${token}`,
+      },
+      onConnect: () => {
+        subscribe();
+      },
+    });
+    client.current.activate();
+  };
 
-  // const disconnect = () => {
-  //   client.current?.deactivate();
-  // };
+  const disconnect = () => {
+    client.current?.deactivate();
+  };
 
-  // const subscribe = () => {
-  //   client.current?.subscribe(
-  //     `/topic/chat/${userInfo.activeChattingRoomId}`,
-  //     (body) => {
-  //       console.log(body);
-  //     }
-  //   );
-  // };
+  const subscribe = () => {
+    client.current?.subscribe(
+      `/topic/chat/${userInfo.activeChattingRoomId}`,
+      (body) => {
+        console.log(body);
+      }
+    );
+  };
 
   const hideChatting = () => {
     setUserInfo({ ...userInfo, activeChattingRoomId: null });

@@ -19,15 +19,15 @@ function InputChat() {
   ) => {
     event.preventDefault();
 
-    const token = localStorage.getItem("withspace_token");
-    const response = await axios.post(
-      `/chat/${userInfo.activeChattingRoomId}/message`,
-      {
-        content: message,
-      },
-      { headers: { "JWT-Authorization": `Bearer ${token}` } }
-    );
-    console.log(response);
+    // const token = localStorage.getItem("withspace_token");
+    // const response = await axios.post(
+    //   `/chat/${userInfo.activeChattingRoomId}/message`,
+    //   {
+    //     content: message,
+    //   },
+    //   { headers: { "JWT-Authorization": `Bearer ${token}` } }
+    // );
+    // console.log(response);
 
     setMessage("");
   };

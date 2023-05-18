@@ -15,7 +15,7 @@ function SideMenuBar() {
   return (
     <SideMenuBarWrapper>
       <UserName name={userInfo.name} />
-      <Accordion alwaysOpen flush defaultActiveKey="0">
+      <Accordion alwaysOpen flush>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
             <CustomH5>Personal Space</CustomH5>

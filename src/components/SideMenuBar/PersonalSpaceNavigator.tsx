@@ -64,7 +64,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
   return (
     <>
       <Accordion.Item eventKey="0">
-        <Accordion alwaysOpen flush defaultActiveKey="0">
+        <Accordion alwaysOpen flush>
           <Accordion.Header>
             <CustomH5>작업공간</CustomH5>
           </Accordion.Header>
