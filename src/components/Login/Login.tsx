@@ -55,7 +55,7 @@ function Login() {
       activeTeamId: null,
     });
 
-    const pageInfoResponse = await axios.get(`/member/${userInfo.id}/space`, {
+    const pageInfoResponse = await axios.get(`/member/${userId}/space`, {
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
 
