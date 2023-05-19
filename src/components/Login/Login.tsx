@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { useUserInfoDispatch } from "../../contexts/UserInfoContext";
+import { userInfoState } from "../../contexts/UserInfoState";
 import LoginForm from "./LoginForm";
 import "./Login.css";
 
@@ -24,36 +25,46 @@ export function parseJwt(token: string) {
 }
 
 function Login() {
-  const userInfoDispatch = useUserInfoDispatch();
   const navigate = useNavigate();
+
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("withspace_token")) {
-      userInfoDispatch({ type: "LOGIN" });
       processingLogin();
     }
   });
 
   const processingLogin = async () => {
+    console.log("processingLogin()");
     const token = localStorage.getItem("withspace_token");
 
     const userInfoResponse = await axios.get(`/member`, {
-      headers: { Authorization: token },
+      headers: { "JWT-Authorization": `Bearer ${token}` },
     });
-    const userInfo = userInfoResponse.data.data;
-    const userId = userInfo.id;
+    const fetchedUserInfo = userInfoResponse.data.data;
+    const userId = fetchedUserInfo.id;
 
-    const pageInfoResponse = await axios.get(`/member/${userId}/space`, {
-      headers: { Authorization: token },
+    setUserInfo({
+      ...userInfo,
+      id: userId,
+      logined: true,
+      inPersonal: true,
+      activeTeamId: null,
     });
+
+    const pageInfoResponse = await axios.get(`/member/${userInfo.id}/space`, {
+      headers: { "JWT-Authorization": `Bearer ${token}` },
+    });
+
     const pageInfo = pageInfoResponse.data.data;
     const pageId = pageInfo.pageList[0].pageId;
 
-    userInfoDispatch({ type: "FETCH_INFO", id: userId });
-    userInfoDispatch({ type: "LOGIN" });
-    navigate(`/space/${pageId}`);
+    setUserInfo({ ...userInfo, defaultPageId: pageId });
+    navigate(`/space/${userInfo.defaultPageId}`);
+    return;
   };
 
   const loginHandler = async (
@@ -91,6 +102,7 @@ function Login() {
         return;
       }
     }
+    return;
   };
 
   return (

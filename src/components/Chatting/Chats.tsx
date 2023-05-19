@@ -1,18 +1,59 @@
-import Chat from "./Chat";
+import { useState, useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import styled from "styled-components";
+import axios from "axios";
 
-import "./Chats.css";
+import Chat from "./Chat";
+import { userInfoState } from "../../contexts/UserInfoState";
 
 function Chats() {
+  const userInfo = useRecoilValue(userInfoState);
+  const [messages, setMessages] = useState<
+    {
+      senderName: string;
+      senderId: number;
+      sendTime: string;
+      content: string;
+    }[]
+  >([]);
+
+  // useEffect(() => {
+  //   const fetchChattingRoom = async () => {
+  //     const token = localStorage.getItem("withspace_token");
+  //     const response = await axios.get(
+  //       `/chat/room/${userInfo.activeChattingRoomId}`,
+  //       {
+  //         headers: { "JWT-Authorization": `Baerer ${token}` },
+  //       }
+  //     );
+  //     setMessages(response.data.data.messageList);
+  //   };
+
+  //   fetchChattingRoom();
+  // }, [userInfo.activeChattingRoomId]);
+
   return (
-    <div className="chatting__chats">
-      <Chat myChat={false} />
-      <Chat myChat={true} />
-      <Chat myChat={false} />
-      <Chat myChat={true} />
-      <Chat myChat={false} />
-      <Chat myChat={true} />
-    </div>
+    <ChatsWrapper>
+      {/* {messages.map((m) => {
+        const isMyChat = m.senderId === userInfo.id;
+        return (
+          <Chat
+            key={m.sendTime}
+            myChat={isMyChat}
+            name={m.senderName}
+            message={m.content}
+          />
+        );
+      })} */}
+    </ChatsWrapper>
   );
 }
 
 export default Chats;
+
+const ChatsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  padding: 16px;
+`;

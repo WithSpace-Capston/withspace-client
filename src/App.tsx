@@ -18,9 +18,12 @@ function App() {
           <Route path="/space/:id" element={<Main space="space" />} />
           <Route path="/calendar/:id" element={<Main space="calendar" />} />
           <Route path="/AddCategory" element={<AddCategory />} />
+          <Route path="/space/:pageId" element={<Main space="space" />} />
+          <Route
+            path="/schedule/:scheduleId"
+            element={<Main space="schedule" />}
+          />
         </Routes>
-        {/* Chatting 라우팅은 일단 나중에 생각하기 */}
-        {/* <Chatting /> */}
       </div>
     </BrowserRouter>
   );

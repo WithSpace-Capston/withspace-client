@@ -1,23 +1,40 @@
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
 import { Form, InputGroup, Button } from "react-bootstrap";
+import styled from "styled-components";
+import axios from "axios";
 
-import "./InputChat.css";
+import { userInfoState } from "../../contexts/UserInfoState";
 
 function InputChat() {
+  const userInfo = useRecoilValue(userInfoState);
   const [message, setMessage] = useState("");
 
   const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const sendMessageHandler = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
+
+    // const token = localStorage.getItem("withspace_token");
+    // const response = await axios.post(
+    //   `/chat/${userInfo.activeChattingRoomId}/message`,
+    //   {
+    //     content: message,
+    //   },
+    //   { headers: { "JWT-Authorization": `Bearer ${token}` } }
+    // );
+    // console.log(response);
+
     setMessage("");
   };
 
   return (
-    <div className="chat-input-form">
-      <Form onSubmit={handleSubmit}>
+    <ChatInputForm>
+      <Form onSubmit={sendMessageHandler}>
         <InputGroup>
           <Form.Control
             type="text"
@@ -30,8 +47,12 @@ function InputChat() {
           </Button>
         </InputGroup>
       </Form>
-    </div>
+    </ChatInputForm>
   );
 }
 
 export default InputChat;
+
+const ChatInputForm = styled.div`
+  margin: 16px;
+`;

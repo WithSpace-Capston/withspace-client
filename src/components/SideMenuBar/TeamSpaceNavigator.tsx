@@ -1,45 +1,171 @@
+import { useState, useEffect } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { Accordion } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { MdOutlineAddBox } from "react-icons/md";
+import axios from "axios";
 
-import { useTeamDispatch } from "../../contexts/TeamContext";
+import { userInfoState } from "../../contexts/UserInfoState";
+import { uiState } from "../../contexts/UIState";
+import { NestedAccordionBody, CustomH5, EndPointCustomH5 } from "./SideMenuBar";
 
 type TeamSpaceNavigatorType = {
   teamId: number;
   teamName: String;
 };
 
+type PageListType = {
+  spaceId: number;
+  pageList: { pageId: number; parentId: number | null; title: string }[];
+};
+
+type ChatroomInfoType = {
+  chatRoomId: number;
+  id: number;
+}[];
+
 function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
   const navigate = useNavigate();
-  const teamDispatch = useTeamDispatch();
+  const params = useParams();
 
-  const testSpaceToWorkspaceHandler = () => {
-    teamDispatch({ type: "TO_OTHER_TEAM" });
-    navigate(`/${props.teamId}/space`);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const setUiInfo = useSetRecoilState(uiState);
+  const [pageListInfo, setPageListInfo] = useState<PageListType | undefined>();
+
+  useEffect(() => {
+    const fetchTeamSpace = async () => {
+      const token = localStorage.getItem("withspace_token");
+      const response = await axios.get(`/team/${props.teamId}/space`, {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      });
+      const pageList = response.data.data;
+      setPageListInfo(pageList);
+    };
+
+    fetchTeamSpace();
+  }, [props.teamId]);
+
+  const addNewPageHandler = async () => {
+    const token = localStorage.getItem("withspace_token");
+
+    const fetchTeamSpaceRes = await axios.get(`/team/${props.teamId}/space`, {
+      headers: { "JWT-Authorization": `Bearer ${token}` },
+    });
+    const spaceId = fetchTeamSpaceRes.data.data.spaceId;
+
+    const addNewPageRes = await axios.post(
+      `/space/${spaceId}/page`,
+      {
+        title: "새로운 페이지",
+      },
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
+    );
+    const createdPageId = addNewPageRes.data.data.pageId;
+
+    navigate(`/space/${createdPageId}`);
+    window.location.reload();
   };
 
-  const testSpaceToCalendarHandler = () => {
-    teamDispatch({ type: "TO_OTHER_TEAM" });
-    navigate(`/${props.teamId}/calendar`);
+  const quitTeamHandler = async () => {
+    console.log("quitTeamHandler test");
+
+    const token = localStorage.getItem("withspace_token");
+
+    await axios.delete(`/team/${props.teamId}`, {
+      headers: { "JWT-Authorization": `Bearer ${token}` },
+    });
+
+    const fetchUserInfoRes = await axios.get(`/member/${userInfo.id}`, {
+      headers: { "JWT-Authorization": `Bearer ${token}` },
+    });
+    setUserInfo({ ...userInfo, teamList: fetchUserInfoRes.data.data.teamList });
+    navigate(`/space/${userInfo.defaultPageId}`);
+    window.location.reload();
+  };
+
+  const openChattingRoomHandler = async () => {
+    const token = localStorage.getItem("withspace_token");
+
+    const response = await axios.get(`/member/${userInfo.id}/chatrooms`, {
+      headers: { "JWT-Authorization": `Bearer ${token}` },
+    });
+    console.log(response.data.data);
+    const chatRoomInfoList: ChatroomInfoType = response.data.data;
+    const roomId = chatRoomInfoList.filter((room) => {
+      if (room.id === props.teamId) return room.id;
+    })[0].chatRoomId;
+
+    setUiInfo({ isChatting: true });
+    setUserInfo({ ...userInfo, activeChattingRoomId: roomId });
   };
 
   return (
     <Accordion.Item eventKey={`${props.teamId}`}>
       <Accordion.Header>
-        <h6>{props.teamName} Space</h6>
+        <CustomH5>{props.teamName} Space</CustomH5>
       </Accordion.Header>
-      <Accordion.Body>
+      <NestedAccordionBody>
         <Accordion alwaysOpen flush>
           <Accordion.Item eventKey={`${props.teamId} workspace`}>
-            <h5 onClick={testSpaceToWorkspaceHandler}>작업공간</h5>
+            <Accordion alwaysOpen flush>
+              <Accordion.Header>
+                <CustomH5>작업공간</CustomH5>
+              </Accordion.Header>
+              <NestedAccordionBody>
+                {pageListInfo?.pageList.map((page) => {
+                  if (page.parentId === null) {
+                    return (
+                      <EndPointCustomH5
+                        key={page.pageId}
+                        className="page-item"
+                        $active={params.pageId === page.pageId.toString()}
+                        onClick={() => {
+                          setUserInfo({
+                            ...userInfo,
+                            inPersonal: false,
+                            activeTeamId: props.teamId,
+                          });
+                          navigate(`/space/${page.pageId}`);
+                        }}
+                      >
+                        {page.title}
+                      </EndPointCustomH5>
+                    );
+                  }
+                })}
+                <EndPointCustomH5 $active={false} onClick={addNewPageHandler}>
+                  <MdOutlineAddBox /> Add Page
+                </EndPointCustomH5>
+              </NestedAccordionBody>
+            </Accordion>
           </Accordion.Item>
           <Accordion.Item eventKey={`${props.teamId} schedule`}>
-            <h5 onClick={testSpaceToCalendarHandler}>스케줄</h5>
+            <EndPointCustomH5
+              $active={false}
+              onClick={() => {
+                setUserInfo({
+                  ...userInfo,
+                  inPersonal: false,
+                  activeTeamId: props.teamId,
+                });
+                navigate(`/schedule/${pageListInfo?.spaceId}`);
+              }}
+            >
+              스케줄
+            </EndPointCustomH5>
           </Accordion.Item>
           <Accordion.Item eventKey={`${props.teamId} chatting`}>
-            <h5>단체채팅</h5>
+            <EndPointCustomH5 $active={false} onClick={openChattingRoomHandler}>
+              단체채팅
+            </EndPointCustomH5>
+          </Accordion.Item>
+          <Accordion.Item eventKey={`${props.teamId} quit`}>
+            <EndPointCustomH5 $active={false} onClick={quitTeamHandler}>
+              팀 탈퇴
+            </EndPointCustomH5>
           </Accordion.Item>
         </Accordion>
-      </Accordion.Body>
+      </NestedAccordionBody>
     </Accordion.Item>
   );
 }

@@ -1,56 +1,39 @@
-import { useRef } from "react";
-import { Editor } from "@toast-ui/react-editor";
+import { useState, useEffect } from "react";
+import { useSetRecoilState } from "recoil";
+import { useParams } from "react-router-dom";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { VscNewFile } from "react-icons/vsc";
+import axios from "axios";
 
-import { useWorkspaceDispatch } from "../../contexts/WorkspaceContext";
+import WorkspaceBreadcrumb from "./SpaceBreadcrumb";
+import WorkspaceTitle from "./WorkspaceTitle";
+import WorkspaceEditor from "./WorkspaceEditor";
+import { spaceState } from "./recoil/SpaceState";
 
 function Workspace() {
-  const workspaceDispatch = useWorkspaceDispatch();
+  const params = useParams();
 
-  const workspaceRef = useRef<Editor>(null);
+  const setSpace = useSetRecoilState(spaceState);
+  const [content, setContent] = useState("");
 
-  const createNewPageButton = () => {
-    const button = document.createElement("button");
+  useEffect(() => {
+    const fetchInitialContent = async () => {
+      const token = localStorage.getItem("withspace_token");
+      const response = await axios.get(`/page/${params.pageId}`, {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      });
+      const { pageTitle, content } = response.data;
+      setContent(content);
+      setSpace({ title: pageTitle, content: content });
+    };
 
-    button.className = "toastui-editor-toolbar-icons";
-    button.style.backgroundImage = "none";
-    button.style.margin = "0";
-    button.style.width = "100px";
-    button.innerHTML = "New Page";
-    button.addEventListener("click", () => {
-      console.log("button click test!");
-    });
-
-    return button;
-  };
-
-  const changeWorkspaceTextHandler = () => {
-    const md = workspaceRef.current?.getInstance().getMarkdown();
-    workspaceDispatch({ type: "UPDATE_MD", md: md });
-  };
+    fetchInitialContent();
+  }, [params.pageId, setSpace]);
 
   return (
     <div id="editor">
-      <Editor
-        ref={workspaceRef}
-        height={window.innerHeight - 55 + "px"}
-        previewStyle="vertical"
-        onChange={changeWorkspaceTextHandler}
-        toolbarItems={[
-          ["heading", "bold", "italic", "strike"],
-          ["hr", "quote"],
-          ["ul", "ol", "task", "indent", "outdent"],
-          ["table", "image", "link"],
-          ["code", "codeblock"],
-          [
-            {
-              el: createNewPageButton(),
-              name: "test test",
-            },
-          ],
-        ]}
-      />
+      <WorkspaceBreadcrumb />
+      <WorkspaceTitle />
+      <WorkspaceEditor content={content} />
     </div>
   );
 }

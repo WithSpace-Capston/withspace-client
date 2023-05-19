@@ -1,13 +1,18 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useRecoilValue } from "recoil";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import { BsFillPeopleFill } from "react-icons/bs";
+import { GrFormRefresh } from "react-icons/gr";
+import styled from "styled-components";
+import axios from "axios";
 
 import Member from "./Member";
-import { useTeamState, useTeamDispatch } from "../../../contexts/TeamContext";
+import AddNewFriendButton from "./AddNewFriendButton";
+import { MenuButton } from "../TopMenuBar";
+import { userInfoState } from "../../../contexts/UserInfoState";
+import { useTeamState } from "../../../contexts/TeamContext";
 
-type FriendInfoType = {
+export type FriendInfoType = {
   id: number;
   name: string;
   status: boolean;
@@ -20,52 +25,91 @@ type TeamMemberInfoType = {
 }[];
 
 function Members() {
-  const params = useParams();
   const teamState = useTeamState();
-  const teamDispatch = useTeamDispatch();
 
+  const userInfo = useRecoilValue(userInfoState);
   const [friendInfo, setFriendInfo] = useState<FriendInfoType | undefined>();
   const [teamMemberInfo, setTeamMemberInfo] = useState<
     TeamMemberInfoType | undefined
   >();
 
   useEffect(() => {
+    const token = localStorage.getItem("withspace_token");
+
     // Personal Space에 있을 때는 유저의 친구 fetch
-    if (teamState.isPersonal) {
-      const fetchFriendInfoApi = `http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com/member/${params.id}`;
+    if (userInfo.inPersonal && !userInfo.activeTeamId) {
       const fetchFriendInfo = async () => {
-        const response = await axios.get(fetchFriendInfoApi);
-        const friendInfo = response.data.data.friendList.friendList;
-        setFriendInfo(friendInfo);
+        const response = await axios.get(`/${userInfo.id}/friend`, {
+          headers: { "JWT-Authorization": `Bearer ${token}` },
+        });
+        const friendList: FriendInfoType = response.data.data;
+        setFriendInfo(friendList);
       };
       fetchFriendInfo();
     }
 
     // Team Space에 있을 때는 팀 멤버 fetch
-    if (!teamState.isPersonal) {
-      const fetchTeamMemberInfoApi = `http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com/team/${params.id}`;
+    if (!userInfo.inPersonal && userInfo.activeTeamId) {
       const fetchTeamMemberInfo = async () => {
-        const response = await axios.get(fetchTeamMemberInfoApi);
-        const memberInfo = response.data.data.memberTeamList;
-        setTeamMemberInfo(memberInfo);
+        const response = await axios.get(`/team/${userInfo.activeTeamId}`, {
+          headers: { "JWT-Authorization": `Bearer ${token}` },
+        });
+        const memberList: TeamMemberInfoType =
+          response.data.data.memberTeamList;
+        setTeamMemberInfo(memberList);
       };
       fetchTeamMemberInfo();
     }
-  }, [params.id, teamState.isPersonal, teamDispatch]);
+  }, [userInfo]);
+
+  const refreshFriendList = async () => {
+    const token = localStorage.getItem("withspace_token");
+
+    // Personal Space에 있을 때는 유저의 친구 fetch
+    if (userInfo.inPersonal && !userInfo.activeTeamId) {
+      const fetchFriendInfo = async () => {
+        const response = await axios.get(`/${userInfo.id}/friend`, {
+          headers: { "JWT-Authorization": `Bearer ${token}` },
+        });
+        const friendList: FriendInfoType = response.data.data;
+        setFriendInfo(friendList);
+      };
+      fetchFriendInfo();
+    }
+
+    // Team Space에 있을 때는 팀 멤버 fetch
+    if (!userInfo.inPersonal && userInfo.activeTeamId) {
+      const fetchTeamMemberInfo = async () => {
+        const response = await axios.get(`/team/${userInfo.activeTeamId}`, {
+          headers: { "JWT-Authorization": `Bearer ${token}` },
+        });
+        const memberList: TeamMemberInfoType =
+          response.data.data.memberTeamList;
+        setTeamMemberInfo(memberList);
+      };
+      fetchTeamMemberInfo();
+    }
+  };
 
   return (
     <OverlayTrigger
-      trigger="click"
       placement="bottom"
+      trigger="click"
       overlay={
-        <Popover>
+        <CustomPopver>
+          <PopoverHeader>
+            <span>친구 목록</span>
+            <RefreshIcon fontSize="25px" onClick={refreshFriendList} />
+          </PopoverHeader>
           {teamState.isPersonal &&
             friendInfo?.map((friend) => {
               return (
                 <Member
                   key={`${friend.id}`}
+                  memberId={friend.id}
                   memberName={friend.name}
                   status={friend.status}
+                  isFriend={true}
                 />
               );
             })}
@@ -74,19 +118,39 @@ function Members() {
               return (
                 <Member
                   key={`${member.userId}`}
+                  memberId={member.userId}
                   memberName={member.memberName}
                   status={member.status}
+                  isFriend={false}
                 />
               );
             })}
-        </Popover>
+          {teamState.isPersonal && <AddNewFriendButton friends={friendInfo} />}
+        </CustomPopver>
       }
     >
-      <h3>
+      <MenuButton>
         <BsFillPeopleFill /> 멤버
-      </h3>
+      </MenuButton>
     </OverlayTrigger>
   );
 }
 
 export default Members;
+
+const CustomPopver = styled(Popover)`
+  position: relative;
+  z-index: 0;
+  min-width: 200px;
+`;
+
+const PopoverHeader = styled(Popover.Header)`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const RefreshIcon = styled(GrFormRefresh)`
+  &:hover {
+    cursor: pointer;
+  }
+`;

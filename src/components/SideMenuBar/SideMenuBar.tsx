@@ -1,49 +1,30 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useRecoilValue } from "recoil";
 import { Accordion } from "react-bootstrap";
+import styled from "styled-components";
 
-import "./SideMenuBar.css";
 import UserName from "./UserName";
 import PersonalSpaceNavigator from "./PersonalSpaceNavigator";
 import TeamSpaceNavigator from "./TeamSpaceNavigator";
-
-type UserInfoType = {
-  id: number;
-  memberName: string;
-  teamList: { teamId: number; teamName: string }[];
-};
+import CreateTeamButton from "./CreateTeamButton";
+import JoinTeamButton from "./JoinTeamButton";
+import { userInfoState } from "../../contexts/UserInfoState";
 
 function SideMenuBar() {
-  const params = useParams();
-
-  const [userInfo, setUserInfo] = useState<UserInfoType | undefined>();
-
-  useEffect(() => {
-    const fetchUserInfoApi = `http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com/member/${params.id}`;
-    const fetchUserInfo = async () => {
-      const response = await axios.get(fetchUserInfoApi);
-      const userInfo = response.data.data;
-      setUserInfo(userInfo);
-    };
-
-    fetchUserInfo();
-  }, [params.id]);
+  const userInfo = useRecoilValue(userInfoState);
 
   return (
-    <div className="side-menu-bar">
-      <UserName name={userInfo?.memberName} />
+    <SideMenuBarWrapper>
+      <UserName name={userInfo.name} />
       <Accordion alwaysOpen flush>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
-            <h6>Personal Space</h6>
+            <CustomH5>Personal Space</CustomH5>
           </Accordion.Header>
-          <Accordion.Body>
-            {/* 나중에 유저 아이디 props로 넘겨서 처리하기 */}
-            <PersonalSpaceNavigator userId={userInfo?.id} />
-          </Accordion.Body>
+          <NestedAccordionBody>
+            <PersonalSpaceNavigator userId={userInfo.id} />
+          </NestedAccordionBody>
         </Accordion.Item>
-        {userInfo?.teamList.map((team) => {
+        {userInfo.teamList.map((team) => {
           return (
             <TeamSpaceNavigator
               key={team.teamId}
@@ -52,9 +33,40 @@ function SideMenuBar() {
             />
           );
         })}
+        <CreateTeamButton />
+        <JoinTeamButton />
       </Accordion>
-    </div>
+    </SideMenuBarWrapper>
   );
 }
 
 export default SideMenuBar;
+
+const SideMenuBarWrapper = styled.div`
+  background-color: #f7f7f5;
+`;
+
+export const CustomH5 = styled.h5`
+  margin: 0;
+`;
+
+export const EndPointCustomH5 = styled.h5<{ $active: boolean }>`
+  margin: 0;
+  padding: 16px 20px;
+
+  background-color: ${(props) => (props.$active ? "whitesmoke" : "white")};
+
+  &:hover {
+    background-color: whitesmoke;
+    transition: 0.5s;
+    cursor: pointer;
+  }
+`;
+
+export const NestedAccordionBody = styled(Accordion.Body)`
+  padding: 0 0 0 25px;
+`;
+
+export const NestedAccordionItem = styled(Accordion.Item)`
+  padding: 0;
+`;

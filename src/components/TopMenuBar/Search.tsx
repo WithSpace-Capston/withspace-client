@@ -1,6 +1,8 @@
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import { AiOutlineSearch } from "react-icons/ai";
 
+import { MenuButton } from "./TopMenuBar";
+
 function Search() {
   return (
     <OverlayTrigger
@@ -12,9 +14,9 @@ function Search() {
         </Popover>
       }
     >
-      <h3>
+      <MenuButton>
         <AiOutlineSearch /> 검색
-      </h3>
+      </MenuButton>
     </OverlayTrigger>
   );
 }

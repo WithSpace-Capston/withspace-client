@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -10,30 +10,17 @@ function CreateAccount() {
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    const test = async () => {
-      const response = await axios.get(
-        "http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com/member/1"
-      );
-      console.log(response);
-    };
-    test();
-  }, []);
-
   const submitHandler = async (
     email: string,
     password: string,
     username: string
   ) => {
     try {
-      const response = await axios.post(
-        "http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com/member",
-        {
-          email: email,
-          password: password,
-          memberName: username,
-        }
-      );
+      const response = await axios.post("/member", {
+        email: email,
+        password: password,
+        memberName: username,
+      });
 
       const status = response.status;
       const message = response.data.message;

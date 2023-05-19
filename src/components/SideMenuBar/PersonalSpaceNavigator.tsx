@@ -1,47 +1,112 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { useNavigate, useParams } from "react-router-dom";
 import { Accordion } from "react-bootstrap";
+import { MdOutlineAddBox } from "react-icons/md";
+import axios from "axios";
 
-import { useTeamDispatch } from "../../contexts/TeamContext";
+import {
+  NestedAccordionBody,
+  NestedAccordionItem,
+  CustomH5,
+  EndPointCustomH5,
+} from "./SideMenuBar";
+import { userInfoState } from "../../contexts/UserInfoState";
 
 type PersonalSpaceNavigatorType = {
   userId: number | undefined;
 };
 
+type PageListType = {
+  spaceId: number;
+  pageList: { pageId: number; parentId: number | null; title: string }[];
+};
+
 function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
   const navigate = useNavigate();
-  const teamDispatch = useTeamDispatch();
+  const params = useParams();
+
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [pageListInfo, setPageListInfo] = useState<PageListType | undefined>();
 
   useEffect(() => {
-    const fetchPersonalPageInfoApi = `http://ec2-3-35-150-39.ap-northeast-2.compute.amazonaws.com/member/${props.userId}/space`;
-    const fetchPersonPageInfo = async () => {
-      const response = await axios.get(fetchPersonalPageInfoApi);
+    const fetchPersonalSpace = async () => {
+      const token = localStorage.getItem("withspace_token");
+      const response = await axios.get(`/member/${props.userId}/space`, {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      });
       const pageList = response.data.data;
-      console.log(pageList);
+      setPageListInfo(pageList);
     };
 
-    fetchPersonPageInfo();
+    fetchPersonalSpace();
   }, [props.userId]);
 
-  const testSpaceToWorkspaceHandler = () => {
-    teamDispatch({ type: "TO_PERSONAL" });
-    navigate(`/space/8`);
-  };
+  const addNewPage = async () => {
+    const token = localStorage.getItem("withspace_token");
 
-  const testSpaceToCalendarHandler = () => {
-    teamDispatch({ type: "TO_PERSONAL" });
-    navigate(`/calendar/8`);
+    const userInfoFetchRes = await axios.get(`/member/${userInfo.id}/space`, {
+      headers: { "JWT-Authorization": `Bearer ${token}` },
+    });
+    const spaceId = userInfoFetchRes.data.data.spaceId;
+
+    const addPageRes = await axios.post(
+      `/space/${spaceId}/page`,
+      {
+        title: "새로운 페이지",
+      },
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
+    );
+
+    navigate(`/space/${addPageRes.data.data.pageId}`);
   };
 
   return (
     <>
       <Accordion.Item eventKey="0">
-        <h5 onClick={testSpaceToWorkspaceHandler}>작업공간</h5>
+        <Accordion alwaysOpen flush>
+          <Accordion.Header>
+            <CustomH5>작업공간</CustomH5>
+          </Accordion.Header>
+          <NestedAccordionBody>
+            {pageListInfo?.pageList.map((page) => {
+              if (page.parentId === null) {
+                return (
+                  <EndPointCustomH5
+                    $active={params.pageId === page.pageId.toString()}
+                    key={page.pageId}
+                    className="page-item"
+                    onClick={() => {
+                      setUserInfo({
+                        ...userInfo,
+                        inPersonal: true,
+                        activeTeamId: null,
+                      });
+                      navigate(`/space/${page.pageId}`);
+                    }}
+                  >
+                    {page.title}
+                  </EndPointCustomH5>
+                );
+              }
+            })}
+            <EndPointCustomH5 $active={false} onClick={addNewPage}>
+              <MdOutlineAddBox /> Add Page
+            </EndPointCustomH5>
+          </NestedAccordionBody>
+        </Accordion>
       </Accordion.Item>
-      <Accordion.Item eventKey="1">
-        <h5 onClick={testSpaceToCalendarHandler}>스케줄</h5>
-      </Accordion.Item>
+      <NestedAccordionItem eventKey="1">
+        <EndPointCustomH5
+          $active={false}
+          onClick={() => {
+            setUserInfo({ ...userInfo, inPersonal: true, activeTeamId: null });
+            navigate(`/schedule/${pageListInfo?.spaceId}`);
+          }}
+        >
+          스케줄
+        </EndPointCustomH5>
+      </NestedAccordionItem>
     </>
   );
 }
