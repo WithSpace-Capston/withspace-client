@@ -38,7 +38,6 @@ function Login() {
   });
 
   const processingLogin = async () => {
-    console.log("processingLogin()");
     const token = localStorage.getItem("withspace_token");
 
     const userInfoResponse = await axios.get(`/member`, {
@@ -55,15 +54,22 @@ function Login() {
       activeTeamId: null,
     });
 
-    const pageInfoResponse = await axios.get(`/member/${userInfo.id}/space`, {
+    const pageInfoResponse = await axios.get(`/member/${userId}/space`, {
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
 
     const pageInfo = pageInfoResponse.data.data;
     const pageId = pageInfo.pageList[0].pageId;
 
-    setUserInfo({ ...userInfo, defaultPageId: pageId });
-    navigate(`/space/${userInfo.defaultPageId}`);
+    setUserInfo({
+      ...userInfo,
+      id: userId,
+      logined: true,
+      inPersonal: true,
+      activeTeamId: null,
+      defaultPageId: pageId,
+    });
+    navigate(`/space/${pageId}`);
     return;
   };
 
