@@ -32,7 +32,9 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("withspace_token")) {
+    const token = localStorage.getItem("withspace_token");
+    const now = Math.floor(new Date().getTime() / 1000);
+    if (token && parseJwt(token).exp > now) {
       processingLogin();
     }
   });
