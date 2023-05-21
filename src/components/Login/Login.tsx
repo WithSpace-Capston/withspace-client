@@ -38,7 +38,6 @@ function Login() {
   });
 
   const processingLogin = async () => {
-    console.log("processingLogin()");
     const token = localStorage.getItem("withspace_token");
 
     const userInfoResponse = await axios.get(`/member`, {
@@ -62,8 +61,15 @@ function Login() {
     const pageInfo = pageInfoResponse.data.data;
     const pageId = pageInfo.pageList[0].pageId;
 
-    setUserInfo({ ...userInfo, defaultPageId: pageId });
-    navigate(`/space/${userInfo.defaultPageId}`);
+    setUserInfo({
+      ...userInfo,
+      id: userId,
+      logined: true,
+      inPersonal: true,
+      activeTeamId: null,
+      defaultPageId: pageId,
+    });
+    navigate(`/space/${pageId}`);
     return;
   };
 

@@ -11,7 +11,7 @@ function ETCMenu() {
 
   const logoutHandler = async () => {
     const token = localStorage.getItem("withspace_token");
-    const response = await axios.post(
+    await axios.post(
       `/logout`,
       {},
       {
@@ -20,7 +20,6 @@ function ETCMenu() {
         },
       }
     );
-    console.log(response);
     localStorage.removeItem("withspace_token");
     navigate("/login");
   };
