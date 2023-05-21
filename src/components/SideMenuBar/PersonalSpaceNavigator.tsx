@@ -28,6 +28,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
 
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [pageListInfo, setPageListInfo] = useState<PageListType | undefined>();
+  const [mostParentPageId, setMostParentPageId] = useState(-1);
 
   useEffect(() => {
     const fetchPersonalSpace = async () => {
@@ -39,8 +40,17 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
       setPageListInfo(pageList);
     };
 
+    const fetchMostParentPageId = async () => {
+      const token = localStorage.getItem("withspace_token");
+      const response = await axios.get(`/page/${params.pageId}/hierarchy`, {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      });
+      setMostParentPageId(response.data[0].pageId);
+    };
+
     fetchPersonalSpace();
-  }, [props.userId]);
+    fetchMostParentPageId();
+  }, [props.userId, params.pageId]);
 
   const addNewPage = async () => {
     const token = localStorage.getItem("withspace_token");
@@ -73,7 +83,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
               if (page.parentId === null) {
                 return (
                   <EndPointCustomH5
-                    $active={params.pageId === page.pageId.toString()}
+                    $active={mostParentPageId === page.pageId}
                     key={page.pageId}
                     className="page-item"
                     onClick={() => {
