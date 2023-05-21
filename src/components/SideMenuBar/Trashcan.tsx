@@ -25,17 +25,24 @@ function Trashcan(props: TrashcanProps) {
 
   useEffect(() => {
     const fetchPageList = async () => {
-      const token = localStorage.getItem("withspace_token");
+      try {
+        const token = localStorage.getItem("withspace_token");
 
-      const fetchSpaceIdRes = await axios.get(`/member/${userInfo.id}/space`, {
-        headers: { "JWT-Authorization": `Bearer ${token}` },
-      });
-      const spaceId = fetchSpaceIdRes.data.data.spaceId;
+        const fetchSpaceIdRes = await axios.get(
+          `/member/${userInfo.id}/space`,
+          {
+            headers: { "JWT-Authorization": `Bearer ${token}` },
+          }
+        );
+        const spaceId = fetchSpaceIdRes.data.data.spaceId;
 
-      const fetchPageInfoRes = await axios.get(`/space/${spaceId}/trashcan`, {
-        headers: { "JWT-Authorization": `Bearer ${token}` },
-      });
-      setPageList(fetchPageInfoRes.data);
+        const fetchPageInfoRes = await axios.get(`/space/${spaceId}/trashcan`, {
+          headers: { "JWT-Authorization": `Bearer ${token}` },
+        });
+        setPageList(fetchPageInfoRes.data);
+      } catch (err: any) {
+        console.log(err);
+      }
     };
 
     fetchPageList();

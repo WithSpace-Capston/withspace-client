@@ -39,11 +39,15 @@ function Members() {
     // Personal Space에 있을 때는 유저의 친구 fetch
     if (userInfo.inPersonal && !userInfo.activeTeamId) {
       const fetchFriendInfo = async () => {
-        const response = await axios.get(`/${userInfo.id}/friend`, {
-          headers: { "JWT-Authorization": `Bearer ${token}` },
-        });
-        const friendList: FriendInfoType = response.data.data;
-        setFriendInfo(friendList);
+        try {
+          const response = await axios.get(`/${userInfo.id}/friend`, {
+            headers: { "JWT-Authorization": `Bearer ${token}` },
+          });
+          const friendList: FriendInfoType = response.data.data;
+          setFriendInfo(friendList);
+        } catch (err: any) {
+          console.log(err);
+        }
       };
       fetchFriendInfo();
     }

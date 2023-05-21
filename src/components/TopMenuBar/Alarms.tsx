@@ -17,12 +17,16 @@ function Alarms() {
 
   useEffect(() => {
     const fetchFriendRequest = async () => {
-      const token = localStorage.getItem("withspace_token");
-      const response = await axios.get(`/${userInfo.id}/friendReceive`, {
-        headers: { "JWT-Authorization": `Bearer ${token}` },
-      });
-      console.log(response);
-      setFriendRequestList(response.data.data);
+      try {
+        const token = localStorage.getItem("withspace_token");
+        const response = await axios.get(`/${userInfo.id}/friendReceive`, {
+          headers: { "JWT-Authorization": `Bearer ${token}` },
+        });
+        console.log(response);
+        setFriendRequestList(response.data.data);
+      } catch (err: any) {
+        console.log(err);
+      }
     };
 
     fetchFriendRequest();

@@ -34,12 +34,16 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
 
   useEffect(() => {
     const fetchTeamSpace = async () => {
-      const token = localStorage.getItem("withspace_token");
-      const response = await axios.get(`/team/${props.teamId}/space`, {
-        headers: { "JWT-Authorization": `Bearer ${token}` },
-      });
-      const pageList = response.data.data;
-      setPageListInfo(pageList);
+      try {
+        const token = localStorage.getItem("withspace_token");
+        const response = await axios.get(`/team/${props.teamId}/space`, {
+          headers: { "JWT-Authorization": `Bearer ${token}` },
+        });
+        const pageList = response.data.data;
+        setPageListInfo(pageList);
+      } catch (err: any) {
+        console.log(err);
+      }
     };
 
     fetchTeamSpace();

@@ -34,20 +34,28 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
 
   useEffect(() => {
     const fetchPersonalSpace = async () => {
-      const token = localStorage.getItem("withspace_token");
-      const response = await axios.get(`/member/${props.userId}/space`, {
-        headers: { "JWT-Authorization": `Bearer ${token}` },
-      });
-      const pageList = response.data.data;
-      setPageListInfo(pageList);
+      try {
+        const token = localStorage.getItem("withspace_token");
+        const response = await axios.get(`/member/${props.userId}/space`, {
+          headers: { "JWT-Authorization": `Bearer ${token}` },
+        });
+        const pageList = response.data.data;
+        setPageListInfo(pageList);
+      } catch (err: any) {
+        console.log(err);
+      }
     };
 
     const fetchMostParentPageId = async () => {
-      const token = localStorage.getItem("withspace_token");
-      const response = await axios.get(`/page/${params.pageId}/hierarchy`, {
-        headers: { "JWT-Authorization": `Bearer ${token}` },
-      });
-      setMostParentPageId(response.data[0].pageId);
+      try {
+        const token = localStorage.getItem("withspace_token");
+        const response = await axios.get(`/page/${params.pageId}/hierarchy`, {
+          headers: { "JWT-Authorization": `Bearer ${token}` },
+        });
+        setMostParentPageId(response.data[0].pageId);
+      } catch (err: any) {
+        console.log(err);
+      }
     };
 
     fetchPersonalSpace();

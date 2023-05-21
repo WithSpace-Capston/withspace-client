@@ -13,11 +13,15 @@ function WorkspaceBreadcrumb() {
 
   useEffect(() => {
     const createPageList = async () => {
-      const token = localStorage.getItem("withspace_token");
-      const response = await axios.get(`/page/${params.pageId}/hierarchy`, {
-        headers: { "JWT-Authorization": `Bearer ${token}` },
-      });
-      setPageList(response.data);
+      try {
+        const token = localStorage.getItem("withspace_token");
+        const response = await axios.get(`/page/${params.pageId}/hierarchy`, {
+          headers: { "JWT-Authorization": `Bearer ${token}` },
+        });
+        setPageList(response.data);
+      } catch (err: any) {
+        console.log(err);
+      }
     };
 
     createPageList();
