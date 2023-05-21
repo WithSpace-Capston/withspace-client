@@ -129,12 +129,17 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
 
   const deletePageHandler = async () => {
     const token = localStorage.getItem("withspace_token");
-    const response = await axios.delete(`/page/${params.pageId}`, {
-      headers: { "JWT-Authorization": `Bearer ${token}` },
-    });
+    const response = await axios.patch(
+      `/page/${params.pageId}/trashcan`,
+      {},
+      {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      }
+    );
     console.log(response);
     deletePageModalClose();
     navigate(`/space/${userInfo.defaultPageId}`);
+    window.location.reload();
   };
 
   return (

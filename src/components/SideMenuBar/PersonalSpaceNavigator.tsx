@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { useNavigate, useParams } from "react-router-dom";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Modal } from "react-bootstrap";
 import { MdOutlineAddBox } from "react-icons/md";
 import axios from "axios";
 
+import Trashcan from "./Trashcan";
 import {
   NestedAccordionBody,
   NestedAccordionItem,
@@ -29,6 +30,7 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [pageListInfo, setPageListInfo] = useState<PageListType | undefined>();
   const [mostParentPageId, setMostParentPageId] = useState(-1);
+  const [trashcanModal, setTrashcanModal] = useState(false);
 
   useEffect(() => {
     const fetchPersonalSpace = async () => {
@@ -116,6 +118,15 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
         >
           스케줄
         </EndPointCustomH5>
+      </NestedAccordionItem>
+      <NestedAccordionItem eventKey="2">
+        <EndPointCustomH5
+          $active={false}
+          onClick={() => setTrashcanModal(true)}
+        >
+          쓰레기통
+        </EndPointCustomH5>
+        <Trashcan show={trashcanModal} setShow={setTrashcanModal} />
       </NestedAccordionItem>
     </>
   );

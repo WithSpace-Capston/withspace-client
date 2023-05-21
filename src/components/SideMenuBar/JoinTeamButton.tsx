@@ -80,7 +80,7 @@ function JoinTeamButton() {
                 return (
                   <TeamCard body key={team.teamId}>
                     <TeamCardContentWrapper>
-                      {team.teamName}
+                      <span className="name">{team.teamName}</span>
                       <Button
                         onClick={async () => {
                           const token = localStorage.getItem("withspace_token");

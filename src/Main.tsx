@@ -31,13 +31,13 @@ function Main(props: MainType) {
       if (token === null) {
         navigate("/login");
         return;
-      } else {
-        const now = Math.floor(new Date().getTime() / 1000);
-        if (parseJwt(token).exp < now) {
-          localStorage.removeItem("withspace_token");
-          navigate("/login");
-          return;
-        }
+      }
+
+      const now = Math.floor(new Date().getTime() / 1000);
+      if (parseJwt(token).exp < now) {
+        localStorage.removeItem("withspace_token");
+        navigate("/login");
+        return;
       }
 
       const memberInfoRes = await axios.get(`/member`, {
