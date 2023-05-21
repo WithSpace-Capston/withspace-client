@@ -96,14 +96,43 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
         `\n[${createdPageTitle}](${window.location.protocol}//${window.location.host}/space/${createdPageId})`
       );
 
+    setSpace({
+      ...space,
+      content:
+        space.content +
+        `\n[${createdPageTitle}](${window.location.protocol}//${window.location.host}/space/${createdPageId})`,
+    });
+
     insertPageModalClose();
+
+    console.log(space.title);
+    console.log(workspaceRef.current?.getInstance().getMarkdown());
+
+    await axios.patch(
+      `/page/${params.pageId}/title`,
+      {
+        title: space.title,
+      },
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
+    );
+
+    await axios.patch(
+      `/page/${params.pageId}/content`,
+      {
+        content: workspaceRef.current?.getInstance().getMarkdown(),
+      },
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
+    );
+
+    window.location.reload();
   };
 
   const deletePageHandler = async () => {
     const token = localStorage.getItem("withspace_token");
-    await axios.delete(`/page/${params.pageId}`, {
+    const response = await axios.delete(`/page/${params.pageId}`, {
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
+    console.log(response);
     deletePageModalClose();
     navigate(`/space/${userInfo.defaultPageId}`);
   };
