@@ -6,13 +6,15 @@ import axios from "axios";
 
 import { MenuButton } from "./TopMenuBar";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 function ETCMenu() {
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
     const token = localStorage.getItem("withspace_token");
     await axios.post(
-      `/logout`,
+      `${PROXY}/logout`,
       {},
       {
         headers: {

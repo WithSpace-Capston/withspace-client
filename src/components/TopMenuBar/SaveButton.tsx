@@ -6,6 +6,8 @@ import styled from "styled-components";
 
 import { spaceState, spaceEditedState } from "../Workspace/recoil/SpaceState";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 function SaveButton() {
   const params = useParams();
 
@@ -17,7 +19,7 @@ function SaveButton() {
 
     // Title Upload Function
     await axios.patch(
-      `/page/${params.pageId}/title`,
+      `${PROXY}/page/${params.pageId}/title`,
       {
         title: space.title,
       },
@@ -26,7 +28,7 @@ function SaveButton() {
 
     // Content Upload Function
     await axios.patch(
-      `/page/${params.pageId}/content`,
+      `${PROXY}/page/${params.pageId}/content`,
       {
         content: space.content,
       },

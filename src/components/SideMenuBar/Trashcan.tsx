@@ -7,6 +7,8 @@ import axios from "axios";
 
 import { userInfoState } from "../../contexts/UserInfoState";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 type TrashcanProps = {
   show: boolean;
   setShow: (s: boolean) => void;
@@ -29,16 +31,19 @@ function Trashcan(props: TrashcanProps) {
         const token = localStorage.getItem("withspace_token");
 
         const fetchSpaceIdRes = await axios.get(
-          `/member/${userInfo.id}/space`,
+          `${PROXY}/member/${userInfo.id}/space`,
           {
             headers: { "JWT-Authorization": `Bearer ${token}` },
           }
         );
         const spaceId = fetchSpaceIdRes.data.data.spaceId;
 
-        const fetchPageInfoRes = await axios.get(`/space/${spaceId}/trashcan`, {
-          headers: { "JWT-Authorization": `Bearer ${token}` },
-        });
+        const fetchPageInfoRes = await axios.get(
+          `${PROXY}/space/${spaceId}/trashcan`,
+          {
+            headers: { "JWT-Authorization": `Bearer ${token}` },
+          }
+        );
         setPageList(fetchPageInfoRes.data);
       } catch (err: any) {
         console.log(err);
@@ -51,13 +56,16 @@ function Trashcan(props: TrashcanProps) {
   const restorePage = async (pageId: number) => {
     const token = localStorage.getItem("withspace_token");
 
-    const fetchSpaceIdRes = await axios.get(`/member/${userInfo.id}/space`, {
-      headers: { "JWT-Authorization": `Bearer ${token}` },
-    });
+    const fetchSpaceIdRes = await axios.get(
+      `${PROXY}/member/${userInfo.id}/space`,
+      {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      }
+    );
     const spaceId = fetchSpaceIdRes.data.data.spaceId;
 
     await axios.patch(
-      `/space/${spaceId}/trashcan/${pageId}/restore`,
+      `${PROXY}/space/${spaceId}/trashcan/${pageId}/restore`,
       {},
       {
         headers: { "JWT-Authorization": `Bearer ${token}` },
@@ -70,7 +78,7 @@ function Trashcan(props: TrashcanProps) {
 
   const deletePage = async (pageId: number) => {
     const token = localStorage.getItem("withspace_token");
-    await axios.delete(`/page/${pageId}/trashcan`, {
+    await axios.delete(`${PROXY}/page/${pageId}/trashcan`, {
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
     navigate(`/space/${userInfo.defaultPageId}`);

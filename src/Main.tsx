@@ -17,6 +17,8 @@ type MainType = {
   space: string;
 };
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 function Main(props: MainType) {
   const navigate = useNavigate();
 
@@ -40,14 +42,17 @@ function Main(props: MainType) {
         return;
       }
 
-      const memberInfoRes = await axios.get(`/member`, {
+      const memberInfoRes = await axios.get(`${PROXY}/member`, {
         headers: { "JWT-Authorization": `Bearer ${token}` },
       });
       const userInfo = memberInfoRes.data.data;
 
-      const spaceInfoRes = await axios.get(`/space/${userInfo.spaceId}`, {
-        headers: { "JWT-Authorization": `Bearer ${token}` },
-      });
+      const spaceInfoRes = await axios.get(
+        `${PROXY}/space/${userInfo.spaceId}`,
+        {
+          headers: { "JWT-Authorization": `Bearer ${token}` },
+        }
+      );
       const spaceInfo = spaceInfoRes.data;
       const defaultPageId = spaceInfo.pageList[0].pageId;
 

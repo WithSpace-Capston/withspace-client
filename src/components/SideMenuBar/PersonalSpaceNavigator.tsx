@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { useNavigate, useParams } from "react-router-dom";
-import { Accordion, Modal } from "react-bootstrap";
+import { Accordion } from "react-bootstrap";
 import { MdOutlineAddBox } from "react-icons/md";
 import axios from "axios";
 
@@ -13,6 +13,8 @@ import {
   EndPointCustomH5,
 } from "./SideMenuBar";
 import { userInfoState } from "../../contexts/UserInfoState";
+
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
 
 type PersonalSpaceNavigatorType = {
   userId: number | undefined;
@@ -36,9 +38,12 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
     const fetchPersonalSpace = async () => {
       try {
         const token = localStorage.getItem("withspace_token");
-        const response = await axios.get(`/member/${props.userId}/space`, {
-          headers: { "JWT-Authorization": `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${PROXY}/member/${props.userId}/space`,
+          {
+            headers: { "JWT-Authorization": `Bearer ${token}` },
+          }
+        );
         const pageList = response.data.data;
         setPageListInfo(pageList);
       } catch (err: any) {
@@ -49,9 +54,12 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
     const fetchMostParentPageId = async () => {
       try {
         const token = localStorage.getItem("withspace_token");
-        const response = await axios.get(`/page/${params.pageId}/hierarchy`, {
-          headers: { "JWT-Authorization": `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${PROXY}/page/${params.pageId}/hierarchy`,
+          {
+            headers: { "JWT-Authorization": `Bearer ${token}` },
+          }
+        );
         setMostParentPageId(response.data[0].pageId);
       } catch (err: any) {
         console.log(err);
@@ -65,13 +73,16 @@ function PersonalSpaceNavigator(props: PersonalSpaceNavigatorType) {
   const addNewPage = async () => {
     const token = localStorage.getItem("withspace_token");
 
-    const userInfoFetchRes = await axios.get(`/member/${userInfo.id}/space`, {
-      headers: { "JWT-Authorization": `Bearer ${token}` },
-    });
+    const userInfoFetchRes = await axios.get(
+      `${PROXY}/member/${userInfo.id}/space`,
+      {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      }
+    );
     const spaceId = userInfoFetchRes.data.data.spaceId;
 
     const addPageRes = await axios.post(
-      `/space/${spaceId}/page`,
+      `${PROXY}/space/${spaceId}/page`,
       {
         title: "새로운 페이지",
       },

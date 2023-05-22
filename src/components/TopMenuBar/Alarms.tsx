@@ -9,6 +9,8 @@ import axios from "axios";
 import { MenuButton } from "./TopMenuBar";
 import { userInfoState } from "../../contexts/UserInfoState";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 function Alarms() {
   const userInfo = useRecoilValue(userInfoState);
   const [friendRequestList, setFriendRequestList] = useState<
@@ -19,9 +21,12 @@ function Alarms() {
     const fetchFriendRequest = async () => {
       try {
         const token = localStorage.getItem("withspace_token");
-        const response = await axios.get(`/${userInfo.id}/friendReceive`, {
-          headers: { "JWT-Authorization": `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${PROXY}/${userInfo.id}/friendReceive`,
+          {
+            headers: { "JWT-Authorization": `Bearer ${token}` },
+          }
+        );
         console.log(response);
         setFriendRequestList(response.data.data);
       } catch (err: any) {
@@ -34,7 +39,7 @@ function Alarms() {
 
   const refreshRequestListHandler = async () => {
     const token = localStorage.getItem("withspace_token");
-    const response = await axios.get(`/${userInfo.id}/friendReceive`, {
+    const response = await axios.get(`${PROXY}/${userInfo.id}/friendReceive`, {
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
     setFriendRequestList(response.data.data);
@@ -43,7 +48,7 @@ function Alarms() {
   const acceptFriendHandler = async (id: number) => {
     const token = localStorage.getItem("withspace_token");
     await axios.post(
-      `/${userInfo.id}/friend`,
+      `${PROXY}/${userInfo.id}/friend`,
       {
         friendId: id,
       },
@@ -55,7 +60,7 @@ function Alarms() {
   const denyFriendHandler = async (id: number) => {
     const token = localStorage.getItem("withspace_token");
     await axios.post(
-      `/${userInfo.id}/friend/reject`,
+      `${PROXY}/${userInfo.id}/friend/reject`,
       {
         friendId: id.toString(),
       },

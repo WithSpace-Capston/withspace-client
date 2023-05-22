@@ -9,6 +9,8 @@ import axios from "axios";
 import { EndPointCustomH5 } from "./SideMenuBar";
 import { userInfoState } from "../../contexts/UserInfoState";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 function CreateTeamButton() {
   const navigate = useNavigate();
 
@@ -26,7 +28,7 @@ function CreateTeamButton() {
     const token = localStorage.getItem("withspace_token");
 
     const createTeamRes = await axios.post(
-      `/team`,
+      `${PROXY}/team`,
       {
         memberId: userInfo.id,
         teamName: teamName,
@@ -36,7 +38,7 @@ function CreateTeamButton() {
     const createdTeamId = createTeamRes.data.teamId;
 
     const createdTeamSpaceRes = await axios.get(
-      `/team/${createdTeamId}/space`,
+      `${PROXY}/team/${createdTeamId}/space`,
       {
         headers: { "JWT-Authorization": `Bearer ${token}` },
       }

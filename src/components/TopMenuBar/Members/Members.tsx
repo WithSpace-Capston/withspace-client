@@ -12,6 +12,8 @@ import { MenuButton } from "../TopMenuBar";
 import { userInfoState } from "../../../contexts/UserInfoState";
 import { useTeamState } from "../../../contexts/TeamContext";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 export type FriendInfoType = {
   id: number;
   name: string;
@@ -40,7 +42,7 @@ function Members() {
     if (userInfo.inPersonal && !userInfo.activeTeamId) {
       const fetchFriendInfo = async () => {
         try {
-          const response = await axios.get(`/${userInfo.id}/friend`, {
+          const response = await axios.get(`${PROXY}/${userInfo.id}/friend`, {
             headers: { "JWT-Authorization": `Bearer ${token}` },
           });
           const friendList: FriendInfoType = response.data.data;
@@ -55,9 +57,12 @@ function Members() {
     // Team Space에 있을 때는 팀 멤버 fetch
     if (!userInfo.inPersonal && userInfo.activeTeamId) {
       const fetchTeamMemberInfo = async () => {
-        const response = await axios.get(`/team/${userInfo.activeTeamId}`, {
-          headers: { "JWT-Authorization": `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${PROXY}/team/${userInfo.activeTeamId}`,
+          {
+            headers: { "JWT-Authorization": `Bearer ${token}` },
+          }
+        );
         const memberList: TeamMemberInfoType =
           response.data.data.memberTeamList;
         setTeamMemberInfo(memberList);
@@ -72,7 +77,7 @@ function Members() {
     // Personal Space에 있을 때는 유저의 친구 fetch
     if (userInfo.inPersonal && !userInfo.activeTeamId) {
       const fetchFriendInfo = async () => {
-        const response = await axios.get(`/${userInfo.id}/friend`, {
+        const response = await axios.get(`${PROXY}/${userInfo.id}/friend`, {
           headers: { "JWT-Authorization": `Bearer ${token}` },
         });
         const friendList: FriendInfoType = response.data.data;
@@ -84,9 +89,12 @@ function Members() {
     // Team Space에 있을 때는 팀 멤버 fetch
     if (!userInfo.inPersonal && userInfo.activeTeamId) {
       const fetchTeamMemberInfo = async () => {
-        const response = await axios.get(`/team/${userInfo.activeTeamId}`, {
-          headers: { "JWT-Authorization": `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${PROXY}/team/${userInfo.activeTeamId}`,
+          {
+            headers: { "JWT-Authorization": `Bearer ${token}` },
+          }
+        );
         const memberList: TeamMemberInfoType =
           response.data.data.memberTeamList;
         setTeamMemberInfo(memberList);

@@ -9,6 +9,8 @@ import { userInfoState } from "../../contexts/UserInfoState";
 import { uiState } from "../../contexts/UIState";
 import { NestedAccordionBody, CustomH5, EndPointCustomH5 } from "./SideMenuBar";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 type TeamSpaceNavigatorType = {
   teamId: number;
   teamName: String;
@@ -36,9 +38,12 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
     const fetchTeamSpace = async () => {
       try {
         const token = localStorage.getItem("withspace_token");
-        const response = await axios.get(`/team/${props.teamId}/space`, {
-          headers: { "JWT-Authorization": `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${PROXY}/team/${props.teamId}/space`,
+          {
+            headers: { "JWT-Authorization": `Bearer ${token}` },
+          }
+        );
         const pageList = response.data.data;
         setPageListInfo(pageList);
       } catch (err: any) {
@@ -52,13 +57,16 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
   const addNewPageHandler = async () => {
     const token = localStorage.getItem("withspace_token");
 
-    const fetchTeamSpaceRes = await axios.get(`/team/${props.teamId}/space`, {
-      headers: { "JWT-Authorization": `Bearer ${token}` },
-    });
+    const fetchTeamSpaceRes = await axios.get(
+      `${PROXY}/team/${props.teamId}/space`,
+      {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      }
+    );
     const spaceId = fetchTeamSpaceRes.data.data.spaceId;
 
     const addNewPageRes = await axios.post(
-      `/space/${spaceId}/page`,
+      `${PROXY}/space/${spaceId}/page`,
       {
         title: "새로운 페이지",
       },
@@ -75,11 +83,11 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
 
     const token = localStorage.getItem("withspace_token");
 
-    await axios.delete(`/team/${props.teamId}`, {
+    await axios.delete(`${PROXY}/team/${props.teamId}`, {
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
 
-    const fetchUserInfoRes = await axios.get(`/member/${userInfo.id}`, {
+    const fetchUserInfoRes = await axios.get(`${PROXY}/member/${userInfo.id}`, {
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
     setUserInfo({ ...userInfo, teamList: fetchUserInfoRes.data.data.teamList });
@@ -90,9 +98,12 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
   const openChattingRoomHandler = async () => {
     const token = localStorage.getItem("withspace_token");
 
-    const response = await axios.get(`/member/${userInfo.id}/chatrooms`, {
-      headers: { "JWT-Authorization": `Bearer ${token}` },
-    });
+    const response = await axios.get(
+      `${PROXY}/member/${userInfo.id}/chatrooms`,
+      {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      }
+    );
     console.log(response.data.data);
     const chatRoomInfoList: ChatroomInfoType = response.data.data;
     const roomId = chatRoomInfoList.filter((room) => {

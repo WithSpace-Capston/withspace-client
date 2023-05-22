@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 function WorkspaceBreadcrumb() {
   const params = useParams();
   const navigate = useNavigate();
@@ -15,9 +17,12 @@ function WorkspaceBreadcrumb() {
     const createPageList = async () => {
       try {
         const token = localStorage.getItem("withspace_token");
-        const response = await axios.get(`/page/${params.pageId}/hierarchy`, {
-          headers: { "JWT-Authorization": `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${PROXY}/page/${params.pageId}/hierarchy`,
+          {
+            headers: { "JWT-Authorization": `Bearer ${token}` },
+          }
+        );
         setPageList(response.data);
       } catch (err: any) {
         console.log(err);

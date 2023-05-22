@@ -9,6 +9,8 @@ import axios from "axios";
 import { spaceState, spaceEditedState } from "./recoil/SpaceState";
 import { userInfoState } from "../../contexts/UserInfoState";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 type WorkspaceEditorProps = {
   content: string | undefined;
 };
@@ -74,13 +76,16 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
   const insertPageHandler = async () => {
     const token = localStorage.getItem("withspace_token");
 
-    const getSpaceIdRes = await axios.get(`/member/${userInfo.id}/space`, {
-      headers: { "JWT-Authorization": `Bearer ${token}` },
-    });
+    const getSpaceIdRes = await axios.get(
+      `${PROXY}/member/${userInfo.id}/space`,
+      {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      }
+    );
     const spaceId = getSpaceIdRes.data.data.spaceId;
 
     const insertPageRes = await axios.post(
-      `/space/${spaceId}/page`,
+      `${PROXY}/space/${spaceId}/page`,
       {
         title: "새로운 페이지",
         parentPageId: params.pageId?.toString(),
@@ -109,7 +114,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
     console.log(workspaceRef.current?.getInstance().getMarkdown());
 
     await axios.patch(
-      `/page/${params.pageId}/title`,
+      `${PROXY}/page/${params.pageId}/title`,
       {
         title: space.title,
       },
@@ -117,7 +122,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
     );
 
     await axios.patch(
-      `/page/${params.pageId}/content`,
+      `${PROXY}/page/${params.pageId}/content`,
       {
         content: workspaceRef.current?.getInstance().getMarkdown(),
       },
@@ -130,7 +135,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
   const deletePageHandler = async () => {
     const token = localStorage.getItem("withspace_token");
     const response = await axios.patch(
-      `/page/${params.pageId}/trashcan`,
+      `${PROXY}/page/${params.pageId}/trashcan`,
       {},
       {
         headers: { "JWT-Authorization": `Bearer ${token}` },

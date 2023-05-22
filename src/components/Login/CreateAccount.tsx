@@ -5,6 +5,8 @@ import axios from "axios";
 import CreateAccountForm from "./CreateAccountForm";
 import "./CreateAccount.css";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 function CreateAccount() {
   const navigate = useNavigate();
 
@@ -16,7 +18,7 @@ function CreateAccount() {
     username: string
   ) => {
     try {
-      const response = await axios.post("/member", {
+      const response = await axios.post(`${PROXY}/member`, {
         email: email,
         password: password,
         memberName: username,

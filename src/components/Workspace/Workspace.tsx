@@ -9,6 +9,8 @@ import WorkspaceTitle from "./WorkspaceTitle";
 import WorkspaceEditor from "./WorkspaceEditor";
 import { spaceState } from "./recoil/SpaceState";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 function Workspace() {
   const params = useParams();
 
@@ -19,7 +21,7 @@ function Workspace() {
     const fetchInitialContent = async () => {
       try {
         const token = localStorage.getItem("withspace_token");
-        const response = await axios.get(`/page/${params.pageId}`, {
+        const response = await axios.get(`${PROXY}/page/${params.pageId}`, {
           headers: { "JWT-Authorization": `Bearer ${token}` },
         });
         const { pageTitle, content } = response.data;

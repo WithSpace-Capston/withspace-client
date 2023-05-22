@@ -9,6 +9,8 @@ import axios from "axios";
 import { EndPointCustomH5 } from "./SideMenuBar";
 import { userInfoState } from "../../contexts/UserInfoState";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 function JoinTeamButton() {
   const navigate = useNavigate();
 
@@ -33,7 +35,7 @@ function JoinTeamButton() {
 
   const searchTeamHandler = async () => {
     const token = localStorage.getItem("withspace_token");
-    const response = await axios.get(`/team/name`, {
+    const response = await axios.get(`${PROXY}/team/name`, {
       params: { teamName: teamName },
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
@@ -86,7 +88,7 @@ function JoinTeamButton() {
                           const token = localStorage.getItem("withspace_token");
 
                           const joinTeamRes = await axios.post(
-                            `/team/${team.teamId}/members`,
+                            `${PROXY}/team/${team.teamId}/members`,
                             {
                               memberId: userInfo.id,
                             },
@@ -99,7 +101,7 @@ function JoinTeamButton() {
                           const joinedTeamId = joinTeamRes.data.data.teamId;
 
                           const joinedTeamSpaceRes = await axios.get(
-                            `/team/${joinedTeamId}/space`,
+                            `${PROXY}/team/${joinedTeamId}/space`,
                             {
                               headers: {
                                 "JWT-Authorization": `Bearer ${token}`,

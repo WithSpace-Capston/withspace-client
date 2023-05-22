@@ -24,6 +24,8 @@ export function parseJwt(token: string) {
   return JSON.parse(jsonPayload);
 }
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+
 function Login() {
   const navigate = useNavigate();
 
@@ -42,7 +44,7 @@ function Login() {
   const processingLogin = async () => {
     const token = localStorage.getItem("withspace_token");
 
-    const userInfoResponse = await axios.get(`/member`, {
+    const userInfoResponse = await axios.get(`${PROXY}/member`, {
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
     const fetchedUserInfo = userInfoResponse.data.data;
@@ -56,9 +58,12 @@ function Login() {
       activeTeamId: null,
     });
 
-    const pageInfoResponse = await axios.get(`/member/${userId}/space`, {
-      headers: { "JWT-Authorization": `Bearer ${token}` },
-    });
+    const pageInfoResponse = await axios.get(
+      `${PROXY}/member/${userId}/space`,
+      {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      }
+    );
 
     const pageInfo = pageInfoResponse.data.data;
     const pageId = pageInfo.pageList[0].pageId;
@@ -82,7 +87,7 @@ function Login() {
   ) => {
     try {
       const response = await axios.post(
-        `/login-process`,
+        `${PROXY}/login-process`,
         {
           email: email,
           password: password,
