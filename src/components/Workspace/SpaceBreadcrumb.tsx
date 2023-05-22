@@ -3,7 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 function WorkspaceBreadcrumb() {
   const params = useParams();

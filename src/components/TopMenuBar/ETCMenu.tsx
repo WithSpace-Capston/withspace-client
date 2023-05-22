@@ -6,7 +6,10 @@ import axios from "axios";
 
 import { MenuButton } from "./TopMenuBar";
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 function ETCMenu() {
   const navigate = useNavigate();

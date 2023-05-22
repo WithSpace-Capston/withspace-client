@@ -6,7 +6,10 @@ import styled from "styled-components";
 
 import { spaceState, spaceEditedState } from "../Workspace/recoil/SpaceState";
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 function SaveButton() {
   const params = useParams();

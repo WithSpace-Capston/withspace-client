@@ -14,7 +14,10 @@ import {
 } from "./SideMenuBar";
 import { userInfoState } from "../../contexts/UserInfoState";
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 type PersonalSpaceNavigatorType = {
   userId: number | undefined;

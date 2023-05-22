@@ -9,7 +9,10 @@ import { userInfoState } from "../../contexts/UserInfoState";
 import { uiState } from "../../contexts/UIState";
 import { NestedAccordionBody, CustomH5, EndPointCustomH5 } from "./SideMenuBar";
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 type TeamSpaceNavigatorType = {
   teamId: number;

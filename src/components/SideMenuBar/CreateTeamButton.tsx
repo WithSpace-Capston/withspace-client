@@ -9,7 +9,10 @@ import axios from "axios";
 import { EndPointCustomH5 } from "./SideMenuBar";
 import { userInfoState } from "../../contexts/UserInfoState";
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 function CreateTeamButton() {
   const navigate = useNavigate();

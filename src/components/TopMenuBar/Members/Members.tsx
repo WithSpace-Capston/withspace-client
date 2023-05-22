@@ -12,7 +12,10 @@ import { MenuButton } from "../TopMenuBar";
 import { userInfoState } from "../../../contexts/UserInfoState";
 import { useTeamState } from "../../../contexts/TeamContext";
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 export type FriendInfoType = {
   id: number;

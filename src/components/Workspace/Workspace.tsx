@@ -9,7 +9,10 @@ import WorkspaceTitle from "./WorkspaceTitle";
 import WorkspaceEditor from "./WorkspaceEditor";
 import { spaceState } from "./recoil/SpaceState";
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 function Workspace() {
   const params = useParams();

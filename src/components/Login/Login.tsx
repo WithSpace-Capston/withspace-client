@@ -24,7 +24,10 @@ export function parseJwt(token: string) {
   return JSON.parse(jsonPayload);
 }
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 function Login() {
   const navigate = useNavigate();

@@ -17,7 +17,10 @@ type MainType = {
   space: string;
 };
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 function Main(props: MainType) {
   const navigate = useNavigate();

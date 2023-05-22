@@ -9,7 +9,10 @@ import axios from "axios";
 import { MenuButton } from "./TopMenuBar";
 import { userInfoState } from "../../contexts/UserInfoState";
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 function Alarms() {
   const userInfo = useRecoilValue(userInfoState);

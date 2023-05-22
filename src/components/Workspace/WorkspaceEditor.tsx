@@ -9,7 +9,10 @@ import axios from "axios";
 import { spaceState, spaceEditedState } from "./recoil/SpaceState";
 import { userInfoState } from "../../contexts/UserInfoState";
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 type WorkspaceEditorProps = {
   content: string | undefined;

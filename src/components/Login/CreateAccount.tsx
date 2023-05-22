@@ -5,7 +5,10 @@ import axios from "axios";
 import CreateAccountForm from "./CreateAccountForm";
 import "./CreateAccount.css";
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 function CreateAccount() {
   const navigate = useNavigate();
