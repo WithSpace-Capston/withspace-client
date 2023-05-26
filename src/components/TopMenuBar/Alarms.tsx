@@ -30,7 +30,6 @@ function Alarms() {
             headers: { "JWT-Authorization": `Bearer ${token}` },
           }
         );
-        console.log(response);
         setFriendRequestList(response.data.data);
       } catch (err: any) {
         console.log(err);

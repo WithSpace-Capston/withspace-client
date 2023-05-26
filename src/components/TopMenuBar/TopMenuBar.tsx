@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 import Members from "./Members/Members";
 import Alarms from "./Alarms";
-import Search from "./Search";
-import Update from "./Update";
+// import Search from "./Search";
+// import Update from "./Update";
 import ETCMenu from "./ETCMenu";
 import SaveButton from "./SaveButton";
 

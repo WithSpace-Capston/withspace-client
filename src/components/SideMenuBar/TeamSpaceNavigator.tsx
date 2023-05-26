@@ -107,7 +107,6 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
         headers: { "JWT-Authorization": `Bearer ${token}` },
       }
     );
-    console.log(response.data.data);
     const chatRoomInfoList: ChatroomInfoType = response.data.data;
     const roomId = chatRoomInfoList.filter((room) => {
       if (room.id === props.teamId) return room.id;
