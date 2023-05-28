@@ -23,8 +23,12 @@ function Chatting() {
   const client = useRef<Client>();
 
   const connect = () => {
+    const token = localStorage.getItem("withspace_token");
     client.current = new Client({
       brokerURL: "wss://api.withspace-api.com/ws",
+      connectHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
       debug: () => {},
       onConnect: () => {
         subscribe();
