@@ -112,8 +112,8 @@ function TeamSpaceNavigator(props: TeamSpaceNavigatorType) {
       if (room.id === props.teamId) return room.id;
     })[0].chatRoomId;
 
-    setUiInfo({ isChatting: true });
     setUserInfo({ ...userInfo, activeChattingRoomId: roomId });
+    setUiInfo({ isChatting: true });
   };
 
   return (

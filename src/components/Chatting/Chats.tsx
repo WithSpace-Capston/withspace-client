@@ -1,50 +1,37 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import axios from "axios";
 
 import Chat from "./Chat";
 import { userInfoState } from "../../contexts/UserInfoState";
+import { MessageType } from "./Chatting";
 
-function Chats() {
+type ChatsType = {
+  messages: MessageType[];
+};
+
+function Chats(props: ChatsType) {
   const userInfo = useRecoilValue(userInfoState);
-  const [messages, setMessages] = useState<
-    {
-      senderName: string;
-      senderId: number;
-      sendTime: string;
-      content: string;
-    }[]
-  >([]);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  // useEffect(() => {
-  //   const fetchChattingRoom = async () => {
-  //     const token = localStorage.getItem("withspace_token");
-  //     const response = await axios.get(
-  //       `/chat/room/${userInfo.activeChattingRoomId}`,
-  //       {
-  //         headers: { "JWT-Authorization": `Baerer ${token}` },
-  //       }
-  //     );
-  //     setMessages(response.data.data.messageList);
-  //   };
-
-  //   fetchChattingRoom();
-  // }, [userInfo.activeChattingRoomId]);
+  useEffect(() => {
+    if (scrollRef.current instanceof HTMLDivElement) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [props.messages]);
 
   return (
-    <ChatsWrapper>
-      {/* {messages.map((m) => {
-        const isMyChat = m.senderId === userInfo.id;
+    <ChatsWrapper ref={scrollRef}>
+      {props.messages.map((message) => {
         return (
           <Chat
-            key={m.sendTime}
-            myChat={isMyChat}
-            name={m.senderName}
-            message={m.content}
+            key={Math.random()}
+            name={message.senderName}
+            message={message.message}
+            myChat={message.senderId === userInfo.id}
           />
         );
-      })} */}
+      })}
     </ChatsWrapper>
   );
 }
