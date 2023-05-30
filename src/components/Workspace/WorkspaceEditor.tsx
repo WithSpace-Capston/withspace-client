@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useParams, useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import axios from "axios";
 
-import { spaceState, spaceEditedState } from "./recoil/SpaceState";
+import { spaceState } from "./recoil/SpaceState";
 import { userInfoState } from "../../contexts/UserInfoState";
 
 const PROXY =
@@ -23,7 +23,6 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
   const navigate = useNavigate();
 
   const [space, setSpace] = useRecoilState(spaceState);
-  const setSpaceEdited = useSetRecoilState(spaceEditedState);
   const userInfo = useRecoilValue(userInfoState);
 
   const workspaceRef = useRef<Editor>(null);
@@ -71,9 +70,8 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
   };
 
   const changeWorkspaceTextHandler = () => {
-    setSpaceEdited(true);
     const md = workspaceRef.current?.getInstance().getMarkdown();
-    setSpace({ ...space, content: md });
+    setSpace({ ...space, content: md, edited: true });
   };
 
   const insertPageHandler = async () => {

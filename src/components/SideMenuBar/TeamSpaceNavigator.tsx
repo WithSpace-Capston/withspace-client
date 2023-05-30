@@ -24,7 +24,7 @@ type PageListType = {
   pageList: { pageId: number; parentId: number | null; title: string }[];
 };
 
-type ChatroomInfoType = {
+export type ChatroomInfoType = {
   chatRoomId: number;
   id: number;
 }[];

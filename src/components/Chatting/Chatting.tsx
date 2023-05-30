@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { Offcanvas } from "react-bootstrap";
 import styled from "styled-components";
 import { Client } from "@stomp/stompjs";
+import axios from "axios";
 
 import Chats from "./Chats";
 import InputChat from "./InputChat";
@@ -12,7 +13,7 @@ import { userInfoState } from "../../contexts/UserInfoState";
 export type MessageType = {
   senderId: number;
   senderName: string;
-  message: string;
+  content: string;
 };
 
 function Chatting() {
@@ -44,7 +45,7 @@ function Chatting() {
         const message: MessageType = {
           senderId: JSON.parse(data.body).senderId,
           senderName: JSON.parse(data.body).senderName,
-          message: JSON.parse(data.body).message,
+          content: JSON.parse(data.body).message,
         };
         setMessages((messages) => [...messages, message]);
       }
@@ -56,7 +57,21 @@ function Chatting() {
   };
 
   useEffect(() => {
+    const fetchMessages = async () => {
+      const token = localStorage.getItem("withspace_token");
+      const fetchMessagesRes = await axios.get(
+        `/chat/room/${userInfo.activeChattingRoomId}`,
+        {
+          headers: { "JWT-Authorization": `Bearer ${token}` },
+        }
+      );
+      const messageList: MessageType[] = fetchMessagesRes.data.data.messageList;
+      setMessages(messageList);
+    };
+
+    fetchMessages();
     connect();
+
     return () => disconnect();
   }, []);
 

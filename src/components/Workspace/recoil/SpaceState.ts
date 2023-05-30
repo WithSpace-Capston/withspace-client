@@ -3,6 +3,7 @@ import { atom } from "recoil";
 type SpaceStateType = {
   title: string | undefined;
   content: string | undefined;
+  edited: boolean;
 };
 
 type SpaceEditedStateType = boolean | undefined;
@@ -12,6 +13,7 @@ export const spaceState = atom<SpaceStateType>({
   default: {
     title: undefined,
     content: undefined,
+    edited: false,
   },
 });
 

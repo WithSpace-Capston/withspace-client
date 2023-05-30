@@ -1,10 +1,10 @@
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { useParams } from "react-router-dom";
 import { BsUpload } from "react-icons/bs";
 import axios from "axios";
 import styled from "styled-components";
 
-import { spaceState, spaceEditedState } from "../Workspace/recoil/SpaceState";
+import { spaceState } from "../Workspace/recoil/SpaceState";
 
 const PROXY =
   window.location.hostname === "localhost"
@@ -14,8 +14,7 @@ const PROXY =
 function SaveButton() {
   const params = useParams();
 
-  const space = useRecoilValue(spaceState);
-  const [spaceEdited, setSpaceEdited] = useRecoilState(spaceEditedState);
+  const [space, setSpace] = useRecoilState(spaceState);
 
   const spaceUpload = async () => {
     const token = localStorage.getItem("withspace_token");
@@ -38,13 +37,13 @@ function SaveButton() {
       { headers: { "JWT-Authorization": `Bearer ${token}` } }
     );
 
-    setSpaceEdited(false);
+    setSpace({ ...space, edited: false });
 
     window.location.reload();
   };
 
   return (
-    <SaveButtonWrapper onClick={spaceUpload} $isEdited={spaceEdited}>
+    <SaveButtonWrapper onClick={spaceUpload} $isEdited={space.edited}>
       <BsUpload /> Save
     </SaveButtonWrapper>
   );

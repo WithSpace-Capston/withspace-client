@@ -27,7 +27,7 @@ function Chats(props: ChatsType) {
           <Chat
             key={Math.random()}
             name={message.senderName}
-            message={message.message}
+            message={message.content}
             myChat={message.senderId === userInfo.id}
           />
         );

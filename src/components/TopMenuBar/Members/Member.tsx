@@ -1,9 +1,16 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { Card, Badge, OverlayTrigger, Popover } from "react-bootstrap";
 import styled from "styled-components";
 import axios from "axios";
 
 import { userInfoState } from "../../../contexts/UserInfoState";
+import { uiState } from "../../../contexts/UIState";
+import { ChatroomInfoType } from "../../SideMenuBar/TeamSpaceNavigator";
+
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 type MemberType = {
   memberId: number;
@@ -13,10 +20,25 @@ type MemberType = {
 };
 
 function Member(props: MemberType) {
-  const userInfo = useRecoilValue(userInfoState);
+  const setUiInfo = useSetRecoilState(uiState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
-  const openChattingHandler = () => {
-    console.log("openChattingHandler");
+  const openChattingHandler = async (targetId: number) => {
+    const token = localStorage.getItem("withspace_token");
+
+    const response = await axios.get(
+      `${PROXY}/member/${userInfo.id}/chatrooms`,
+      {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      }
+    );
+    const chatRoomInfoList: ChatroomInfoType = response.data.data;
+    const roomId = chatRoomInfoList.filter((room) => {
+      if (room.id === targetId) return room.id;
+    })[0].chatRoomId;
+
+    setUserInfo({ ...userInfo, activeChattingRoomId: roomId });
+    setUiInfo({ isChatting: true });
   };
 
   const deleteFriendHandler = async () => {
@@ -34,8 +56,11 @@ function Member(props: MemberType) {
           placement="right"
           trigger="click"
           overlay={
-            <OptionPopover>
-              <MemberCard body onClick={openChattingHandler}>
+            <OptionPopover style={{ position: "relative", zIndex: "0" }}>
+              <MemberCard
+                body
+                onClick={() => openChattingHandler(props.memberId)}
+              >
                 채팅
               </MemberCard>
               <MemberCard body onClick={deleteFriendHandler}>
