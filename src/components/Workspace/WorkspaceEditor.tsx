@@ -41,7 +41,8 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
     } else if (props.content) {
       workspaceRef.current?.getInstance().setMarkdown(props.content);
     }
-  }, [props.content]);
+    setSpace({ ...space, edited: false });
+  }, [props.content, setSpace]);
 
   const createInsertPageButton = () => {
     const button = document.createElement("button");

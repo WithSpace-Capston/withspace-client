@@ -29,7 +29,11 @@ function Workspace() {
         });
         const { pageTitle, content } = response.data;
         setContent(content);
-        setSpace({ title: pageTitle, content: content, edited: false });
+        setSpace({
+          title: pageTitle,
+          content: content,
+          edited: false,
+        });
       } catch (err: any) {
         console.log(err);
       }

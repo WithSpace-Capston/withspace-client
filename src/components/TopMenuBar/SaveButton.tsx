@@ -17,6 +17,8 @@ function SaveButton() {
   const [space, setSpace] = useRecoilState(spaceState);
 
   const spaceUpload = async () => {
+    if (!space.edited) return;
+
     const token = localStorage.getItem("withspace_token");
 
     // Title Upload Function
@@ -58,6 +60,6 @@ const SaveButtonWrapper = styled.h3<{ $isEdited: boolean | undefined }>`
 
   &:hover {
     background-color: whitesmoke;
-    cursor: pointer;
+    cursor: ${(props) => (props.$isEdited ? "pointer" : "defaulat")};
   }
 `;
