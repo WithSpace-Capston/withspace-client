@@ -36,7 +36,7 @@ const Feed = () => {
             <FeedItemList category={category} key={category.label} />
           ))}
         </List>
-        <MenuBottomSheet />
+        <MenuBottomSheet date={""} />
       </Wrapper>
   );
 };

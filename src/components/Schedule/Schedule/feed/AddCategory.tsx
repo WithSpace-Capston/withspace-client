@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import CategoryColorBottomSheet from "./CategoryColorBottomSheet";
+import CategoryColorModal from "./CategoryColorModal";
+import Button from 'react-bootstrap/Button';
 
 interface Category {
   id: number;
   name: string;
+  color: string;
 }
 
 const AddCategory: React.FC = () => {
   const [name, setName] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedColor, setSelectedColor] = useState("");
 
+  const [modalShow, setModalShow] = React.useState(false);
+
+  const saveSelectedColor = (color: any) => {
+    // 색 저장하는 로직
+    console.log("Selected color:", color);
+  };
+  
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
@@ -19,6 +29,7 @@ const AddCategory: React.FC = () => {
     const newCategory: Category = {
       id: Date.now(),
       name: name,
+      color: selectedColor
     };
     setCategories([...categories, newCategory]);
     setName("");
@@ -27,7 +38,7 @@ const AddCategory: React.FC = () => {
   return (
     <Wrapper>
       <Title>Add Category</Title>
-      <C_Title>
+      <C_Title selectedColor={selectedColor}>
         <input
           type="text"
           placeholder="새 카테고리 입력"
@@ -36,7 +47,10 @@ const AddCategory: React.FC = () => {
         />
       </C_Title>
       
-      <CategoryColorBottomSheet />
+      <CategoryColorModal onSaveColor={saveSelectedColor}/>
+      {/* <Button variant="primary" onClick={() => setModalShow(true)}>
+        
+      </Button> */}
       <button onClick={handleAddCategory}>Add</button>
     </Wrapper>
   );
@@ -56,12 +70,15 @@ const Title = styled.div`
   margin-bottom: 20px;
 `;
 
-const C_Title = styled.div`
+const C_Title = styled.div<{ selectedColor: string }>`
   display: flex;
   flex-direction: column;
   margin-top: 100px;
   margin-bottom: 20px;
   ::placeholder {
     color: #999;
+  }
+  input {
+    border: 5px solid ${props => props.selectedColor || "#999"};
   }
 `;

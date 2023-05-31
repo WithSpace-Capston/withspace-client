@@ -4,6 +4,7 @@ import Main from "./Main";
 import Login from "./components/Login/Login";
 import CreateAccount from "./components/Login/CreateAccount";
 import AddCategory from "./components/Schedule/Schedule/feed/AddCategory";
+import EasyTodo from "./components/Schedule/Schedule/feed/EasyTodo";
 
 import "./App.css";
 
@@ -17,6 +18,7 @@ function App() {
           <Route path="/create-account" element={<CreateAccount />} />
           <Route path="/calendar/:id" element={<Main space="calendar" />} />
           <Route path="/AddCategory" element={<AddCategory />} />
+          <Route path="/EasyTodo" element={<EasyTodo />} />
           <Route path="/space/:pageId" element={<Main space="space" />} />
           <Route
             path="/schedule/:scheduleId"
