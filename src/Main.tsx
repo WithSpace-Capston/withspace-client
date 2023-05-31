@@ -9,6 +9,8 @@ import TopMenuBar from "./components/TopMenuBar/TopMenuBar";
 import Workspace from "./components/Workspace/Workspace";
 import MyCalendar from "./components/Schedule/MyCalendar";
 import Chatting from "./components/Chatting/Chatting";
+import AddCategory from "./components/Schedule/Schedule/feed/AddCategory";
+import EasyTodo from "./components/Schedule/Schedule/feed/EasyTodo";
 import { uiState } from "./contexts/UIState";
 import { userInfoState } from "./contexts/UserInfoState";
 import { parseJwt } from "./components/Login/Login";
@@ -87,6 +89,8 @@ function Main(props: MainType) {
         <TopMenuBar />
         {props.space === "space" && <Workspace />}
         {props.space === "schedule" && <MyCalendar />}
+        {props.space === "AddCategory" && <AddCategory />}
+        {props.space === "EasyTodo" && <EasyTodo />}
       </div>
       {uiInfo.isChatting && <Chatting />}
     </>

@@ -7,10 +7,12 @@ const initialState: ICategory[] = [
   { label: "약속", color: "#DC7B82" },
   { label: "할일", color: "#FFDA40" },
 ];
+
 export const categoryState = atom<ICategory[]>({
   key: "category",
   default: initialState,
 });
+
 export const selectTodoItemCategoryColor = selectorFamily<string[], string[]>({
   key: "selectTodoItemCategoryColor",
   get:

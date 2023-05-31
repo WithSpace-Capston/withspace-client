@@ -1,8 +1,27 @@
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
+
 import Calender from "./Schedule/calender/Calender";
 import Feed from "./Schedule/feed/Feed";
 
 const MyCalendar = () => {
+  const params = useParams();
+
+  useEffect(() => {
+    const fetchSchedules = async () => {
+      const token = localStorage.getItem("withspace_token");
+      const response = await axios.get(`/space/${params.scheduleId}`, {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      });
+      const scheduleData = response.data.schedule;
+      console.log(scheduleData);
+    };
+
+    fetchSchedules();
+  }, [params.scheduleId]);
+
   return (
     <Wrapper>
       <Header></Header>

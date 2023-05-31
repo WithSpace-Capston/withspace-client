@@ -1,31 +1,44 @@
-import {BottomSheet} from 'react-spring-bottom-sheet';
-import 'react-spring-bottom-sheet/dist/style.css';
-import { useSetRecoilState } from 'recoil';
+import dayjs from "dayjs";
+import { BottomSheet } from "react-spring-bottom-sheet";
+import "react-spring-bottom-sheet/dist/style.css";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import edit from "../images/edit.png"
-import bin from "../images/bin.png"
-import useBottomSheet from '../hooks/useBottomSheet';
-import { editingState } from '../stores/editing';
-import useTodo from '../hooks/useHandleTodo';
+import edit from "../images/edit.png";
+import bin from "../images/bin.png";
+import tomorrow from "../images/tomorrow.png";
+import useBottomSheet from "../hooks/useBottomSheet";
+import { editingState } from "../stores/editing";
+import useTodo from "../hooks/useHandleTodo";
+import { ButtonHTMLAttributes } from "react";
 
-interface MenuBottomSheetProps {}
+interface MenuBottomSheetProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  date: string;
+}
 
-const MenuBottomSheet=({}:MenuBottomSheetProps)=> {
-  const {isOpen, onDismiss, selectedItem} = useBottomSheet(false);
-  const setEditingItem = useSetRecoilState(editingState)
-  const {deleteTodo} = useTodo();
+const MenuBottomSheet = ({ date }: MenuBottomSheetProps) => {
+  const { isOpen, onDismiss, selectedItem } = useBottomSheet(false);
+  const setEditingItem = useSetRecoilState(editingState);
+  const { deleteTodo } = useTodo();
 
-  const handleEditTodo = ()=> {
+  const handleEditTodo = () => {
     onDismiss();
     setEditingItem(selectedItem!.id);
-  }
+  };
 
-  const handleDeleteTodo = ()=> {
+  const handleDeleteTodo = () => {
     onDismiss();
     deleteTodo(selectedItem!.id);
-  }
+  };
 
-  return(
+  const handleToday = () => {
+    onDismiss();
+    const todayDate = dayjs(date).date();
+    const tomorrowDate = new Date(todayDate);
+    tomorrowDate.setDate(dayjs(date).date() + 1);
+    // 버튼 누르면 내일로 넘어가는 로직
+  };
+
+  return (
     <StyledBottomSheet open={isOpen} onDismiss={onDismiss}>
       <Content>
         <h2>{selectedItem?.label}</h2>
@@ -43,10 +56,16 @@ const MenuBottomSheet=({}:MenuBottomSheetProps)=> {
             </div>
           </Button>
         </div>
+        <Button onClick={handleToday}>
+          <div>
+          <img src={tomorrow} />
+            <div>내일하기</div>
+          </div>
+        </Button>
       </Content>
     </StyledBottomSheet>
-  )
-}
+  );
+};
 
 export default MenuBottomSheet;
 

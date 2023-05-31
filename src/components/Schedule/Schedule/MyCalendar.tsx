@@ -1,8 +1,12 @@
+import { useEffect } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { GlobalStyle } from "./styles/global-style";
+import axios from "axios";
 
 import Calender from "./calender/Calender";
 import Feed from "./feed/Feed";
+import { userInfoState } from "../../../contexts/UserInfoState";
 
 const MyCalendar = () => {
   return (
