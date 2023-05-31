@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
@@ -34,6 +34,7 @@ function Main(props: MainType) {
 
       // 만약 토큰이 없거나, 유효기간이 지났다면 로그인 화면으로 디라이렉트
       if (token === null) {
+        localStorage.removeItem("userInfoState");
         navigate("/login");
         return;
       }
@@ -41,6 +42,7 @@ function Main(props: MainType) {
       const now = Math.floor(new Date().getTime() / 1000);
       if (parseJwt(token).exp < now) {
         localStorage.removeItem("withspace_token");
+        localStorage.removeItem("userInfoState");
         navigate("/login");
         return;
       }
@@ -58,6 +60,9 @@ function Main(props: MainType) {
       );
       const spaceInfo = spaceInfoRes.data;
       const defaultPageId = spaceInfo.pageList[0].pageId;
+
+      console.log(`id -> ${userInfo.id}`);
+      console.log(`name -> ${userInfo.memberName}`);
 
       setUserInfo({
         id: userInfo.id,

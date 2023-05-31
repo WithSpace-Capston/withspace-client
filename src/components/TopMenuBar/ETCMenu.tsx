@@ -26,6 +26,7 @@ function ETCMenu() {
       }
     );
     localStorage.removeItem("withspace_token");
+    localStorage.removeItem("userInfoState");
     navigate("/login");
   };
 

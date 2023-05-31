@@ -38,9 +38,13 @@ function Login() {
 
   useEffect(() => {
     const token = localStorage.getItem("withspace_token");
+
     const now = Math.floor(new Date().getTime() / 1000);
     if (token && parseJwt(token).exp > now) {
       processingLogin();
+    } else if (!token || parseJwt(token).exp < now) {
+      localStorage.removeItem("withspace_token");
+      return;
     }
   });
 
@@ -53,13 +57,13 @@ function Login() {
     const fetchedUserInfo = userInfoResponse.data.data;
     const userId = fetchedUserInfo.id;
 
-    setUserInfo({
-      ...userInfo,
-      id: userId,
-      logined: true,
-      inPersonal: true,
-      activeTeamId: null,
-    });
+    // setUserInfo({
+    //   ...userInfo,
+    //   id: userId,
+    //   logined: true,
+    //   inPersonal: true,
+    //   activeTeamId: null,
+    // });
 
     const pageInfoResponse = await axios.get(
       `${PROXY}/member/${userId}/space`,
@@ -71,14 +75,14 @@ function Login() {
     const pageInfo = pageInfoResponse.data.data;
     const pageId = pageInfo.pageList[0].pageId;
 
-    setUserInfo({
-      ...userInfo,
-      id: userId,
-      logined: true,
-      inPersonal: true,
-      activeTeamId: null,
-      defaultPageId: pageId,
-    });
+    // setUserInfo({
+    //   ...userInfo,
+    //   id: userId,
+    //   logined: true,
+    //   inPersonal: true,
+    //   activeTeamId: null,
+    //   defaultPageId: pageId,
+    // });
     navigate(`/space/${pageId}`);
     return;
   };
