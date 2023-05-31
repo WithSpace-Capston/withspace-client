@@ -12,8 +12,6 @@ import { userInfoState } from "../../contexts/UserInfoState";
 function SideMenuBar() {
   const userInfo = useRecoilValue(userInfoState);
 
-  console.log(userInfo);
-
   return (
     <SideMenuBarWrapper>
       <UserName name={userInfo.name} />

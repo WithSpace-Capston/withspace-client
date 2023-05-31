@@ -61,9 +61,6 @@ function Main(props: MainType) {
       const spaceInfo = spaceInfoRes.data;
       const defaultPageId = spaceInfo.pageList[0].pageId;
 
-      console.log(`id -> ${userInfo.id}`);
-      console.log(`name -> ${userInfo.memberName}`);
-
       setUserInfo({
         id: userInfo.id,
         name: userInfo.memberName,
