@@ -9,13 +9,6 @@ import Feed from "./feed/Feed";
 import { userInfoState } from "../../../contexts/UserInfoState";
 
 const MyCalendar = () => {
-  const userInfo = useRecoilValue(userInfoState);
-
-  useEffect(() => {
-    const token = localStorage.getItem("withspace_token");
-    const response = axios.get(`/`);
-  }, []);
-
   return (
     <Wrapper>
       <GlobalStyle />

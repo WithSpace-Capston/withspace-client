@@ -1,7 +1,12 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CategoryColorModal from "./CategoryColorModal";
 import Button from "react-bootstrap/Button";
+
+import { categoryState } from "../stores/category";
+import { ICategory } from "../interfaces/ICategory";
 
 interface Category {
   id: number;
@@ -10,8 +15,11 @@ interface Category {
 }
 
 const AddCategory: React.FC = () => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
-  const [categories, setCategories] = useState<Category[]>([]);
+  // const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useRecoilState(categoryState);
   const [selectedColor, setSelectedColor] = useState("");
 
   const [modalShow, setModalShow] = React.useState(false);
@@ -27,13 +35,19 @@ const AddCategory: React.FC = () => {
   };
 
   const handleAddCategory = () => {
-    const newCategory: Category = {
-      id: Date.now(),
-      name: name,
+    // const newCategory: Category = {
+    //   id: Date.now(),
+    //   name: name,
+    //   color: selectedColor,
+    // };
+    // setCategories([...categories, newCategory]);
+    const newCategory: ICategory = {
+      label: name,
       color: selectedColor,
     };
     setCategories([...categories, newCategory]);
     setName("");
+    navigate("/");
   };
 
   return (

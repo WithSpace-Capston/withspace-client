@@ -64,7 +64,7 @@ const CalenderItem = ({
     <>
       <button {...props}>
         <span className="count">{count !== 0 && count}</span>
-        <TodoIconSvg colors={colorSetArr} />  
+        <TodoIconSvg colors={colorSetArr} />
         {isDone && <CheckIcon className="check" />}
       </button>
       <span className="date">{dayjs(date).date()}</span>
@@ -87,7 +87,7 @@ const Item = styled.div<{ isSelected: Boolean }>`
     display: flex;
     border: 0px;
     flex-direction: column;
-    align0items: center;
+    align-items: center;
     margin-bottom: 4px;
     justify-content: flex-end;
     align-items: center;
