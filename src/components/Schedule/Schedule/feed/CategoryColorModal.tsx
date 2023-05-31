@@ -4,6 +4,24 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import styled from "styled-components";
 
+const colorList = [
+  "#ffcac9",
+  "#fcb7a3",
+  "#f6b0b6",
+  "#e57a72",
+  "#ff5c55",
+  "#CCFFFF",
+  "#CCEEFF",
+  "#CCCCFF",
+  "#CCBBFF",
+  "#CCAAFF",
+  "#D1FFD8",
+  "#C1F0B4",
+  "#90D48D",
+  "#b6cfb6",
+  "#A1AC80",
+];
+
 interface CategoryColorModalProps {
   onSaveColor: (color: string) => void;
 }
@@ -45,7 +63,7 @@ const CategoryColorModal: React.FC<CategoryColorModalProps> = ({
         </Modal.Header>
         <Modal.Body>
           <ColorList>
-            <ColorItem
+            {/* <ColorItem
               color="#ffcac9"
               onClick={() => setSelectedColor("#ffcac9")}
               className={selectedColor === "#ffcac9" ? "selected" : ""}
@@ -71,7 +89,17 @@ const CategoryColorModal: React.FC<CategoryColorModalProps> = ({
             <ColorItem color="#C1F0B4" />
             <ColorItem color="#90D48D" />
             <ColorItem color="#b6cfb6" />
-            <ColorItem color="#A1AC80" />
+            <ColorItem color="#A1AC80" /> */}
+            {colorList.map((color) => {
+              return (
+                <ColorItem
+                  key={color}
+                  color={color}
+                  onClick={() => setSelectedColor(color)}
+                  className={selectedColor === color ? "selected" : ""}
+                />
+              );
+            })}
           </ColorList>
         </Modal.Body>
       </Modal>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import CategoryColorModal from "./CategoryColorModal";
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 
 interface Category {
   id: number;
@@ -19,8 +19,9 @@ const AddCategory: React.FC = () => {
   const saveSelectedColor = (color: any) => {
     // 색 저장하는 로직
     console.log("Selected color:", color);
+    setSelectedColor(color);
   };
-  
+
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
@@ -29,7 +30,7 @@ const AddCategory: React.FC = () => {
     const newCategory: Category = {
       id: Date.now(),
       name: name,
-      color: selectedColor
+      color: selectedColor,
     };
     setCategories([...categories, newCategory]);
     setName("");
@@ -46,12 +47,14 @@ const AddCategory: React.FC = () => {
           onChange={handleNameChange}
         />
       </C_Title>
-      
-      <CategoryColorModal onSaveColor={saveSelectedColor}/>
+
+      <CategoryColorModal onSaveColor={saveSelectedColor} />
       {/* <Button variant="primary" onClick={() => setModalShow(true)}>
         
       </Button> */}
-      <button onClick={handleAddCategory}>Add</button>
+      <Button style={{ marginLeft: "10px" }} onClick={handleAddCategory}>
+        Add
+      </Button>
     </Wrapper>
   );
 };
@@ -79,6 +82,6 @@ const C_Title = styled.div<{ selectedColor: string }>`
     color: #999;
   }
   input {
-    border: 5px solid ${props => props.selectedColor || "#999"};
+    border: 5px solid ${(props) => props.selectedColor || "#999"};
   }
 `;

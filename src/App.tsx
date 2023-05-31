@@ -17,8 +17,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/create-account" element={<CreateAccount />} />
           <Route path="/calendar/:id" element={<Main space="calendar" />} />
-          <Route path="/AddCategory" element={<AddCategory />} />
-          <Route path="/EasyTodo" element={<EasyTodo />} />
+          <Route path="/AddCategory" element={<Main space="AddCategory" />} />
+          <Route path="/EasyTodo" element={<Main space="EasyTodo" />} />
           <Route path="/space/:pageId" element={<Main space="space" />} />
           <Route
             path="/schedule/:scheduleId"
