@@ -40,7 +40,7 @@ function Main(props: MainType) {
         Authorization: `Bearer ${token}`,
       },
       debug: (msg: any) => {
-        console.log(msg);
+        // console.log(msg);
       },
       onConnect: () => {
         client.current?.subscribe(`/sub/heartbeat/${userInfo.id}`, (data) => {
@@ -101,7 +101,7 @@ function Main(props: MainType) {
         teamList: userInfo.teamList,
       });
 
-      // connect();
+      connect();
 
       return <Navigate to={`/space/${defaultPageId}`} />;
     };

@@ -1,10 +1,14 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
+import { BsThreeDots } from "react-icons/bs";
+import styled from "styled-components";
+
 import CategoryButton from "./CategoryButton";
 import TodoItem from "./TodoItem";
 import selectedDateState from "../stores/selectedDate";
 import selectedProfileState from "../stores/selectedProfile";
 import InputForm from "./InputForm";
+import CategoryMenu from "./CategoryMenu";
 import { ICategory } from "../interfaces/ICategory";
 import { editingState } from "../stores/editing";
 import { todosByCategory } from "../stores/todos";
@@ -22,7 +26,10 @@ const FeedItemList = ({ category }: { category: ICategory }) => {
 
   return (
     <>
-      <CategoryButton category={category} />
+      <CategoryButtonWrapper>
+        <CategoryButton category={category} />
+        <CategoryMenu />
+      </CategoryButtonWrapper>
       {todos.map((todo) =>
         editing === todo.id ? (
           <InputForm
@@ -40,3 +47,8 @@ const FeedItemList = ({ category }: { category: ICategory }) => {
 };
 
 export default FeedItemList;
+
+const CategoryButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;

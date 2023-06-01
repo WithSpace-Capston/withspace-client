@@ -6,17 +6,29 @@ import axios from "axios";
 import Calender from "./Schedule/calender/Calender";
 import Feed from "./Schedule/feed/Feed";
 
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
+
 const MyCalendar = () => {
   const params = useParams();
 
   useEffect(() => {
     const fetchSchedules = async () => {
       const token = localStorage.getItem("withspace_token");
-      const response = await axios.get(`/space/${params.scheduleId}`, {
-        headers: { "JWT-Authorization": `Bearer ${token}` },
-      });
-      const scheduleData = response.data.schedule;
-      console.log(scheduleData);
+      try {
+        const response = await axios.get(
+          `${PROXY}/space/${params.scheduleId}`,
+          {
+            headers: { "JWT-Authorization": `Bearer ${token}` },
+          }
+        );
+        const scheduleData = response.data.schedule;
+        console.log(scheduleData);
+      } catch (err: any) {
+        console.log(err);
+      }
     };
 
     fetchSchedules();
