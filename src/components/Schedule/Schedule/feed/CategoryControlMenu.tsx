@@ -1,21 +1,13 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { OverlayTrigger, Popover, Card } from "react-bootstrap";
 import { BsThreeDots } from "react-icons/bs";
 import styled from "styled-components";
 
 import { MenuButton } from "../../../TopMenuBar/TopMenuBar";
 
-function CategoryMenu() {
-  const navigate = useNavigate();
-  const params = useParams();
+function CategoryControlMenu() {
+  const editCategoryHandler = () => {};
 
-  const addCategoryHandler = () => {
-    navigate(`/AddCategory/${params.scheduleId}`);
-  };
-
-  const addEasyTodoHandler = () => {
-    navigate(`/EasyTodo/${params.scheduleId}`);
-  };
+  const deleteCategoryHandler = () => {};
 
   return (
     <OverlayTrigger
@@ -24,11 +16,11 @@ function CategoryMenu() {
       overlay={
         <Popover>
           <Popover.Body style={{ padding: "0" }}>
-            <OptionCard body onClick={addCategoryHandler}>
-              카테고리 추가
+            <OptionCard body onClick={editCategoryHandler}>
+              수정
             </OptionCard>
-            <OptionCard body onClick={addEasyTodoHandler}>
-              간편일정 등록
+            <OptionCard body onClick={deleteCategoryHandler}>
+              삭제
             </OptionCard>
           </Popover.Body>
         </Popover>
@@ -41,7 +33,7 @@ function CategoryMenu() {
   );
 }
 
-export default CategoryMenu;
+export default CategoryControlMenu;
 
 const OptionCard = styled(Card)`
   cursor: pointer;

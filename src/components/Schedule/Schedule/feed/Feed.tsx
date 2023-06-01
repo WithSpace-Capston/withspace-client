@@ -1,13 +1,14 @@
+import { useState } from "react";
+import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 import FeedItemList from "./FeedItemList";
 import { categoryState } from "../stores/category";
 import MenuBottomSheet from "./MenuBottomSheet";
-import styled from "styled-components";
-import { useRecoilValue } from "recoil";
+import CategoryMenu from "./CategoryMenu";
 import more from "../images/more.png";
-import { useState } from "react";
-import { Link } from "react-router-dom";
 
 const Feed = () => {
   const params = useParams();
@@ -19,7 +20,11 @@ const Feed = () => {
   };
   return (
     <Wrapper>
-      <Title>
+      <FeedTitleWrapper>
+        <Title>Feed</Title>
+        <CategoryMenu />
+      </FeedTitleWrapper>
+      {/* <Title>
         Feed
         <ButtonWrapper>
           <button onClick={toggleDown}>
@@ -38,7 +43,7 @@ const Feed = () => {
             )}
           </button>
         </ButtonWrapper>
-      </Title>
+      </Title> */}
       <List>
         {categories.map((category) => (
           <FeedItemList category={category} key={category.label} />
@@ -70,6 +75,11 @@ const Wrapper = styled.div`
     font-size: 36px;
     justify-content: space-between;
   }
+`;
+
+const FeedTitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const List = styled.div`

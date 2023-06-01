@@ -8,7 +8,7 @@ import TodoItem from "./TodoItem";
 import selectedDateState from "../stores/selectedDate";
 import selectedProfileState from "../stores/selectedProfile";
 import InputForm from "./InputForm";
-import CategoryMenu from "./CategoryMenu";
+import CategoryControlMenu from "./CategoryControlMenu";
 import { ICategory } from "../interfaces/ICategory";
 import { editingState } from "../stores/editing";
 import { todosByCategory } from "../stores/todos";
@@ -28,7 +28,7 @@ const FeedItemList = ({ category }: { category: ICategory }) => {
     <>
       <CategoryButtonWrapper>
         <CategoryButton category={category} />
-        <CategoryMenu />
+        <CategoryControlMenu />
       </CategoryButtonWrapper>
       {todos.map((todo) =>
         editing === todo.id ? (
