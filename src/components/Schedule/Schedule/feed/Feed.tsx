@@ -51,15 +51,15 @@ const Feed = () => {
 
 export default Feed;
 const Title = styled.div`
-button {
-  border: 0;
-  background-color: #fff;
-}
+  button {
+    border: 0;
+    background-color: #fff;
+  }
 
-}
   button > img {
     width: 36px;
     height: 36px;
+  }
 `;
 const Wrapper = styled.div`
   & > div:first-child {

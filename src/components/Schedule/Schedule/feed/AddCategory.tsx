@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import CategoryColorModal from "./CategoryColorModal";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
 
 import { categoryState } from "../stores/category";
 import { ICategory } from "../interfaces/ICategory";
@@ -15,6 +16,7 @@ interface Category {
 }
 
 const AddCategory: React.FC = () => {
+  const params = useParams();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -34,7 +36,9 @@ const AddCategory: React.FC = () => {
     setName(event.target.value);
   };
 
-  const handleAddCategory = () => {
+  const handleAddCategory = async () => {
+    const token = localStorage.getItem("withspace_token");
+
     // const newCategory: Category = {
     //   id: Date.now(),
     //   name: name,
@@ -47,7 +51,18 @@ const AddCategory: React.FC = () => {
     };
     setCategories([...categories, newCategory]);
     setName("");
-    navigate("/");
+
+    const response = await axios.post(
+      `/schedule/${params.scheduleId}/category`,
+      {
+        title: name,
+        publicSetting: "PUBLIC",
+        color: selectedColor,
+      },
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
+    );
+    console.log(response);
+    navigate(`/schedule/${params.scheduleId}`);
   };
 
   return (

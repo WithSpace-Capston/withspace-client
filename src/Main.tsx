@@ -1,7 +1,8 @@
-import { useEffect } from "react";
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
+import { useEffect, useRef } from "react";
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Client } from "@stomp/stompjs";
 import axios from "axios";
 
 import SideMenuBar from "./components/SideMenuBar/SideMenuBar";
@@ -28,7 +29,33 @@ function Main(props: MainType) {
   const navigate = useNavigate();
 
   const uiInfo = useRecoilValue(uiState);
-  const setUserInfo = useSetRecoilState(userInfoState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const client = useRef<Client>();
+
+  const connect = () => {
+    const token = localStorage.getItem("withspace_token");
+    client.current = new Client({
+      brokerURL: "wss://api.withspace-api.com/ws",
+      connectHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+      debug: (msg: any) => {
+        console.log(msg);
+      },
+      onConnect: () => {
+        client.current?.subscribe(`/sub/heartbeat/${userInfo.id}`, (data) => {
+          console.log(JSON.parse(data.body));
+          client.current?.publish({
+            destination: "/pub/heartbeat",
+            body: JSON.stringify({
+              memberId: userInfo.id,
+            }),
+          });
+        });
+      },
+    });
+    client.current.activate();
+  };
 
   useEffect(() => {
     const fetchInitialUserInfo = async () => {
@@ -74,6 +101,8 @@ function Main(props: MainType) {
         teamList: userInfo.teamList,
       });
 
+      // connect();
+
       return <Navigate to={`/space/${defaultPageId}`} />;
     };
 
@@ -86,13 +115,13 @@ function Main(props: MainType) {
         <SideMenuBar />
       </SideWrapper>
       <div className="main">
-        <TopMenuBar />
+        <TopMenuBar client={client} />
         {props.space === "space" && <Workspace />}
         {props.space === "schedule" && <MyCalendar />}
         {props.space === "AddCategory" && <AddCategory />}
         {props.space === "EasyTodo" && <EasyTodo />}
       </div>
-      {uiInfo.isChatting && <Chatting />}
+      {uiInfo.isChatting && <Chatting client={client} />}
     </>
   );
 }

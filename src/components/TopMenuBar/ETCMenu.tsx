@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { OverlayTrigger, Popover, Card } from "react-bootstrap";
 import { BsThreeDots } from "react-icons/bs";
 import styled from "styled-components";
+import { Client } from "@stomp/stompjs";
 import axios from "axios";
 
 import { MenuButton } from "./TopMenuBar";
@@ -11,7 +12,11 @@ const PROXY =
     ? ""
     : "https://api.withspace-api.com";
 
-function ETCMenu() {
+type ETCMenuProps = {
+  client: React.MutableRefObject<Client | undefined>;
+};
+
+function ETCMenu(props: ETCMenuProps) {
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
@@ -27,6 +32,7 @@ function ETCMenu() {
     );
     localStorage.removeItem("withspace_token");
     localStorage.removeItem("userInfoState");
+    props.client.current?.deactivate();
     navigate("/login");
   };
 

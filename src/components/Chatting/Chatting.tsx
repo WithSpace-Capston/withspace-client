@@ -16,32 +16,37 @@ export type MessageType = {
   content: string;
 };
 
-function Chatting() {
+type ChattingProps = {
+  client: React.MutableRefObject<Client | undefined>;
+};
+
+function Chatting(props: ChattingProps) {
   const [uiInfo, setUiInfo] = useRecoilState(uiState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [subId, setSubId] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<MessageType[]>([]);
-  const client = useRef<Client>();
 
-  const connect = () => {
-    const token = localStorage.getItem("withspace_token");
-    client.current = new Client({
-      brokerURL: "wss://api.withspace-api.com/ws",
-      connectHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-      debug: () => {},
-      onConnect: () => {
-        subscribe();
-      },
-    });
-    client.current.activate();
-  };
+  // const connect = () => {
+  //   const token = localStorage.getItem("withspace_token");
+  //   client.current = new Client({
+  //     brokerURL: "wss://api.withspace-api.com/ws",
+  //     connectHeaders: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     debug: () => {},
+  //     onConnect: () => {
+  //       subscribe();
+  //     },
+  //   });
+  //   client.current.activate();
+  // };
 
   const subscribe = () => {
-    client.current?.subscribe(
+    props.client.current?.subscribe(
       `/sub/${userInfo.activeChattingRoomId}`,
       (data) => {
+        console.log(data);
         const message: MessageType = {
           senderId: JSON.parse(data.body).senderId,
           senderName: JSON.parse(data.body).senderName,
@@ -52,9 +57,9 @@ function Chatting() {
     );
   };
 
-  const disconnect = () => {
-    client.current?.deactivate();
-  };
+  // const disconnect = () => {
+  //   client.current?.deactivate();
+  // };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -70,20 +75,21 @@ function Chatting() {
     };
 
     fetchMessages();
-    connect();
+    // connect();
+    subscribe();
 
-    return () => disconnect();
+    // return () => disconnect();
   }, []);
 
   const hideChatting = () => {
-    client.current?.deactivate();
+    // client.current?.deactivate();
     setUserInfo({ ...userInfo, activeChattingRoomId: null });
     setUiInfo({ isChatting: false });
   };
 
   const sendMessage = (event: FormEvent) => {
     event.preventDefault();
-    client.current?.publish({
+    props.client.current?.publish({
       destination: `/pub/${userInfo.activeChattingRoomId}/message/${userInfo.id}`,
       body: JSON.stringify({
         senderId: userInfo.id,

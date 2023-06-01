@@ -1,5 +1,6 @@
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { Client } from "@stomp/stompjs";
 
 import Members from "./Members/Members";
 import Alarms from "./Alarms";
@@ -9,7 +10,11 @@ import ETCMenu from "./ETCMenu";
 import SaveButton from "./SaveButton";
 import { spaceState } from "../Workspace/recoil/SpaceState";
 
-function TopMenuBar() {
+type TopMenuBarProps = {
+  client: React.MutableRefObject<Client | undefined>;
+};
+
+function TopMenuBar(props: TopMenuBarProps) {
   const space = useRecoilValue(spaceState);
 
   return (
@@ -21,7 +26,7 @@ function TopMenuBar() {
         <Alarms />
         {/* <Search /> */}
         {/* <Update /> */}
-        <ETCMenu />
+        <ETCMenu client={props.client} />
       </MenuButtonsWrapper>
     </Menu>
   );
