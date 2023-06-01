@@ -63,33 +63,6 @@ const CategoryColorModal: React.FC<CategoryColorModalProps> = ({
         </Modal.Header>
         <Modal.Body>
           <ColorList>
-            {/* <ColorItem
-              color="#ffcac9"
-              onClick={() => setSelectedColor("#ffcac9")}
-              className={selectedColor === "#ffcac9" ? "selected" : ""}
-            />
-            <ColorItem
-              color="#fcb7a3"
-              onClick={() => setSelectedColor("#fcb7a3")}
-              className={selectedColor === "#fcb7a3" ? "selected" : ""}
-            />{" "}
-            <ColorItem
-              color="#f6b0b6"
-              onClick={() => handleColorSelect("#f6b0b6")}
-              className={selectedColor === "#f6b0b6" ? "selected" : ""}
-            />
-            <ColorItem color="#e57a72" />
-            <ColorItem color="#ff5c55" />
-            <ColorItem color="#CCFFFF" />
-            <ColorItem color="#CCEEFF" />
-            <ColorItem color="#CCCCFF" />
-            <ColorItem color="#CCBBFF" />
-            <ColorItem color="#CCAAFF" />
-            <ColorItem color="#D1FFD8" />
-            <ColorItem color="#C1F0B4" />
-            <ColorItem color="#90D48D" />
-            <ColorItem color="#b6cfb6" />
-            <ColorItem color="#A1AC80" /> */}
             {colorList.map((color) => {
               return (
                 <ColorItem

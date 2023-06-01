@@ -12,14 +12,17 @@ interface Todo {
 const EasyTodo = () => {
 
   const category1 = {
+    categoryid: 1,
     color: "#AE68EC",
     label: "공부",
   };
   const category2 = {
+    categoryid: 2,
     color: "#DC7B82",
     label: "약속",
   };
   const category3 = {
+    categoryid: 3,
     color: "#FFDA40",
     label: "할일",
   };

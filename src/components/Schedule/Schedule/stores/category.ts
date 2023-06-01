@@ -3,9 +3,9 @@ import CategoryButton from "../feed/CategoryButton";
 import { ICategory } from "../interfaces/ICategory";
 
 const initialState: ICategory[] = [
-  { label: "공부", color: "#AE68EC" },
-  { label: "약속", color: "#DC7B82" },
-  { label: "할일", color: "#FFDA40" },
+  { categoryid: 1, label: "공부", color: "#AE68EC" },
+  { categoryid: 2, label: "약속", color: "#DC7B82" },
+  { categoryid: 3, label: "할일", color: "#FFDA40" },
 ];
 
 export const categoryState = atom<ICategory[]>({

@@ -3,5 +3,5 @@ import { IBottomSheet } from '../interfaces/IBottomSheet';
 
 export const bottomSheetState = atom<IBottomSheet>({
   key: 'bottomSheet',
-  default: { selectedItem: null, isOpen: false },
+  default: { selectedItem: null, selectedCategory: null, isOpen: false },
 });

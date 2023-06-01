@@ -46,6 +46,7 @@ const AddCategory: React.FC = () => {
     // };
     // setCategories([...categories, newCategory]);
     const newCategory: ICategory = {
+      categoryid: Date.now(),
       label: name,
       color: selectedColor,
     };
@@ -111,6 +112,6 @@ const C_Title = styled.div<{ selectedColor: string }>`
     color: #999;
   }
   input {
-    border: 5px solid ${(props) => props.selectedColor || "#999"};
+    border: 3px solid ${(props) => props.selectedColor || "#999"};
   }
 `;

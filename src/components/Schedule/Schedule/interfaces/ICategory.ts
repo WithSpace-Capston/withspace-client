@@ -1,3 +1,3 @@
 export interface ICategory {
-  label: string, color: string;
+  categoryid: number, label: string, color: string;
 }

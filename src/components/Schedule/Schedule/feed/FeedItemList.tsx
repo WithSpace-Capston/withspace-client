@@ -13,9 +13,15 @@ import { ICategory } from "../interfaces/ICategory";
 import { editingState } from "../stores/editing";
 import { todosByCategory } from "../stores/todos";
 
+import { ReactComponent as ThreeDot } from "../images/three-dots.svg";
+import useBottomSheet from "../hooks/useBottomSheet";
+
 const FeedItemList = ({ category }: { category: ICategory }) => {
   const selectedDate = useRecoilValue(selectedDateState);
   const selectedProfile = useRecoilValue(selectedProfileState);
+
+  const {onCategory} = useBottomSheet(false);
+
   const todos = useRecoilValue(
     todosByCategory({
       todoItemKey: [selectedDate, selectedProfile],
@@ -27,9 +33,12 @@ const FeedItemList = ({ category }: { category: ICategory }) => {
   return (
     <>
       <CategoryButtonWrapper>
+
         <CategoryButton category={category} />
-        <CategoryControlMenu />
+        <CategoryControlMenu selectedCategory={category} />
+        <ThreeDot onClick={() => onCategory(category)}/>
       </CategoryButtonWrapper>
+
       {todos.map((todo) =>
         editing === todo.id ? (
           <InputForm
