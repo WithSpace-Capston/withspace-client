@@ -7,11 +7,18 @@ import Calender from "./Schedule/calender/Calender";
 import Feed from "./Schedule/feed/Feed";
 import { useRecoilState } from "recoil";
 import { categoryState } from "./Schedule/stores/category";
+import { ICategory } from "./Schedule/interfaces/ICategory";
 
 const PROXY =
   window.location.hostname === "localhost"
     ? ""
     : "https://api.withspace-api.com";
+
+type CategoryType = {
+  categoryId: number;
+  title: string;
+  color: string;
+};
 
 const MyCalendar = () => {
   const params = useParams();
@@ -29,14 +36,23 @@ const MyCalendar = () => {
         );
         const scheduleData = response.data.schedule;
         console.log(scheduleData);
-        setCategories(scheduleData.categories);
+        const categories: ICategory[] = scheduleData.categories.map(
+          (category: CategoryType) => {
+            return {
+              categoryid: category.categoryId,
+              label: category.title,
+              color: category.color,
+            };
+          }
+        );
+        setCategories(categories);
       } catch (err: any) {
         console.log(err);
       }
     };
 
     fetchSchedules();
-  }, [params.scheduleId]);
+  }, [params.scheduleId, setCategories]);
 
   return (
     <Wrapper>

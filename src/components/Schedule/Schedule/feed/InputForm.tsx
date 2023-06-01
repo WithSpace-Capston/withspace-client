@@ -1,6 +1,8 @@
 import { KeyboardEvent, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import axios from "axios";
+
 import { ICategory } from "../interfaces/ICategory";
 import { editingState } from "../stores/editing";
 import useOutsideRef from "../hooks/useOutsideRef";
@@ -29,7 +31,18 @@ const InputForm = ({ category, initialValue = " ", id }: InputFormProps) => {
     }, 300);
   }, []);
 
-  const onCreate = () => {
+  const onCreate = async () => {
+    const token = localStorage.getItem("withspace_token");
+    const response = await axios.post(
+      `/category/${category.categoryid}/todo`,
+      {
+        description: value,
+        completed: false,
+      },
+      { headers: { "JWT-Authorization": `Bearer ${token}` } }
+    );
+    console.log(response);
+
     insertTodo(value, category);
     setEditing(null);
     resetValue();

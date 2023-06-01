@@ -20,7 +20,6 @@ const Feed = () => {
     setIsOpen(!isOpen);
   };
 
-  
   return (
     <Wrapper>
       <FeedTitleWrapper>
@@ -29,7 +28,7 @@ const Feed = () => {
       </FeedTitleWrapper>
       <List>
         {categories.map((category) => (
-          <FeedItemList category={category} key={category.label} />
+          <FeedItemList category={category} key={category.categoryid} />
         ))}
       </List>
       <MenuBottomSheet date={""} />

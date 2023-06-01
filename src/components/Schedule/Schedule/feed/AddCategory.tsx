@@ -9,6 +9,11 @@ import axios from "axios";
 import { categoryState } from "../stores/category";
 import { ICategory } from "../interfaces/ICategory";
 
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
+
 interface Category {
   id: number;
   name: string;
@@ -54,7 +59,7 @@ const AddCategory: React.FC = () => {
     setName("");
 
     const response = await axios.post(
-      `/schedule/${params.scheduleId}/category`,
+      `${PROXY}/schedule/${params.scheduleId}/category`,
       {
         title: name,
         publicSetting: "PUBLIC",

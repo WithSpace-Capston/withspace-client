@@ -2,6 +2,7 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 import { BsFillTrashFill } from "react-icons/bs";
 import styled from "styled-components";
+import axios from "axios";
 
 import CategoryButton from "./CategoryButton";
 import TodoItem from "./TodoItem";
@@ -15,6 +16,12 @@ import { todosByCategory } from "../stores/todos";
 
 import { ReactComponent as ThreeDot } from "../images/three-dots.svg";
 import useBottomSheet from "../hooks/useBottomSheet";
+import { categoryState } from "../stores/category";
+
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
 
 const FeedItemList = ({ category }: { category: ICategory }) => {
   const selectedDate = useRecoilValue(selectedDateState);
@@ -30,8 +37,16 @@ const FeedItemList = ({ category }: { category: ICategory }) => {
   );
   const editing = useRecoilValue(editingState);
 
-  const deleteCategoryHandler = () => {
-    console.log("deleteCategoryHandler");
+  const deleteCategoryHandler = async () => {
+    const token = localStorage.getItem("withspace_token");
+    console.log(category);
+    const response = await axios.delete(
+      `${PROXY}/category/${category.categoryid}`,
+      {
+        headers: { "JWT-Authorization": `Bearer ${token}` },
+      }
+    );
+    window.location.reload();
   };
 
   return (
