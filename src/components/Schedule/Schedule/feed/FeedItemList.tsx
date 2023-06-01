@@ -20,7 +20,7 @@ const FeedItemList = ({ category }: { category: ICategory }) => {
   const selectedDate = useRecoilValue(selectedDateState);
   const selectedProfile = useRecoilValue(selectedProfileState);
 
-  const {onCategory} = useBottomSheet(false);
+  const { onCategory } = useBottomSheet(false);
 
   const todos = useRecoilValue(
     todosByCategory({
@@ -33,10 +33,9 @@ const FeedItemList = ({ category }: { category: ICategory }) => {
   return (
     <>
       <CategoryButtonWrapper>
-
         <CategoryButton category={category} />
         <CategoryControlMenu selectedCategory={category} />
-        <ThreeDot onClick={() => onCategory(category)}/>
+        <ThreeDot onClick={() => onCategory(category)} />
       </CategoryButtonWrapper>
 
       {todos.map((todo) =>
