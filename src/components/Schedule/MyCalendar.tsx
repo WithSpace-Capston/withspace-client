@@ -25,9 +25,9 @@ const MyCalendar = () => {
           }
         );
         const scheduleData = response.data.schedule;
-        console.log(scheduleData+"잉");
+        console.log(scheduleData);
       } catch (err: any) {
-        console.log(err+"으잉");
+        console.log(err + "으잉");
       }
     };
 
