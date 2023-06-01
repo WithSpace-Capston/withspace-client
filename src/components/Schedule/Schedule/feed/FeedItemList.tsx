@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { BsThreeDots } from "react-icons/bs";
+import { BsFillTrashFill } from "react-icons/bs";
 import styled from "styled-components";
 
 import CategoryButton from "./CategoryButton";
@@ -20,7 +20,7 @@ const FeedItemList = ({ category }: { category: ICategory }) => {
   const selectedDate = useRecoilValue(selectedDateState);
   const selectedProfile = useRecoilValue(selectedProfileState);
 
-  const {onCategory} = useBottomSheet(false);
+  const { onCategory } = useBottomSheet(false);
 
   const todos = useRecoilValue(
     todosByCategory({
@@ -30,13 +30,17 @@ const FeedItemList = ({ category }: { category: ICategory }) => {
   );
   const editing = useRecoilValue(editingState);
 
+  const deleteCategoryHandler = () => {
+    console.log("deleteCategoryHandler");
+  };
+
   return (
     <>
       <CategoryButtonWrapper>
-
         <CategoryButton category={category} />
-        <CategoryControlMenu selectedCategory={category} />
-        <ThreeDot onClick={() => onCategory(category)}/>
+        {/* <CategoryControlMenu selectedCategory={category} /> */}
+        {/* <ThreeDot onClick={() => onCategory(category)} /> */}
+        <DeleteButton fontSize={25} onClick={deleteCategoryHandler} />
       </CategoryButtonWrapper>
 
       {todos.map((todo) =>
@@ -60,4 +64,12 @@ export default FeedItemList;
 const CategoryButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const DeleteButton = styled(BsFillTrashFill)`
+  margin: auto 0;
+  opacity: 50%;
+  :hover {
+    cursor: pointer;
+  }
 `;

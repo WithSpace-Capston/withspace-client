@@ -206,7 +206,7 @@ function WorkspaceEditor(props: WorkspaceEditorProps) {
             let formData = new FormData();
             formData.append("file", blob, "filename.jpg");
             const token = localStorage.getItem("withspace_token");
-            const response = await axios.post(`/image`, formData, {
+            const response = await axios.post(`${PROXY}/image`, formData, {
               headers: {
                 "JWT-Authorization": `Bearer ${token}`,
                 "Content-Type": "multipart/form-data",

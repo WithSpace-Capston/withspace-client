@@ -12,12 +12,8 @@ import edit from "../images/edit.png";
 import bin from "../images/bin.png";
 import { BottomSheet } from "react-spring-bottom-sheet";
 
-
-
-
 interface CategoryButtonProps {
   selectedCategory: ICategory | null;
-
 }
 function CategoryControlMenu({ selectedCategory }: CategoryButtonProps) {
   const { isOpen, onDismiss, selectedItem } = useBottomSheet(false);
@@ -40,46 +36,26 @@ function CategoryControlMenu({ selectedCategory }: CategoryButtonProps) {
   // const deleteCategoryHandler = () => {};
 
   return (
-    <StyledBottomSheet open={isOpen} onDismiss={onDismiss}>
-    <Content>
-      <h2>{selectedItem?.label}</h2>
-      <div>
-        <Button onClick={handleEditCategory}>
-          <div>
-            <img src={edit} />
-            <div>수정</div>
-          </div>
-        </Button>
-        <Button onClick={handleDeleteCategory}>
-          <div>
-            <img src={bin} />
-            <div>삭제</div>
-          </div>
-        </Button>
-      </div>
-    </Content>
-  </StyledBottomSheet>
-
-    // <OverlayTrigger
-    //   trigger="click"
-    //   placement="bottom"
-    //   overlay={
-    //     <Popover>
-    //       <Popover.Body style={{ padding: "0" }}>
-    //         <OptionCard body onClick={handleEditCategory}>
-    //           수정
-    //         </OptionCard>
-    //         <OptionCard body onClick={handleDeleteCategory}>
-    //           삭제
-    //         </OptionCard>
-    //       </Popover.Body>
-    //     </Popover>
-    //   }
-    // >
-    //   <MenuButton>
-    //     <CategoryMenuButton fontSize={25} />
-    //   </MenuButton>
-    // </OverlayTrigger>
+    <OverlayTrigger
+      trigger="click"
+      placement="bottom"
+      overlay={
+        <Popover>
+          <Popover.Body style={{ padding: "0" }}>
+            <OptionCard body onClick={handleEditCategory}>
+              수정
+            </OptionCard>
+            <OptionCard body onClick={handleDeleteCategory}>
+              삭제
+            </OptionCard>
+          </Popover.Body>
+        </Popover>
+      }
+    >
+      <MenuButton>
+        <CategoryMenuButton fontSize={25} />
+      </MenuButton>
+    </OverlayTrigger>
   );
 }
 
@@ -101,7 +77,6 @@ const CategoryMenuButton = styled(BsThreeDots)`
     cursor: pointer;
   }
 `;
-
 
 const StyledBottomSheet = styled(BottomSheet)`
   & > div:nth-child(2) {

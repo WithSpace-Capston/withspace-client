@@ -9,6 +9,11 @@ import { SearchBarWrapper } from "../../SideMenuBar/JoinTeamButton";
 import { FriendInfoType } from "./Members";
 import { userInfoState } from "../../../contexts/UserInfoState";
 
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
+
 type AddNewFriendButtonProps = {
   friends: FriendInfoType | undefined;
 };
@@ -40,7 +45,7 @@ function AddNewFriendButton(props: AddNewFriendButtonProps) {
 
   const searchFriendHandler = async () => {
     const token = localStorage.getItem("withspace_token");
-    const response = await axios.get(`/member/name`, {
+    const response = await axios.get(`${PROXY}/member/name`, {
       params: { memberName: friendName },
       headers: { "JWT-Authorization": `Bearer ${token}` },
     });
@@ -54,7 +59,7 @@ function AddNewFriendButton(props: AddNewFriendButtonProps) {
   const addFriendHandler = async (friendId: number) => {
     const token = localStorage.getItem("withspace_token");
     await axios.post(
-      `/${userInfo.id}/friend`,
+      `${PROXY}/${userInfo.id}/friend`,
       {
         friendId: friendId,
       },
