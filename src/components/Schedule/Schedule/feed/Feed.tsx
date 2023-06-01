@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -9,6 +9,7 @@ import { categoryState } from "../stores/category";
 import MenuBottomSheet from "./MenuBottomSheet";
 import CategoryMenu from "./CategoryMenu";
 import more from "../images/more.png";
+import { ICategory } from "../interfaces/ICategory";
 
 const Feed = () => {
   const params = useParams();
@@ -18,32 +19,14 @@ const Feed = () => {
   const toggleDown = () => {
     setIsOpen(!isOpen);
   };
+
+  
   return (
     <Wrapper>
       <FeedTitleWrapper>
         <Title>Feed</Title>
         <CategoryMenu />
       </FeedTitleWrapper>
-      {/* <Title>
-        Feed
-        <ButtonWrapper>
-          <button onClick={toggleDown}>
-            <img src={more} />
-            {isOpen && (
-              <PositionWrapper>
-                <DropdownMenu>
-                  <RouterLink to={`/AddCategory/${params.scheduleId}`}>
-                    카테고리 추가
-                  </RouterLink>
-                  <RouterLink to={`/EasyTodo/${params.scheduleId}`}>
-                    간편일정 등록
-                  </RouterLink>
-                </DropdownMenu>
-              </PositionWrapper>
-            )}
-          </button>
-        </ButtonWrapper>
-      </Title> */}
       <List>
         {categories.map((category) => (
           <FeedItemList category={category} key={category.label} />

@@ -5,6 +5,8 @@ import axios from "axios";
 
 import Calender from "./Schedule/calender/Calender";
 import Feed from "./Schedule/feed/Feed";
+import { useRecoilState } from "recoil";
+import { categoryState } from "./Schedule/stores/category";
 
 const PROXY =
   window.location.hostname === "localhost"
@@ -13,6 +15,7 @@ const PROXY =
 
 const MyCalendar = () => {
   const params = useParams();
+  const [categories, setCategories] = useRecoilState(categoryState);
 
   useEffect(() => {
     const fetchSchedules = async () => {
@@ -25,9 +28,10 @@ const MyCalendar = () => {
           }
         );
         const scheduleData = response.data.schedule;
-        console.log(scheduleData+"잉");
+        console.log(scheduleData);
+        setCategories(scheduleData.categories);
       } catch (err: any) {
-        console.log(err+"으잉");
+        console.log(err);
       }
     };
 

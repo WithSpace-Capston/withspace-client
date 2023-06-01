@@ -15,7 +15,7 @@ const useBottomSheet = (initial: boolean) => {
   const onDismiss = () => {
     setBottomSheet({ selectedItem: null, selectedCategory: null, isOpen: false });
   };
-  return { isOpen, selectedItem, onOpen, onDismiss };
+  return { isOpen, selectedItem, onOpen, onDismiss, onCategory };
 };
 
 export default useBottomSheet;
