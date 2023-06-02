@@ -10,6 +10,11 @@ import InputChat from "./InputChat";
 import { uiState } from "../../contexts/UIState";
 import { userInfoState } from "../../contexts/UserInfoState";
 
+const PROXY =
+  window.location.hostname === "localhost"
+    ? ""
+    : "https://api.withspace-api.com";
+
 export type MessageType = {
   senderId: number;
   senderName: string;
@@ -65,7 +70,7 @@ function Chatting(props: ChattingProps) {
     const fetchMessages = async () => {
       const token = localStorage.getItem("withspace_token");
       const fetchMessagesRes = await axios.get(
-        `/chat/room/${userInfo.activeChattingRoomId}`,
+        `${PROXY}/chat/room/${userInfo.activeChattingRoomId}`,
         {
           headers: { "JWT-Authorization": `Bearer ${token}` },
         }

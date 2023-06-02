@@ -8,6 +8,8 @@ import Feed from "./Schedule/feed/Feed";
 import { useRecoilState } from "recoil";
 import { categoryState } from "./Schedule/stores/category";
 import { ICategory } from "./Schedule/interfaces/ICategory";
+import { todoState } from "./Schedule/stores/todos";
+import { todosByCategory } from "./Schedule/stores/todos";
 
 const PROXY =
   window.location.hostname === "localhost"
